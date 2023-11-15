@@ -46,6 +46,18 @@ def generate_cities(number_of_cities):
         counter += 1
     return cities
 
+def generate_italian_cities(number_of_cities):
+    cities_file = open("data/cities/italian_cities.csv", "r")
+    cities = []
+    cities_file.readline()
+    counter = 0
+    for cities_file_line in cities_file.readlines():
+        if counter == number_of_cities:
+            break
+        cities.append(cities_file_line.split(";")[5].replace('"',''))
+        counter += 1
+    return cities
+
 def generate_trips(cities, max_route_len):
     trips = []
     merchandise = {}
@@ -55,8 +67,12 @@ def generate_trips(cities, max_route_len):
         while from_city == to_city:
             to_city = cities[random.randint(0, len(cities) - 1)]
         merchandise = {}
-        for j in range(random.randint(1, 10)):
-            merchandise[random.choice(["milk", "butter", "pens", "tomatoes", "honey", "bread"])] = random.randint(1, 100)
+        for j in range(random.randint(1, 30)):
+            merchandise[random.choice(["milk", "butter", "pens", "tomatoes", "honey", "bread", "pasta", "spaghetti", "pizza", "cookies", "salad", "tortel", 
+                                        "coca-cola", "water", "sparkling water", "orange juice", "arancini", "fanta", "beer", "computer", "phone", "car",
+                                        "train", "sweater", "egg", "carrot", "rice", "soup" , "t-shirt", "jeans", "eyeglasses", "sugar", "salt", "pepper",
+                                        "oil", "rosemary", "thime", "curry", "pepper", "gloves", "spoon", "fork", "knife", "pot", "pan", "wine", "grappa" 
+                                        ])] = random.randint(1, 100)
         trips.append({"from": from_city, "to": to_city, "merchandise": merchandise})
         from_city = to_city
     return trips
@@ -68,40 +84,10 @@ def generate_routes(number_of_routes, cities, max_route_len):
     return routes
 
 if __name__ == '__main__':
-    cities = generate_cities(number_of_cities)
+    cities = generate_italian_cities(number_of_cities)
     routes = generate_routes(number_of_routes, cities, max_route_len)
     json_output = json.dumps(routes, indent=4)
 
     # Print the JSON output
-    output = open("data/standard.json", "w")
+    output = open("data/standard3.json", "w")
     output.write(json_output)
-
-# # Creating the dictionary structure
-# data = [
-#     {
-#         "id": "s5",
-#         "route": [
-#             {"from": "Rome", "to": "Milan", "merchandise": {"milk": 3, "pens": 10, "butter": 20}},
-#             {"from": "Milan", "to": "Verona", "merchandise": {"milk": 5, "honey": 9, "butter": 10, "tomatoes": 20}},
-#             {"from": "Verona", "to": "Venezia", "merchandise": {"butter": 7, "pens": 2, "tomatoes": 10}}
-#         ]
-#     },
-#     {
-#         "id": "s10",
-#         "route": [
-#             {"from": "Rome", "to": "Milan", "merchandise": {"milk": 2, "pens": 10, "butter": 20}},
-#             {"from": "Milan", "to": "Verona", "merchandise": {"milk": 5, "tomatoes": 24}},
-#             {"from": "Verona", "to": "Venezia", "merchandise": {"butter": 7, "bread": 2, "tomatoes": 10}}
-#         ]
-#     }
-# ]
-
-# # Create 
-
-# # Convert the dictionary to JSON
-# json_output = json.dumps(data, indent=4)
-
-# # Print the JSON output
-# print(json_output)
-
-# print(cities[0])
