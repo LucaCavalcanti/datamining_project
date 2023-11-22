@@ -11,29 +11,6 @@ number_of_cities = int(sys.argv[2])
 # Take from command line the maxnumber of trips per route
 max_route_len = int(sys.argv[3])
 
-class Trip:
-    def __init__(self, from_city, to_city, merchandise):
-        self.from_city = from_city
-        self.to_city = to_city
-        self.merchandise = merchandise
-    def __str__(self):
-        return f'{{"from": "{self.from_city}", "to": "{self.to_city}", "merchandise": {self.merchandise}}}'
-
-class Route:
-    def __init__(self, id, trips):
-        self.id = "s" + str(id)
-        self.route = trips
-    def __str__(self):
-        routes = "["
-        for i in range(len(self.route)):
-            routes = routes + str(self.route[i])
-            if (i != len(self.route) - 1):
-                routes += ",\n"
-            else:
-                routes += "\n"
-        routes += "]"
-        return f'{{"id": "{self.id}", "route": {routes}}}'
-
 def generate_cities(number_of_cities):
     cities_file = open("data/cities/worldcities.csv", "r")
     cities = []

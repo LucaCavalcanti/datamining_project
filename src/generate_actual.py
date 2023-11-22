@@ -11,6 +11,7 @@ from copy import deepcopy
 
 drivers = int(sys.argv[1])
 number_of_cities = int(sys.argv[2])
+max_actualroutes_per_driver = int(sys.argv[3])
 
 def get_standard():
     with open("data/standard.json") as json_file:
@@ -49,12 +50,17 @@ def generate_actual_routes():
     standard_routes = get_standard()
     for driver in range(drivers):
         driver_id = chr(ord("A") + driver)
-        actual_route_id = "a" + str(driver)
-        #print(driver_name)
-        # select a random standard route
-        actual_route = deepcopy(standard_routes[random.randint(0, len(standard_routes) - 1)])
-        modified_actual_route = modify_route(actual_route)
-        routes.append({"id": actual_route_id, "driver" : driver_id , "sroute" : actual_route["id"]  , "route": modified_actual_route["route"]})
+        if drivers > 26:
+            #drivers cannot be encoded with single letters, change encoding to D + driver count
+            driver_id = str("D" + str(driver))
+        for k in range(random.randint(1, max_actualroutes_per_driver)):
+            # actual_route_id = "a" + str(driver)
+            actual_route_id = "a" + str(k)
+            #print(driver_name)
+            # select a random standard route
+            actual_route = deepcopy(standard_routes[random.randint(0, len(standard_routes) - 1)])
+            modified_actual_route = modify_route(actual_route)
+            routes.append({"id": actual_route_id, "driver" : driver_id , "sroute" : actual_route["id"]  , "route": modified_actual_route["route"]})
     return routes
 
 def modify_route(actual_route):
