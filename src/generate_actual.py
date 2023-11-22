@@ -106,6 +106,33 @@ def modify_route(actual_route):
                         actual_route["route"][counter+1]["from"] = new_trip["to"]
                     # counter+=1
         counter+=1
+        
+        # separate, random chance to modify the merch (50% chance that each )
+        merch = trip["merchandise"]
+        merch_copy = deepcopy(merch)
+        for merch_name in merch:
+            print(merch_name, ": ", merch[merch_name])
+            if random.randint(0, 1) == 0:
+                merch_copy[merch_name] += (random.randint(1, 100) * random.randint(-1, 1))
+            print(merch_name, ": ", merch_copy[merch_name])
+            if merch_copy[merch_name] > 100:
+                # item went above 100, add a new one TODO: this way of adding new items might be a bit biased
+                residue = merch_copy[merch_name] - 100
+                merch_copy[merch_name] = 100
+                new_merch = random.choice(["milk", "butter", "pens", "tomatoes", "honey", "bread", "pasta", "spaghetti", "pizza", "cookies", "salad", "tortel", 
+                                                "coca-cola", "water", "sparkling water", "orange juice", "arancini", "fanta", "beer", "computer", "phone", "car",
+                                                "train", "sweater", "egg", "carrot", "rice", "soup" , "t-shirt", "jeans", "eyeglasses", "sugar", "salt", "pepper",
+                                                "oil", "rosemary", "thime", "curry", "pepper", "gloves", "spoon", "fork", "knife", "pot", "pan", "wine", "grappa" 
+                                                ])
+                if not new_merch in merch:
+                    merch_copy[new_merch] = residue
+                    print("new merch added: ", new_merch, " - ", residue)
+            if merch_copy[merch_name] <= 0:
+                # item went under 0, delete it
+                del merch_copy[merch_name]
+            print("\n")
+        trip["merchandise"] = merch_copy
+
     return actual_route
 
 
