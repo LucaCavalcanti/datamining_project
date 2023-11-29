@@ -1,23 +1,29 @@
-# we want to define for each driver a mean and a standard deviation in order to choose
-# which cities to modify and how much merchandise to add
-
 from copy import deepcopy
 import json
 import random
 import sys
-
 import numpy as np
+
+
+"""
+==================GLOBAL VARIABLES==================
+"""
 
 drivers = int(sys.argv[1])
 number_of_cities = int(sys.argv[2])
+max_actualroutes_per_driver = int(sys.argv[3])
+
+TRIPS_CHANGED_MIN_MEAN = 0
+TRIPS_CHANGED_MAX_MEAN = 100
+TRIPS_CHANGED_MIN_VARIANCE = 0
+TRIPS_CHANGED_MAX_VARIANCE = 30
 
 
-def get_standard():
-    with open("data/standard.json") as json_file:
-        standard_routes = json.load(json_file)
-    return standard_routes
+"""
+==================SETUP==================
+"""
 
-def generate_italian_cities(number_of_cities):
+def generate_italian_cities():
     cities_file = open("data/cities/italian_cities.csv", "r")
     cities = []
     cities_file.readline()
@@ -29,47 +35,173 @@ def generate_italian_cities(number_of_cities):
         counter += 1
     return cities
 
-def generate_actual_routes(mean_driver, standard_deviation_driver):
-    routes = []
+def get_standard():
+    with open("data/standard.json") as json_file:
+        standard_routes = json.load(json_file)
+    return standard_routes
+
+def create_drivers():
+    drivers_list = []
+    for i in range(drivers):
+        drivers_list.append(Driver(i))
+    return drivers_list
+
+
+"""
+==================CLASSES==================
+"""
+
+class Preferences:
+    def __init__(self):
+        # preferenza 1 - vettore di pesi per determinare probabilità di ogni azione di modifica
+        self.changes_probability = np.random.uniform(0, 1, 3)
+        self.changes_probability = self.changes_probability / np.sum(self.changes_probability)
+
+        # preferenza 2 - media e varianza della normale usata per cambiare il numero di trips in una route
+        self.number_of_trips_changed = [random.randint(TRIPS_CHANGED_MIN_VARIANCE, TRIPS_CHANGED_MAX_MEAN), 
+                                        random.randint(TRIPS_CHANGED_MIN_VARIANCE, TRIPS_CHANGED_MAX_VARIANCE)]
+
+        # preferenza 3 - vettore di pesi per ogni città
+        self.cities = np.random.uniform(0, 1, number_of_cities)
+        self.cities = self.cities / np.sum(self.cities)
+
+    def get_number_of_trips_to_change(self, route_len):
+        # pesca dalla normale:              media                            varianza
+        percentage = np.random.normal(self.number_of_trips_changed[0], self.number_of_trips_changed[1])
+        percentage = 0 if percentage < 0 else 100 if percentage > 100 else percentage
+
+        # il numero di trip da modificare equivale a route_len * actual percentage 
+        return int(route_len * (percentage/100))
+
+    def __str__(self):
+        return f"trip change type probability: {self.changes_probability}, trips change percentage: {self.number_of_trips_changed[0]}% +- {self.number_of_trips_changed[1]}%, city weights: {self.cities}"
+
+
+class Driver:
+    def __init__(self, counter):
+        self.preferences = Preferences()
+        self.id = str("D" + str(counter))
+
+    def __str__(self):
+        return f"{self.id}: {self.preferences}"
+
+
+"""
+==================ACTUAL ROUTES GENERATION==================
+"""
+
+# modify a route following the driver's preferences
+def modify_route(actual_route, driver, cities):
+    # sample from the normal the percentage of trips to change
+    route_len = len(actual_route)
+    trips_to_change = driver.preferences.get_number_of_trips_to_change(route_len)
+    print("trips to change: ", trips_to_change)
+
+    # get a set of indexes to change by following the trips_to_change percentage
+    indexes_to_change = random.sample(range(route_len), trips_to_change)
+    print("indexes to change: ", indexes_to_change)
+
+    # create a copy of the actual route to modify
+    actual_route_copy = deepcopy(actual_route)
+
+    # keep track of the number of trips added and removed
+    trips_added = 0
+
+    # pretty print actual route
+    for trip in actual_route_copy:
+        print(trip)
+    print("\n")
+    
+    # for each index to change, sample from the driver's preferences the type of change to apply
+    for index in indexes_to_change:
+        change_type = np.random.choice(["skip", "add", "change"], p=driver.preferences.changes_probability)
+        print("change type: ", change_type, " at index: ", index, ", trips added: ", trips_added, ", index + trips_added: ", index + trips_added)
+
+        # if the change is to skip, remove the trip from the route
+        if change_type == "skip" and len(actual_route_copy) > 1:
+            if index + trips_added - 1 >= 0 and index + trips_added + 1 < len(actual_route_copy):
+                actual_route_copy[index + trips_added - 1]["to"] = actual_route_copy[index + trips_added + 1]["from"]
+            actual_route_copy.pop(index + trips_added)
+            trips_added -= 1
+            print("removed trip")
+
+        # if the change is to add, add a trip to the route
+        elif change_type == "add":
+            new_city = cities[np.random.choice(range(number_of_cities), p=driver.preferences.cities)]
+            trip = {"from": new_city, "to": actual_route_copy[index + trips_added]["from"], "merchandise": {}}
+            if index + trips_added - 1 >= 0:
+                actual_route_copy[index + trips_added - 1]["to"] = new_city
+            actual_route_copy.insert(index + trips_added, trip)
+            trips_added += 1
+            print("added trip: ", trip)
+
+        # if the change is to change, change the trip with a random city
+        elif change_type == "change":
+            new_city = cities[np.random.choice(range(number_of_cities), p=driver.preferences.cities)]
+            actual_route_copy[index + trips_added]["from"] = new_city
+            if index + trips_added - 1 >= 0:
+                actual_route_copy[index + trips_added - 1]["to"] = new_city
+            print("changed trip to: ", new_city)
+
+        # pretty print actual route
+        for trip in actual_route_copy:
+            print(trip)
+        print("\n")
+    return actual_route_copy
+
+def generate_actual_routes():
+    actual_routes = []
+
+    # create drivers with respective preferences and obtain standard routes and cities to use
+    drivers_list = create_drivers()
     standard_routes = get_standard()
-    for driver in drivers:
-        driver_name = chr(ord("A") + driver)
-        actual_route_id = "a" + str(driver)
-        actual_route = deepcopy(standard_routes[random.randint(0, len(standard_routes) - 1)])
-        modified_actual_route = modify_route(actual_route, mean_driver, standard_deviation_driver, driver)
+    cities = generate_italian_cities()
 
-def generate_random_change(mean, standard_deviation):
-    return np.random.normal(mean, standard_deviation)
+    counter = 0
+    for driver in range(drivers):
+        print(drivers_list[driver])
 
-def modify_route(actual_route, mean_drivers, standard_deviation_drivers, driver_index):
-    # modify the standard route according to the driver preferences
-    #counter = 0
-    for trip in actual_route:
-        mean_driver, standard_deviation_driver = get_driver_preferences(mean_drivers, standard_deviation_drivers, driver_index)
+        for k in range(random.randint(1, max_actualroutes_per_driver)):
+            actual_route_id = "a" + str(counter)
+            # select a random standard route
+            actual_route = deepcopy(standard_routes[random.randint(0, len(standard_routes) - 1)])
+            print("chosen standard route: ", actual_route["id"])
 
-        city_change = int(generate_random_change(mean_driver, standard_deviation_driver))
+            modified_actual_route = modify_route(actual_route["route"], drivers_list[driver], cities)
+            actual_routes.append({"id": actual_route_id, "driver" : drivers_list[driver].id , "sroute" : actual_route["id"]  , "route": modified_actual_route})
+            counter+=1
+            print("\n")
+        print("====================================")
 
-        trip["from"] = city_change + trip["from"]
-        trip["to"] = city_change + trip["to"]
-
-        modified_merchandise = {}
-        
+    return actual_routes
 
 
+"""
+==================MAIN==================
+"""
 
+if __name__ == "__main__":  
+    """ 
+    FUNZIONAMENTO GENERALE
+    preferenza driver #1 - probabilità del tipo di modifica
+    idea - un vettore di pesi determina con che probabilità il driver esegua una certa azione (cambia città/skippa città/aggiungi città)
 
-def create_drivers_preferences():
-    mean_driver = []
-    standard_deviation_driver = []
-    for _ in drivers:
-        mean_driver.append(random.randint(0, 100))
-        standard_deviation_driver.append(random.randint(0, 100))
-    return mean_driver, standard_deviation_driver
+    preferenza driver #2 - modifiche alle source/dest delle route
+    idea - il valore indica quanto andare a modificare una route (percentuale maybe?)
+    ad ogni standard route scelta, il driver pesca una percentuale di modifica da applicare
 
-def get_driver_preferences(mean_driver, standard_deviation_driver, index):
-    return mean_driver[index], standard_deviation_driver[index]
+    preferenza driver #3 - scelta effettiva delle città
+    idea - prendendo le città disponibili, assegnare ad ognuna un peso e pescare da questo set quando si vanno a fare delle modifiche
 
+    preferenza driver #4 - modifiche al merchandise
+    idea - definire per ogni driver una gaussiana multivariata che determina, per ogni elemento, quanto il driver preferisca aggiungere o togliere 
 
-if __name__ == "__main__":
-    mean_driver, standard_deviation_driver = create_drivers_preferences()
-    generate_actual_routes()
+    preferenza driver #5 - numero di merchandise trasportata?
+    idea - da valutare
+    """
+    actual_routes = generate_actual_routes()
+    json_output = json.dumps(actual_routes, indent=4)
+
+    # Print the JSON output
+    output = open("data/actual_normal.json", "w")
+    output.write(json_output)
