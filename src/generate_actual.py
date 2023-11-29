@@ -48,6 +48,7 @@ def print_actual_route(actual_route, position, trip):
 def generate_actual_routes():
     routes = []
     standard_routes = get_standard()
+    counter = 0
     for driver in range(drivers):
         driver_id = chr(ord("A") + driver)
         if drivers > 26:
@@ -55,18 +56,24 @@ def generate_actual_routes():
             driver_id = str("D" + str(driver))
         for k in range(random.randint(1, max_actualroutes_per_driver)):
             # actual_route_id = "a" + str(driver)
-            actual_route_id = "a" + str(k)
+            actual_route_id = "a" + str(counter)
             #print(driver_name)
             # select a random standard route
             actual_route = deepcopy(standard_routes[random.randint(0, len(standard_routes) - 1)])
             modified_actual_route = modify_route(actual_route)
             routes.append({"id": actual_route_id, "driver" : driver_id , "sroute" : actual_route["id"]  , "route": modified_actual_route["route"]})
+            counter+=1
     return routes
 
 def modify_route(actual_route):
     # modify the standard route according to the driver preferences
     # for each city of the route choose in a random way if keep the city or skip it or change it and with which city
     counter = 0
+
+    # random chance to modify the starting city
+    if random.randint(0, 1) == 0:
+        if random.randint(0, 1) == 0:
+            trip["from"] = cities[random.randint(0, len(cities) - 1)]
     for trip in (actual_route["route"]):
         #print("start of for cycle, counter: ", counter)
         # print_actual_route(actual_route, counter, trip)
@@ -111,10 +118,10 @@ def modify_route(actual_route):
         merch = trip["merchandise"]
         merch_copy = deepcopy(merch)
         for merch_name in merch:
-            print(merch_name, ": ", merch[merch_name])
+            # print(merch_name, ": ", merch[merch_name])
             if random.randint(0, 1) == 0:
                 merch_copy[merch_name] += (random.randint(1, 100) * random.randint(-1, 1))
-            print(merch_name, ": ", merch_copy[merch_name])
+            # print(merch_name, ": ", merch_copy[merch_name])
             if merch_copy[merch_name] > 100:
                 # item went above 100, add a new one TODO: this way of adding new items might be a bit biased
                 residue = merch_copy[merch_name] - 100
@@ -126,11 +133,11 @@ def modify_route(actual_route):
                                                 ])
                 if not new_merch in merch:
                     merch_copy[new_merch] = residue
-                    print("new merch added: ", new_merch, " - ", residue)
+                    # print("new merch added: ", new_merch, " - ", residue)
             if merch_copy[merch_name] <= 0:
                 # item went under 0, delete it
                 del merch_copy[merch_name]
-            print("\n")
+            # print("\n")
         trip["merchandise"] = merch_copy
 
     return actual_route
