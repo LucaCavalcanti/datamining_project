@@ -91,10 +91,18 @@ class Driver:
 """
 
 def change_index(actual_route_copy, driver, cities, index, trips_added, change_type):
+    
+    is_last_index = False
+    if index + trips_added == len(actual_route_copy):
+        is_last_index = True
+        print("last index.")
+
     # if the change is to skip, remove the trip from the route
     if change_type == "skip" and len(actual_route_copy) > 1:
         if index + trips_added - 1 >= 0 and index + trips_added + 1 < len(actual_route_copy):
             actual_route_copy[index + trips_added - 1]["to"] = actual_route_copy[index + trips_added + 1]["from"]
+        if is_last_index:
+            index -= 1
         actual_route_copy.pop(index + trips_added)
         trips_added -= 1
         print("removed trip")
@@ -102,7 +110,11 @@ def change_index(actual_route_copy, driver, cities, index, trips_added, change_t
     # if the change is to add, add a trip to the route
     elif change_type == "add":
         new_city = cities[np.random.choice(range(number_of_cities), p=driver.preferences.cities)]
-        trip = {"from": new_city, "to": actual_route_copy[index + trips_added]["from"], "merchandise": {}}
+        if not is_last_index:
+            trip = {"from": new_city, "to": actual_route_copy[index + trips_added]["from"], "merchandise": {}}
+        else:
+            new_city_last = cities[np.random.choice(range(number_of_cities), p=driver.preferences.cities)]
+            trip = {"from": new_city, "to": new_city_last, "merchandise": {}}
         if index + trips_added - 1 >= 0:
             actual_route_copy[index + trips_added - 1]["to"] = new_city
         actual_route_copy.insert(index + trips_added, trip)
@@ -112,8 +124,11 @@ def change_index(actual_route_copy, driver, cities, index, trips_added, change_t
     # if the change is to change, change the trip with a random city
     elif change_type == "change":
         new_city = cities[np.random.choice(range(number_of_cities), p=driver.preferences.cities)]
-        actual_route_copy[index + trips_added]["from"] = new_city
-        if index + trips_added - 1 >= 0:
+        if not is_last_index:
+            actual_route_copy[index + trips_added]["from"] = new_city
+            if index + trips_added - 1 >= 0:
+                actual_route_copy[index + trips_added - 1]["to"] = new_city
+        else:
             actual_route_copy[index + trips_added - 1]["to"] = new_city
         print("changed trip to: ", new_city)
     
@@ -137,7 +152,7 @@ def apply_changes_to_indexes(actual_route, driver, cities, indexes_to_change):
     for index in indexes_to_change:
         change_type = np.random.choice(["skip", "add", "change"], p=driver.preferences.changes_probability)
         print("change type: ", change_type, " at index: ", index, ", trips added: ", trips_added, ", index + trips_added: ", index + trips_added)
-
+       
         actual_route_copy, trips_added = change_index(actual_route_copy, driver, cities, index, trips_added, change_type)
 
         print_actual_route(actual_route_copy)
@@ -152,7 +167,7 @@ def modify_route(actual_route, driver, cities):
     print("trips to change: ", trips_to_change)
 
     # get a set of indexes to change by following the trips_to_change percentage
-    indexes_to_change = random.sample(range(route_len), trips_to_change)
+    indexes_to_change = random.sample(range(route_len+1), trips_to_change)
     indexes_to_change.sort()
     print("indexes to change: ", indexes_to_change)
 
@@ -199,7 +214,8 @@ if __name__ == "__main__":
 
     preferenza driver #2 - modifiche alle source/dest delle route
     idea - il valore indica quanto andare a modificare una route (percentuale maybe?)
-    ad ogni standard route scelta, il driver pesca una percentuale di modifica da applicare
+    ad ogni standard route scelta, il driver pesca una percentuale di modifica da applicare 
+    TODO: qui c'è un problema, ossia il driver non andrà ad allungare di molto il percorso oltre il suo punto di fine, visto che si modificano gli indici. Secondo me va bene così, ma forse vale la pena discuterne
 
     preferenza driver #3 - scelta effettiva delle città
     idea - prendendo le città disponibili, assegnare ad ognuna un peso e pescare da questo set quando si vanno a fare delle modifiche
