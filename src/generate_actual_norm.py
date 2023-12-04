@@ -18,6 +18,15 @@ TRIPS_CHANGED_MAX_MEAN = 100
 TRIPS_CHANGED_MIN_VARIANCE = 0
 TRIPS_CHANGED_MAX_VARIANCE = 30
 
+MERCH_CHANGED_MIN_VARIANCE = 0
+MERCH_CHANGED_MAX_VARIANCE = 30
+
+merchandise = ["milk", "butter", "pens", "tomatoes", "honey", "bread", "pasta", "spaghetti", "pizza", "cookies", "salad", "tortel", 
+         "coca-cola", "water", "sparkling water", "orange juice", "arancini", "fanta", "beer", "computer", "phone", "car",
+         "train", "sweater", "egg", "carrot", "rice", "soup" , "t-shirt", "jeans", "eyeglasses", "sugar", "salt", "pepper",
+         "oil", "rosemary", "thime", "curry", "pepper", "gloves", "spoon", "fork", "knife", "pot", "pan", "wine", "grappa" 
+        ]
+
 
 """
 ==================SETUP==================
@@ -65,6 +74,13 @@ class Preferences:
         self.cities = np.random.uniform(0, 1, number_of_cities)
         self.cities = self.cities / np.sum(self.cities)
 
+        # preferenza 4 - gaussiana multivariata per il merchandise
+        means = np.zeros(len(merchandise))
+        covariance_diagonal = np.zeros((len(merchandise), len(merchandise)))
+        covariance = np.random.uniform(MERCH_CHANGED_MIN_VARIANCE, MERCH_CHANGED_MAX_VARIANCE, len(merchandise))
+        covariance_diagonal = np.diag(covariance)
+        self.merchandise_multivariate = [means, covariance_diagonal]
+
     def get_number_of_trips_to_change(self, route_len):
         # pesca dalla normale:              media                            varianza
         percentage = np.random.normal(self.number_of_trips_changed[0], self.number_of_trips_changed[1])
@@ -72,6 +88,11 @@ class Preferences:
 
         # il numero di trip da modificare equivale a route_len * actual percentage 
         return int(route_len * (percentage/100))
+
+    def get_percentage_of_merchandise_to_change(self, merchandise):
+        # pesca dalla normale multivariata
+        return np.random.multivariate_normal(self.merchandise_multivariate[0], self.merchandise_multivariate[1])
+
 
     def __str__(self):
         return f"trip change type probability: {self.changes_probability}, trips change percentage: {self.number_of_trips_changed[0]}% +- {self.number_of_trips_changed[1]}%, city weights: {self.cities}"
@@ -149,6 +170,9 @@ def modify_route(actual_route, driver, cities):
         print("\n")
     return actual_route_copy
 
+def modify_merch(actual_route, driver):
+    return actual_route
+
 def generate_actual_routes():
     actual_routes = []
 
@@ -167,7 +191,8 @@ def generate_actual_routes():
             actual_route = deepcopy(standard_routes[random.randint(0, len(standard_routes) - 1)])
             print("chosen standard route: ", actual_route["id"])
 
-            modified_actual_route = modify_route(actual_route["route"], drivers_list[driver], cities)
+            modified_actual_route = modify_merch(actual_route["route"], drivers_list[driver])
+            modified_actual_route = modify_route(modified_actual_route, drivers_list[driver], cities)
             actual_routes.append({"id": actual_route_id, "driver" : drivers_list[driver].id , "sroute" : actual_route["id"]  , "route": modified_actual_route})
             counter+=1
             print("\n")
@@ -194,10 +219,13 @@ if __name__ == "__main__":
     idea - prendendo le città disponibili, assegnare ad ognuna un peso e pescare da questo set quando si vanno a fare delle modifiche
 
     preferenza driver #4 - modifiche al merchandise
-    idea - definire per ogni driver una gaussiana multivariata che determina, per ogni elemento, quanto il driver preferisca aggiungere o togliere 
+    idea - definire per ogni driver una gaussiana multivariata che determina, per ogni elemento, quanto il driver preferisca aggiungere o togliere, in percentuale
 
-    preferenza driver #5 - numero di merchandise trasportata?
-    idea - da valutare
+    preferenza driver #5 - numero di merchandise trasportata
+    idea - definire se il driver vuole o meno aggiungere/togliere merch
+
+    preferenza driver #6 - trip in cui la merch cambia
+    idea - definire se il driver vuole o meno aggiungere/togliere merch in uno specifico trip, visto che certi trip potrebbero non cambiare assolutamente
     """
     actual_routes = generate_actual_routes()
     json_output = json.dumps(actual_routes, indent=4)
