@@ -73,7 +73,7 @@ def modify_route(actual_route):
     # random chance to modify the starting city
     if random.randint(0, 1) == 0:
         if random.randint(0, 1) == 0:
-            trip["from"] = cities[random.randint(0, len(cities) - 1)]
+            actual_route["route"][0]["from"] = cities[random.randint(0, len(cities) - 1)]
     for trip in (actual_route["route"]):
         #print("start of for cycle, counter: ", counter)
         # print_actual_route(actual_route, counter, trip)
