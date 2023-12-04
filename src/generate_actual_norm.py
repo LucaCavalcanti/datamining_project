@@ -19,7 +19,7 @@ TRIPS_CHANGED_MIN_VARIANCE = 0
 TRIPS_CHANGED_MAX_VARIANCE = 30
 
 MERCH_CHANGED_MIN_VARIANCE = 0
-MERCH_CHANGED_MAX_VARIANCE = 30
+MERCH_CHANGED_MAX_VARIANCE = 1000
 
 merchandise = ["milk", "butter", "pens", "tomatoes", "honey", "bread", "pasta", "spaghetti", "pizza", "cookies", "salad", "tortel", 
          "coca-cola", "water", "sparkling water", "orange juice", "arancini", "fanta", "beer", "computer", "phone", "car",
@@ -89,13 +89,15 @@ class Preferences:
         # il numero di trip da modificare equivale a route_len * actual percentage 
         return int(route_len * (percentage/100))
 
-    def get_percentage_of_merchandise_to_change(self, merchandise):
+    def get_percentage_of_merchandise_to_change(self):
         # pesca dalla normale multivariata
-        return np.random.multivariate_normal(self.merchandise_multivariate[0], self.merchandise_multivariate[1])
-
+        percentage = np.random.multivariate_normal(self.merchandise_multivariate[0], self.merchandise_multivariate[1])
+        print(percentage)
+        return percentage
 
     def __str__(self):
-        return f"trip change type probability: {self.changes_probability}, trips change percentage: {self.number_of_trips_changed[0]}% +- {self.number_of_trips_changed[1]}%, city weights: {self.cities}"
+        return f"trip change type probability: {self.changes_probability}, trips change percentage: {self.number_of_trips_changed[0]}% +- {self.number_of_trips_changed[1]}%, city weights: {self.cities} \
+                merchandise change variance: {self.merchandise_multivariate[1]}"
 
 
 class Driver:
@@ -197,6 +199,7 @@ def modify_route(actual_route, driver, cities):
     return actual_route_copy
 
 def modify_merch(actual_route, driver):
+    percentage = driver.preferences.get_percentage_of_merchandise_to_change()
     return actual_route
 
 def generate_actual_routes():
