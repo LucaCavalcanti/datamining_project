@@ -18,8 +18,20 @@ TRIPS_CHANGED_MAX_MEAN = 100
 TRIPS_CHANGED_MIN_VARIANCE = 0
 TRIPS_CHANGED_MAX_VARIANCE = 30
 
+# the variance is the square of the standard deviation. In a normal distribution, variance = 1000 will lead to:
+"""
+    About 68% of the values would fall between -31.62 and 31.62.
+    About 95% of the values would fall between -63.24 and 63.24 (approximately 2 times the standard deviation).
+    About 99.7% of the values would fall between -94.86 and 94.86 (approximately 3 times the standard deviation), assuming a normal distribution.
+"""
 MERCH_CHANGED_MIN_VARIANCE = 0
 MERCH_CHANGED_MAX_VARIANCE = 1000
+
+TRIPS_FOR_MERCH_CHANGED_MIN_VARIANCE = 0
+TRIPS_FOR_MERCH_CHANGED_MAX_MEAN     = 100
+TRIPS_FOR_MERCH_CHANGED_MIN_VARIANCE = 0
+TRIPS_FOR_MERCH_CHANGED_MAX_VARIANCE = 80
+
 
 merchandise = ["milk", "butter", "pens", "tomatoes", "honey", "bread", "pasta", "spaghetti", "pizza", "cookies", "salad", "tortel", 
          "coca-cola", "water", "sparkling water", "orange juice", "arancini", "fanta", "beer", "computer", "phone", "car",
@@ -81,6 +93,13 @@ class Preferences:
         covariance_diagonal = np.diag(covariance)
         self.merchandise_multivariate = [means, covariance_diagonal]
 
+        # preferenza 5 - se il driver vuole aggiungere o togliere merchandise
+        self.merch_changes_probability = np.random.uniform(0, 1, 2)
+        self.merch_changes_probability = self.merch_changes_probability / np.sum(self.merch_changes_probability)
+
+        self.number_of_trips_changed_for_merch = [random.randint(TRIPS_FOR_MERCH_CHANGED_MIN_VARIANCE, TRIPS_FOR_MERCH_CHANGED_MAX_MEAN), 
+                                        random.randint(TRIPS_FOR_MERCH_CHANGED_MIN_VARIANCE, TRIPS_FOR_MERCH_CHANGED_MAX_VARIANCE)]
+
     def get_number_of_trips_to_change(self, route_len):
         # pesca dalla normale:              media                            varianza
         percentage = np.random.normal(self.number_of_trips_changed[0], self.number_of_trips_changed[1])
@@ -89,6 +108,14 @@ class Preferences:
         # il numero di trip da modificare equivale a route_len * actual percentage 
         return int(route_len * (percentage/100))
 
+    def get_number_of_trips_to_change_merch(self, route_len):
+        # pesca dalla normale:              media                                       varianza
+        percentage = np.random.normal(self.number_of_trips_changed_for_merch[0], self.number_of_trips_changed_for_merch[1])
+        percentage = 0 if percentage < 0 else 100 if percentage > 100 else percentage
+
+        # il numero di trip da modificare equivale a route_len * actual percentage 
+        return int(route_len * (percentage/100))
+    
     def get_percentage_of_merchandise_to_change(self):
         # pesca dalla normale multivariata
         percentage = np.random.multivariate_normal(self.merchandise_multivariate[0], self.merchandise_multivariate[1])
@@ -110,7 +137,7 @@ class Driver:
 
 
 """
-==================ACTUAL ROUTES GENERATION==================
+==================MODIFY TRIPS==================
 """
 
 def change_index(actual_route_copy, driver, cities, index, trips_added, change_type):
@@ -198,9 +225,44 @@ def modify_route(actual_route, driver, cities):
 
     return actual_route_copy
 
+
+"""
+==================MODIFY MERCH==================
+"""
+
+
+def apply_changes_to_indexes_merch(actual_route, driver, indexes_to_change):
+    # create a copy of the actual route to modify
+    actual_route_copy = deepcopy(actual_route)
+
+    print_actual_route(actual_route_copy)
+
+    # for each index to change, sample from the driver's preferences the type of change to apply
+    for index in indexes_to_change:
+        change_type = np.random.choice(["add", "remove"], p=driver.preferences.merch_changes_probability)
+        print("change type: ", change_type, " at index: ", index)
+       
+        actual_route_copy = change_merch_at_index(actual_route_copy, driver, index, change_type)
+
+        print_actual_route(actual_route_copy)
+
+    return actual_route_copy
+
 def modify_merch(actual_route, driver):
+    # sample from the normal the percentage of trips where we want to change the merch
+    route_len = len(actual_route)
+    trips_to_change_merch = driver.preferences.get_number_of_trips_to_change_merch(route_len)
+    print("trips where to change merch: ", trips_to_change_merch)
+
+    # get a set of indexes to change by following the trips_to_change_merch percentage
+    indexes_to_change = random.sample(range(route_len), trips_to_change_merch)
+    indexes_to_change.sort()
+    print("indexes to change merch: ", indexes_to_change)
+
+    actual_route_copy = apply_changes_to_indexes_merch(actual_route, driver, indexes_to_change)
+
     percentage = driver.preferences.get_percentage_of_merchandise_to_change()
-    return actual_route
+    return actual_route_copy
 
 def generate_actual_routes():
     actual_routes = []
@@ -220,7 +282,9 @@ def generate_actual_routes():
             actual_route = deepcopy(standard_routes[random.randint(0, len(standard_routes) - 1)])
             print("chosen standard route: ", actual_route["id"])
 
+            print("changing merch")
             modified_actual_route = modify_merch(actual_route["route"], drivers_list[driver])
+            print("changing trips")
             modified_actual_route = modify_route(modified_actual_route, drivers_list[driver], cities)
             actual_routes.append({"id": actual_route_id, "driver" : drivers_list[driver].id , "sroute" : actual_route["id"]  , "route": modified_actual_route})
             counter+=1
