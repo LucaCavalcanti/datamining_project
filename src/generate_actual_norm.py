@@ -36,11 +36,8 @@ MIN_MERCH = 1
 MAX_MERCH = 100
 
 
-merchandise = ["milk", "butter", "pens", "tomatoes", "honey", "bread", "pasta", "spaghetti", "pizza", "cookies", "salad", "tortel", 
-         "coca-cola", "water", "sparkling water", "orange juice", "arancini", "fanta", "beer", "computer", "phone", "car",
-         "train", "sweater", "egg", "carrot", "rice", "soup" , "t-shirt", "jeans", "eyeglasses", "sugar", "salt", "pepper",
-         "oil", "rosemary", "thime", "curry", "pepper", "gloves", "spoon", "fork", "knife", "pot", "pan", "wine", "grappa" 
-        ]
+with open("data/merchandise/merchandise_small.json") as merch_file:
+    merchandise = json.load(merch_file)
 
 
 """
@@ -76,6 +73,7 @@ def create_drivers():
 """
 
 class Preferences:
+    # TODO: save driver preferences in a file to then visualize them later
     def __init__(self):
         # preferenza 1 - vettore di pesi per determinare probabilità di ogni azione di modifica
         self.changes_probability = np.random.uniform(0, 1, 3)
