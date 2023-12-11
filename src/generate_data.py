@@ -11,6 +11,12 @@ number_of_cities = int(sys.argv[2])
 # Take from command line the maxnumber of trips per route
 max_route_len = int(sys.argv[3])
 
+MIN_MERCH = 1
+MAX_MERCH = 50
+
+with open("data/merchandise/merchandise_small.json") as merch_file:
+    merchandise_global = json.load(merch_file)
+
 def generate_cities(number_of_cities):
     cities_file = open("data/cities/worldcities.csv", "r")
     cities = []
@@ -44,12 +50,8 @@ def generate_trips(cities, max_route_len):
         while from_city == to_city:
             to_city = cities[random.randint(0, len(cities) - 1)]
         merchandise = {}
-        for j in range(random.randint(1, 30)):
-            merchandise[random.choice(["milk", "butter", "pens", "tomatoes", "honey", "bread", "pasta", "spaghetti", "pizza", "cookies", "salad", "tortel", 
-                                        "coca-cola", "water", "sparkling water", "orange juice", "arancini", "fanta", "beer", "computer", "phone", "car",
-                                        "train", "sweater", "egg", "carrot", "rice", "soup" , "t-shirt", "jeans", "eyeglasses", "sugar", "salt", "pepper",
-                                        "oil", "rosemary", "thime", "curry", "pepper", "gloves", "spoon", "fork", "knife", "pot", "pan", "wine", "grappa" 
-                                        ])] = random.randint(1, 100)
+        for j in range(random.randint(1, len(merchandise_global))):
+            merchandise[random.choice(merchandise_global)] = random.randint(MIN_MERCH, MAX_MERCH)
         trips.append({"from": from_city, "to": to_city, "merchandise": merchandise})
         from_city = to_city
     return trips
@@ -66,5 +68,5 @@ if __name__ == '__main__':
     json_output = json.dumps(routes, indent=4)
 
     # Print the JSON output
-    output = open("data/standard3.json", "w")
+    output = open("data/small/standard_small.json", "w")
     output.write(json_output)
