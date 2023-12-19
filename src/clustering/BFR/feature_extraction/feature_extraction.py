@@ -2,17 +2,7 @@ from sklearn.feature_extraction import DictVectorizer
 
 vec = DictVectorizer()
 
-measurements = [
-     {'city': 'Dubai', 'temperature': 33.},
-     {'city': 'London', 'temperature': 12.},
-     {'city': 'San Francisco', 'temperature': 18.},
- ]
-
-movie_entry = [{'category': ['thriller', 'thriller', 'drama'], 'year': 2003},
-                {'category': ['animation', 'family'], 'year': 2011},
-                {'year': 1974}]
-
-route = {
+route_example = {
         "id": "a0",
         "driver": "A",
         "sroute": "s2",
@@ -89,7 +79,6 @@ route = {
         ]
     }
 
-
 def get_features(routeA, routeB):
     cities = {"cities": []}
     merchA = []
@@ -116,11 +105,6 @@ def get_features(routeA, routeB):
             merch_dict[merch_entry] = entry["merchandise"][merch_entry]
         merchB.append(merch_dict)
 
-    print(cities)
-    print(cities2)
-    # print(merchA)
-    # print(merchB)
-
     res = vec.fit_transform([cities, cities2]).toarray()
     cities_A = res[0]
     cities_B = res[1]
@@ -131,6 +115,10 @@ def get_features(routeA, routeB):
     merch_B = res[len_routeA:]
     merch_indexes = vec.get_feature_names_out()
 
+    return city_indexes, cities_A, cities_B, merch_indexes, merch_A, merch_B
+
+if __name__ == "__main__":
+    city_indexes, cities_A, cities_B, merch_indexes, merch_A, merch_B = get_features(route_example, route_example)
     print(city_indexes)
     print(cities_A)
     print(cities_B)
@@ -138,8 +126,3 @@ def get_features(routeA, routeB):
     print(merch_indexes)
     print(merch_A)
     print(merch_B)
-
-    return city_indexes, cities_A, cities_B, merch_indexes, merch_A, merch_B
-
-if __name__ == "__main__":
-    get_features(route, route)
