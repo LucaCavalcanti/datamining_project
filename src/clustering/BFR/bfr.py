@@ -5,12 +5,17 @@ from feature_extraction import feature_extraction as fe
 import ijson
 import numpy as np
 
-BUFFER_SIZE = 2
-MAHALANOBIS_DISTANCE_THRESHOLD = 50
+from sklearn.cluster import KMeans
+from sklearn.metrics import pairwise_distances
 
-Clusters = []
-RetainedSet = []
-CompressedSets = []
+# WARNING: these are placeholder values
+BUFFER_SIZE = 10
+MAHALANOBIS_DISTANCE_THRESHOLD = 30
+
+Clusters = []       # the primary clusters
+RetainedSet = []    # the array of routes that did not fit any cluster
+CompressedSets = [] # the secondary clusters created with the Miniclusters and older CompressedSets
+Miniclusters = []   # the clusters created with the RetainedSet
 Buffer = []
 number_of_clusters = 0
 actual_routes_stream = None
@@ -71,15 +76,6 @@ def BFR(standard_routes, actual_routes):
         print()
     # do something with the final results
 
-    # city_indexes, cities_A, cities_B, merch_indexes, merch_A, merch_B = fe.get_features(fe.route_example, fe.route_example)
-    # print(city_indexes)
-    # print(cities_A)
-    # print(cities_B)
-    # print()
-    # print(merch_indexes)
-    # print(merch_A)
-    # print(merch_B)
-
 def init_clusters(standard_routes):
     global number_of_clusters
     number_of_clusters = 0
@@ -98,6 +94,7 @@ def keep_filling_buffer():
     global Buffer
     Buffer = []
     try:
+        # Parse all the actual routes
         for route in ijson.items(actual_routes_stream, "item"):
             Buffer.append(route)
             if len(Buffer) == BUFFER_SIZE:
@@ -116,17 +113,24 @@ def keep_filling_buffer():
 
 def stream_buffer():
     global Buffer, Clusters, RetainedSet
+    primary_compression_criteria()
+    secondary_compression_criteria()
+
+def primary_compression_criteria():
+    global Buffer, Clusters, RetainedSet
     for route in Buffer:
         closest_cluster, closest_distance = find_closest_cluster(route)    
         if closest_distance < MAHALANOBIS_DISTANCE_THRESHOLD:
             # add the route to the cluster
-            print("Adding route to cluster")
-            Clusters[closest_cluster].add(route)    
+            print("Adding route", route["id"], "to cluster", closest_cluster)
+            Clusters[closest_cluster].add(route)
+            # remove the route from the buffer
+            Buffer = [r for r in Buffer if r != route]
         else:
             # add the route to the retained set
-            print("Adding route to retained set")
+            print("Adding route", route["id"], "to retained set")
             RetainedSet.append(route)
-    
+            Buffer = [r for r in Buffer if r != route]
 
 def find_closest_cluster(route):
     closest_cluster = None
@@ -142,7 +146,32 @@ def find_closest_cluster(route):
 
 def mahalanobis_distance(route, centroid):
     # TODO: how do we calculate the distance between a route and a centroid?
-    return np.random.randint(0, 100)
+    return 50
+
+def secondary_compression_criteria():
+    global RetainedSet, CompressedSets
+    k = int(number_of_clusters * 0.3 + number_of_clusters)
+    if len(RetainedSet) >= k:
+        # cluster the retained set with K-Means
+        print("Clustering retained set with K-Means")
+        cluster_retained_set()
+
+def cluster_retained_set():
+    global RetainedSet, CompressedSets
+    distance_matrix = np.zeros((len(RetainedSet), len(RetainedSet)))
+    city_indexes, cities_res, merch_indexes, merch_res = fe.get_features_total(RetainedSet)
+    for i in range(len(RetainedSet)):
+        # pick all routes from the next one to the end
+        for j in range(i + 1, len(RetainedSet)):
+            distance_matrix[i][j] = custom_distance(cities_res[i], cities_res[j], merch_res[i], merch_res[j])
+    # make the distance matrix symmetric
+    distance_matrix = distance_matrix + distance_matrix.T
+    
+
+def custom_distance(cities_A, cities_B, merch_A, merch_B):
+    # this function should, given the vectorial representation of routes A and B, parse their distance and return its value.
+    return 1
+
 
 if __name__ == "__main__":
-    BFR("data/standard.json", "data/actual_normal.json")
+    BFR("data/small/standard_small.json", "data/small/actual_normal_small.json")

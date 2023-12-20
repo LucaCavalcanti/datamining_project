@@ -1,4 +1,5 @@
 from sklearn.feature_extraction import DictVectorizer
+from time import time
 
 vec = DictVectorizer()
 
@@ -80,6 +81,7 @@ route_example = {
     }
 
 def get_features(routeA, routeB):
+    start = time()
     cities = {"cities": []}
     merchA = []
 
@@ -105,6 +107,9 @@ def get_features(routeA, routeB):
             merch_dict[merch_entry] = entry["merchandise"][merch_entry]
         merchB.append(merch_dict)
 
+    partial = time()
+    # print("Partial time: ", partial - start)
+
     res = vec.fit_transform([cities, cities2]).toarray()
     cities_A = res[0]
     cities_B = res[1]
@@ -115,7 +120,55 @@ def get_features(routeA, routeB):
     merch_B = res[len_routeA:]
     merch_indexes = vec.get_feature_names_out()
 
-    return city_indexes, cities_A, cities_B, merch_indexes, merch_A, merch_B
+    end = time()
+    # print("Total time: ", end - start)
+
+    return city_indexes, cities_A, cities_B, merch_indexes, merch_A, merch_B, partial - start, end - partial
+
+def get_features_total(routes):
+    start = time()
+    cities_total = []
+    merch_total = []
+    len_total = []
+
+    for routeA in routes:
+        cities = {"cities": []}
+        merch = []
+
+        cities["cities"].append(routeA["route"][0]["from"])
+
+        len_routeA = 0
+        for entry in routeA["route"]:
+            cities["cities"].append(entry["to"])
+            merch_dict = {"city": entry["to"]}
+            for merch_entry in entry["merchandise"]:
+                merch_dict[merch_entry] = entry["merchandise"][merch_entry]
+            merch.append(merch_dict)
+            len_routeA += 1
+        
+        cities_total.append(cities)
+        merch_total += merch
+        len_total.append(len_routeA)
+
+    partial = time()
+    # print("Partial time: ", partial - start)
+
+    cities_res = vec.fit_transform(cities_total).toarray()
+    city_indexes = vec.get_feature_names_out()
+
+    merch_transform = vec.fit_transform(merch_total).toarray()
+    merch_indexes = vec.get_feature_names_out()
+
+    merch_res = []
+    for len in len_total:
+        merch_res.append(merch_transform[:len])
+        merch_transform = merch_transform[len:]
+
+    end = time()
+    # print("Total time: ", end - start)
+
+    return city_indexes, cities_res, merch_indexes, merch_res
+
 
 if __name__ == "__main__":
     city_indexes, cities_A, cities_B, merch_indexes, merch_A, merch_B = get_features(route_example, route_example)
