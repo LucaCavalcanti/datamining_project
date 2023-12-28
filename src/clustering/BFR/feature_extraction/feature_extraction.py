@@ -2,7 +2,6 @@ import numpy as np
 from numpy.linalg import norm
 from sklearn.feature_extraction import DictVectorizer
 from time import time
-from similarity import cosine_similarity
 
 vec = DictVectorizer()
 
@@ -331,48 +330,13 @@ def get_features_total(routes):
 
     return city_indexes, cities_res, merch_indexes, merch_res
 
-
-def merch_similarity(standard_route, actual_route):
-    '''
-    input:
-        standard_route: standard route
-        actual_route: actual_route
-    output:
-        similarity: similarity between route A and route B given the similarity of the cities and the list of merch
-    reasoning:
-        if a city is in both the route we check whether the merch has been respected or the driver has changed his quantity
-        if a city is present only in the standard route than we multiply for a certain weight the error
-        if a city is present only in the actual route than we multiply for another weight the error
-    '''
-    cosine = cosine_similarity(standard_route, actual_route)
-    city_indexes, cities_A, cities_B, merch_indexes, merch_A, merch_B = get_features(standard_route, actual_route)
-    for city in range(len(city_indexes)):
-        # for each city control if it is in both lists
-        if cities_A[city] == 1 and cities_B[city] == 1:
-            print()
-        elif cities_A[city] == 1 and cities_B[city] == 0:
-            print()
-        elif cities_A[city] == 0 and cities_B[city] == 1:
-            print()
-
 if __name__ == "__main__":
-    """ city_indexes, cities_A, cities_B, merch_indexes, merch_A, merch_B = get_features(route_example, route_example)
+    city_indexes, cities_A, cities_B, merch_indexes, merch_A, merch_B, a, b = get_features(route_id1, route_id3)
     print(city_indexes)
     print(cities_A)
     print(cities_B)
     print()
     print(merch_indexes)
     print(merch_A)
-    print(merch_B) """
-    cosine = cosine_similarity(route_id1, route_id3)
-    print(cosine)
-    city_indexes, cities_A, cities_B, merch_indexes, merch_A, merch_B = get_features(route_id1, route_id3)
-    print(city_indexes)
-    print(cities_A)
-    print(cities_B)
     print()
-    print(merch_indexes)
-    print("merch A: ", merch_A)
-    print("merch B:", merch_B)
-    similarity = merch_similarity(route_id1, route_id3)
-    print(similarity)
+    print(merch_B)
