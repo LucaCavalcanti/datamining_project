@@ -1,5 +1,8 @@
+import numpy as np
+from numpy.linalg import norm
 from sklearn.feature_extraction import DictVectorizer
 from time import time
+from similarity import cosine_similarity
 
 vec = DictVectorizer()
 
@@ -80,20 +83,179 @@ route_example = {
         ]
     }
 
+route_id1 = {
+        "id": "a0",
+        "driver": "D0",
+        "sroute": "s83",
+        "route": [
+            {
+                "from": "Fossano",
+                "to": "Incisa Scapaccino",
+                "merchandise": {
+                    "sparkling water": 50,
+                    "pens": 50,
+                    "salad": 45,
+                    "bread": 18
+                }
+            },
+            {
+                "from": "Incisa Scapaccino",
+                "to": "Borgarello",
+                "merchandise": {
+                    "spaghetti": 21,
+                    "sparkling water": 6
+                }
+            },
+            {
+                "from": "Borgarello",
+                "to": "San Lorenzello",
+                "merchandise": {
+                    "milk": 10
+                }
+            },
+            {
+                "from": "San Lorenzello",
+                "to": "Recco",
+                "merchandise": {
+                    "tomatoes": 44,
+                    "sparkling water": 50,
+                    "water": 22,
+                    "honey": 18,
+                    "salad": 7
+                }
+            },
+            {
+                "from": "Recco",
+                "to": "Tolfa",
+                "merchandise": {
+                    "tomatoes": 10
+                }
+            },
+            {
+                "from": "Tolfa",
+                "to": "Acerno",
+                "merchandise": {
+                    "salad": 50,
+                    "cookies": 25,
+                    "sparkling water": 50,
+                    "water": 36,
+                    "pens": 16,
+                    "butter": 15,
+                    "tomatoes": 46,
+                    "bread": 10
+                }
+            }
+        ]
+    }
+
+route_id3 = {
+        "id": "s83",
+        "route": [
+            {
+                "from": "Fossano",
+                "to": "Vicoli",
+                "merchandise": {
+                    "sparkling water": 49,
+                    "pens": 20
+                }
+            },
+            {
+                "from": "Vicoli",
+                "to": "Incisa Scapaccino",
+                "merchandise": {
+                    "cookies": 14,
+                    "pizza": 8
+                }
+            },
+            {
+                "from": "Incisa Scapaccino",
+                "to": "Bussero",
+                "merchandise": {
+                    "spaghetti": 21,
+                    "sparkling water": 6
+                }
+            },
+            {
+                "from": "Bussero",
+                "to": "Borgarello",
+                "merchandise": {
+                    "pasta": 31
+                }
+            },
+            {
+                "from": "Borgarello",
+                "to": "Paola",
+                "merchandise": {
+                    "milk": 10
+                }
+            },
+            {
+                "from": "Paola",
+                "to": "San Lorenzello",
+                "merchandise": {
+                    "tomatoes": 29
+                }
+            },
+            {
+                "from": "San Lorenzello",
+                "to": "Fluminimaggiore",
+                "merchandise": {
+                    "tomatoes": 44,
+                    "sparkling water": 44,
+                    "water": 22,
+                    "honey": 18
+                }
+            },
+            {
+                "from": "Fluminimaggiore",
+                "to": "Cerreto d'Esi",
+                "merchandise": {
+                    "salad": 44,
+                    "cookies": 30,
+                    "sparkling water": 36,
+                    "water": 36,
+                    "pens": 16,
+                    "butter": 15,
+                    "tomatoes": 46
+                }
+            },
+            {
+                "from": "Cerreto d'Esi",
+                "to": "Acerno",
+                "merchandise": {
+                    "sparkling water": 39,
+                    "butter": 27
+                }
+            }
+        ]
+    }
+
 def get_features(routeA, routeB):
+    '''
+    input:
+        routeA : dict, routeB : dict
+    output:
+        city_indexes : list[str] of cities from both the routes,
+        cities_A : list[int] of cities in route A with respect to city_indexes (1 if is present, 0 otherwise),
+        cities_B : list[int] of cities in route B with respect to city_indexes (1 if is present, 0 otherwise),
+        merch_indexes : list[str] of the merch from both the routes,
+        merch_A: list[int] of merch for each city in route A
+        merch_B: list[int] of merch for each city in route B
+    '''
     start = time()
     cities = {"cities": []}
+    cities = {"city": []}
     merchA = []
 
-    cities2 = {"cities": []}
+    cities2 = {"city": []}
     merchB = []
 
-    cities["cities"].append(routeA["route"][0]["from"])
-    cities2["cities"].append(routeB["route"][0]["from"])
+    cities["city"].append(routeA["route"][0]["from"])
+    cities2["city"].append(routeB["route"][0]["from"])
 
     len_routeA = 0
     for entry in routeA["route"]:
-        cities["cities"].append(entry["to"])
+        cities["city"].append(entry["to"])
         merch_dict = {"city": entry["to"]}
         for merch_entry in entry["merchandise"]:
             merch_dict[merch_entry] = entry["merchandise"][merch_entry]
@@ -101,7 +263,7 @@ def get_features(routeA, routeB):
         len_routeA += 1
 
     for entry in routeB["route"]:
-        cities2["cities"].append(entry["to"])
+        cities2["city"].append(entry["to"])
         merch_dict = {"city": entry["to"]}
         for merch_entry in entry["merchandise"]:
             merch_dict[merch_entry] = entry["merchandise"][merch_entry]
@@ -170,12 +332,47 @@ def get_features_total(routes):
     return city_indexes, cities_res, merch_indexes, merch_res
 
 
+def merch_similarity(standard_route, actual_route):
+    '''
+    input:
+        standard_route: standard route
+        actual_route: actual_route
+    output:
+        similarity: similarity between route A and route B given the similarity of the cities and the list of merch
+    reasoning:
+        if a city is in both the route we check whether the merch has been respected or the driver has changed his quantity
+        if a city is present only in the standard route than we multiply for a certain weight the error
+        if a city is present only in the actual route than we multiply for another weight the error
+    '''
+    cosine = cosine_similarity(standard_route, actual_route)
+    city_indexes, cities_A, cities_B, merch_indexes, merch_A, merch_B = get_features(standard_route, actual_route)
+    for city in range(len(city_indexes)):
+        # for each city control if it is in both lists
+        if cities_A[city] == 1 and cities_B[city] == 1:
+            print()
+        elif cities_A[city] == 1 and cities_B[city] == 0:
+            print()
+        elif cities_A[city] == 0 and cities_B[city] == 1:
+            print()
+
 if __name__ == "__main__":
-    city_indexes, cities_A, cities_B, merch_indexes, merch_A, merch_B = get_features(route_example, route_example)
+    """ city_indexes, cities_A, cities_B, merch_indexes, merch_A, merch_B = get_features(route_example, route_example)
     print(city_indexes)
     print(cities_A)
     print(cities_B)
     print()
     print(merch_indexes)
     print(merch_A)
-    print(merch_B)
+    print(merch_B) """
+    cosine = cosine_similarity(route_id1, route_id3)
+    print(cosine)
+    city_indexes, cities_A, cities_B, merch_indexes, merch_A, merch_B = get_features(route_id1, route_id3)
+    print(city_indexes)
+    print(cities_A)
+    print(cities_B)
+    print()
+    print(merch_indexes)
+    print("merch A: ", merch_A)
+    print("merch B:", merch_B)
+    similarity = merch_similarity(route_id1, route_id3)
+    print(similarity)
