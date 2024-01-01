@@ -13,7 +13,8 @@ from sklearn.cluster import AgglomerativeClustering
 from copy import deepcopy
 
 # WARNING: these are placeholder values
-BUFFER_SIZE = 10
+SAMPLE_BUFFER_SIZE = 50                 # ideally, the buffer should be as large as possible, a bit larger than the actual buffer as retainedset/compressedsets are not present in the sampling phase
+BUFFER_SIZE = 10                        # ideally, the buffer should be as large as possible
 MAHALANOBIS_DISTANCE_THRESHOLD = 30
 
 Clusters = []       # the primary clusters
@@ -21,6 +22,7 @@ RetainedSet = []    # the array of routes that did not fit any cluster
 Miniclusters = []   # the clusters created with the RetainedSet
 CompressedSets = [] # the secondary clusters created with the Miniclusters and older CompressedSets
 Buffer = []
+mahalanobis_distances = []
 number_of_clusters = 0
 number_of_compressed_sets = 0
 actual_routes_stream = None
@@ -30,6 +32,7 @@ class Cluster:
         self.centroid = standard_route
         self.size = 1
         self.index = index
+        self.mahalanobis_threshold = 0
 
         # servono?
         self.sum = []
@@ -44,13 +47,33 @@ class Cluster:
         self.routes.append(route)
     
     def update_centroid(self):
-        # TODO: how do we update a cluster's centroid?
-        pass
+        # find the new centroid by taking the route with the minimum distance from all the other routes in the cluster
+        self.routes.append(self.centroid)
+        min_distance = sys.maxsize
+        min_route = None
+        city_indexes, cities_res, merch_indexes, merch_res = fe.get_features_total(self.routes)
+        route_counter = 0
+        other_route_counter = 0
+        for route in self.routes:
+            distance = 0
+            for other_route_counter in range(len(self.routes)):
+                distance += custom_distance(cities_res[route_counter], cities_res[other_route_counter], merch_res[route_counter], merch_res[other_route_counter])
+            # TODO: do we need to divide by the number of routes?
+            if distance < min_distance:
+                min_distance = distance
+                min_route = route
+            route_counter += 1
+        self.centroid = min_route
+        self.routes = [] 
+        print("New centroid for cluster", self.index, "is", self.centroid["id"])
+
 
 def BFR(standard_routes, actual_routes):
     # INITIALIZATION STEP
     # Set the number of clusters to the number of standard routes, set the cluster centroids to the standard routes
     init_clusters(standard_routes)
+    sample_actual_routes(actual_routes)
+    find_mahalanobis_thresholds()
     init_actual_routes_stream(actual_routes)
 
     # REPEAT
@@ -95,6 +118,52 @@ def init_clusters(standard_routes):
             Clusters.append(Cluster(route, number_of_clusters))
             number_of_clusters += 1
 
+def sample_actual_routes(actual_routes):
+    global Buffer
+    Buffer = []
+
+    counter = 0
+    # get number of actual routes    
+    with open(actual_routes, "rb") as f:
+        for route in ijson.items(f, "item"):
+            counter += 1
+    
+    # get a sample of actual routes
+    sample_indexes = np.random.choice(counter, SAMPLE_BUFFER_SIZE, replace=False)
+    print("Sample indexes:", sample_indexes)
+
+    # get the actual routes at the sample indexes
+    id_counter = 0
+    with open(actual_routes, "rb") as f:
+        for route in ijson.items(f, "item"):
+            if id_counter in sample_indexes:
+                Buffer.append(route)
+            id_counter += 1
+
+def find_mahalanobis_thresholds():
+    global Buffer, mahalanobis_distances
+    mahalanobis_distances = np.zeros((len(Clusters), len(Buffer)))
+
+    # using the sample buffer, calculate the Mahalanobis distance between each route and the centroid of each cluster
+    # then, calculate the average distance between each route and the centroid of its cluster   
+    # finally, calculate the average of all the average distances
+    # this value will be used as the Mahalanobis distance threshold
+    route_counter = 0
+    for route in Buffer:
+        for cluster in Clusters:
+            mahalanobis_distances[cluster.index][route_counter] = mahalanobis_distance(route, cluster.centroid)
+        route_counter += 1
+    
+    for cluster in Clusters:
+        cluster_distances = mahalanobis_distances[cluster.index]
+        cluster_distances = cluster_distances[cluster_distances != 0]
+        cluster.mahalanobis_threshold = np.average(cluster_distances)
+        print("Mahalanobis threshold for cluster", cluster.index, "is", cluster.mahalanobis_threshold)
+
+    Buffer.clear()
+
+    
+
 # Open actual routes JSON file
 def init_actual_routes_stream(actual_routes):
     global actual_routes_stream
@@ -132,7 +201,6 @@ def stream_buffer():
     global Buffer, Clusters, RetainedSet
     primary_compression_criteria()
     secondary_compression_criteria()
-    # TODO: Update Clusters centroids
     for cluster in Clusters:
         cluster.update_centroid()
 
@@ -143,7 +211,7 @@ def primary_compression_criteria():
         # Find closest cluster to route by passing all of them 
         closest_cluster, closest_distance = find_closest_cluster(route)    
         # If closest cluster is under a certain distance threshold:
-        if closest_distance < MAHALANOBIS_DISTANCE_THRESHOLD:
+        if closest_distance < Clusters[closest_cluster].mahalanobis_threshold:
             # add the route to the cluster
             print("Adding route", route["id"], "to cluster", closest_cluster)
             Clusters[closest_cluster].add(route)
@@ -188,8 +256,6 @@ def secondary_compression_criteria():
 
     for cluster in CompressedSets:
         cluster.update_centroid()
-
-    # TODO: if the compressed sets are large enough, merge them with Hierarchical clustering
 
     # min_number_of_routes_to_cluster_compressedsets = 2 * number_of_clusters
     min_number_of_routes_to_cluster_compressedsets = 5 #TODO: REMOVE THIS PLAECHOLDER

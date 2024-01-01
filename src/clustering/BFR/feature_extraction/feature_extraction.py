@@ -171,7 +171,7 @@ def get_features_total(routes):
 
 
 if __name__ == "__main__":
-    city_indexes, cities_A, cities_B, merch_indexes, merch_A, merch_B = get_features(route_example, route_example)
+    city_indexes, cities_A, cities_B, merch_indexes, merch_A, merch_B, partial, end = get_features(route_example, route_example)
     print(city_indexes)
     print(cities_A)
     print(cities_B)
