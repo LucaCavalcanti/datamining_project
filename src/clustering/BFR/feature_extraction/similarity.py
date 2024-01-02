@@ -133,9 +133,9 @@ def merch_similarity(standard_route, actual_route):
             # if the list is empty then the city is the starting point of the route
             if len(actual) == 0: continue
         if standard_cities[index] == 0:
-            standard = np.asarray(create_vector_for_absent_city(standard, merch_indexes, city_indexes[index]))
+            standard = np.array(create_vector_for_absent_city(actual, merch_indexes, city_indexes[index]))
         if actual_cities[index] == 0:
-            standard = np.asarray(create_vector_for_absent_city(standard, merch_indexes, city_indexes[index]))
+            actual = np.array(create_vector_for_absent_city(standard, merch_indexes, city_indexes[index]))
         A = np.array(standard)
         B = np.array(actual)
         cosine = np.dot(A, B) / (norm(A) * norm(B))
@@ -199,5 +199,6 @@ if __name__ == "__main__":
         print(route['id'], route['sroute'], cosine) """
     actual_routes = get_actual()
     actual_route = actual_routes[0]
+    actual_route_2 = actual_routes[1]
     standard_route = get_standard(actual_route['sroute'])
     merch_sim, city_sim = merch_similarity(standard_route, actual_route)
