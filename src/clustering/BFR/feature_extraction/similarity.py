@@ -102,7 +102,7 @@ def cosine_similarity(standard_route, actual_route):
     cosine = np.dot(A, B)/ (norm(A) * norm(B))
     return cosine
 
-def merch_similarity(standard_route, actual_route):
+def similarity(standard_route, actual_route):
     '''
     input:
         - standard_route: standard route
@@ -140,9 +140,9 @@ def merch_similarity(standard_route, actual_route):
         B = np.array(actual)
         cosine = np.dot(A, B) / (norm(A) * norm(B))
         if standard_cities[index] == 0:
-            cosine = cosine * 0.5
-        if actual_cities[index] == 0:
             cosine = cosine * 0.75
+        if actual_cities[index] == 0:
+            cosine = cosine * 0.5
         cosines.append(cosine)
     cosine_mean = sum(cosines) / len(cosines)
     print(cosine_mean)
@@ -201,4 +201,4 @@ if __name__ == "__main__":
     actual_route = actual_routes[0]
     actual_route_2 = actual_routes[1]
     standard_route = get_standard(actual_route['sroute'])
-    merch_sim, city_sim = merch_similarity(standard_route, actual_route)
+    merch_sim, city_sim = similarity(standard_route, actual_route)
