@@ -17,10 +17,10 @@ with open("data/merchandise/merchandise_small.json") as merch_file:
     merchandise_global = json.load(merch_file)
 
 MIN_MERCH = 1
-MAX_MERCH = 50
+MAX_MERCH = 100
 
 def get_standard():
-    with open("data/small/standard_small.json") as json_file:
+    with open("data/small2/standard_small.json") as json_file:
         standard_routes = json.load(json_file)
     return standard_routes
 
@@ -52,22 +52,43 @@ def generate_italian_cities(number_of_cities):
     # print("\n")
 
 def generate_actual_routes():
+    output = open("data/small2/actual_small.json", "w")
+    output.write("[\n")
     routes = []
     standard_routes = get_standard()
     counter = 0
+    drivers_dict = {}
+    drivers_counters = {}
     for driver in range(drivers):
         #drivers cannot be encoded with single letters, change encoding to D + driver count
         driver_id = str("D" + str(driver))
-        for k in range(random.randint(1, max_actualroutes_per_driver)):
-            # actual_route_id = "a" + str(driver)
-            actual_route_id = "a" + str(counter)
-            print(driver_id)
-            # select a random standard route
-            actual_route = deepcopy(standard_routes[random.randint(0, len(standard_routes) - 1)])
-            modified_actual_route = modify_route(actual_route)
-            routes.append({"id": actual_route_id, "driver" : driver_id , "sroute" : actual_route["id"]  , "route": modified_actual_route["route"]})
-            counter+=1
-    return routes
+        drivers_dict[driver_id] = random.randint(1, max_actualroutes_per_driver)
+        drivers_counters[driver_id] = 0
+    
+    for k in range(sum(drivers_dict.values())):
+        actual_route_id = "a" + str(counter)
+        # pick a random driver
+        driver_id = random.choice(list(drivers_dict.keys()))
+        # check if the driver has already reached the max number of actual routes
+        while drivers_counters[driver_id] >= drivers_dict[driver_id]:
+            driver_id = random.choice(list(drivers_dict.keys()))
+        drivers_counters[driver_id] += 1
+        print(driver_id)
+        # select a random standard route
+        actual_route = deepcopy(standard_routes[random.randint(0, len(standard_routes) - 1)])
+        modified_actual_route = modify_route(actual_route)
+        # routes.append({"id": actual_route_id, "driver" : driver_id , "sroute" : actual_route["id"]  , "route": modified_actual_route["route"]})
+        # print the route in json format without appending to routes
+        json_output = json.dumps({"id": actual_route_id, "driver" : driver_id , "sroute" : actual_route["id"]  , "route": modified_actual_route["route"]}, indent=4)
+        output.write(json_output)
+        if k < sum(drivers_dict.values())-1:
+            output.write(",\n")
+        else:
+            output.write("\n")
+
+        counter+=1
+    output.write("]")
+    # return routes
 
 def modify_route(actual_route):
     # modify the standard route according to the driver preferences
@@ -142,10 +163,11 @@ def modify_route(actual_route):
 
 if __name__ == '__main__':
     cities = generate_italian_cities(number_of_cities)
-    routes = generate_actual_routes()
+    generate_actual_routes()
+    # routes = generate_actual_routes()
 
-    json_output = json.dumps(routes, indent=4)
+    # json_output = json.dumps(routes, indent=4)
 
-    # Print the JSON output
-    output = open("data/small/actual_small.json", "w")
-    output.write(json_output)
+    # # Print the JSON output
+    # output = open("data/small/actual_small.json", "w")
+    # output.write(json_output)

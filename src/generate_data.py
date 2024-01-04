@@ -12,7 +12,7 @@ number_of_cities = int(sys.argv[2])
 max_route_len = int(sys.argv[3])
 
 MIN_MERCH = 1
-MAX_MERCH = 50
+MAX_MERCH = 100
 
 with open("data/merchandise/merchandise_small.json") as merch_file:
     merchandise_global = json.load(merch_file)
@@ -68,5 +68,5 @@ if __name__ == '__main__':
     json_output = json.dumps(routes, indent=4)
 
     # Print the JSON output
-    output = open("data/small/standard_small.json", "w")
+    output = open("data/small2/standard_small.json", "w")
     output.write(json_output)

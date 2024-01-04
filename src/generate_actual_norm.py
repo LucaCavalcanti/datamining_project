@@ -15,8 +15,8 @@ max_actualroutes_per_driver = int(sys.argv[3])
 
 TRIPS_CHANGED_MIN_MEAN = 0
 TRIPS_CHANGED_MAX_MEAN = 100
-TRIPS_CHANGED_MIN_VARIANCE = 0
-TRIPS_CHANGED_MAX_VARIANCE = 30
+TRIPS_CHANGED_MIN_VARIANCE = 20
+TRIPS_CHANGED_MAX_VARIANCE = 50
 
 # the variance is the square of the standard deviation. In a normal distribution, variance = 1000 will lead to:
 """
@@ -27,19 +27,19 @@ TRIPS_CHANGED_MAX_VARIANCE = 30
 MERCH_CHANGED_MIN_VARIANCE = 0
 MERCH_CHANGED_MAX_VARIANCE = 1000
 
-TRIPS_FOR_MERCH_CHANGED_MIN_VARIANCE = 0
+TRIPS_FOR_MERCH_CHANGED_MIN_MEAN     = 0
 TRIPS_FOR_MERCH_CHANGED_MAX_MEAN     = 100
-TRIPS_FOR_MERCH_CHANGED_MIN_VARIANCE = 0
-TRIPS_FOR_MERCH_CHANGED_MAX_VARIANCE = 80
+TRIPS_FOR_MERCH_CHANGED_MIN_VARIANCE = 20
+TRIPS_FOR_MERCH_CHANGED_MAX_VARIANCE = 50
 
 MIN_MERCH = 1
-MAX_MERCH = 50
+MAX_MERCH = 100
 
 
 with open("data/merchandise/merchandise_small.json") as merch_file:
     merchandise = json.load(merch_file)
 
-drivers_data = open("data/small/drivers_data_small.txt", "w")
+drivers_data = open("data/small2/drivers_data_small.txt", "w")
 
 """
 ==================SETUP==================
@@ -58,7 +58,7 @@ def generate_italian_cities():
     return cities
 
 def get_standard():
-    with open("data/small/standard_small.json") as json_file:
+    with open("data/small2/standard_small.json") as json_file:
         standard_routes = json.load(json_file)
     return standard_routes
 
@@ -77,15 +77,17 @@ class Preferences:
     # TODO: save driver preferences in a file to then visualize them later
     def __init__(self):
         # preferenza 1 - vettore di pesi per determinare probabilità di ogni azione di modifica
-        self.changes_probability = np.random.uniform(0, 1, 3)
+        self.changes_probability = np.random.normal(0.5, 0.2, 3)
+        self.changes_probability.clip(0, 1, out=self.changes_probability)
         self.changes_probability = self.changes_probability / np.sum(self.changes_probability)
 
         # preferenza 2 - media e varianza della normale usata per cambiare il numero di trips in una route
-        self.number_of_trips_changed = [random.randint(TRIPS_CHANGED_MIN_VARIANCE, TRIPS_CHANGED_MAX_MEAN), 
+        self.number_of_trips_changed = [random.randint(TRIPS_CHANGED_MIN_MEAN, TRIPS_CHANGED_MAX_MEAN), 
                                         random.randint(TRIPS_CHANGED_MIN_VARIANCE, TRIPS_CHANGED_MAX_VARIANCE)]
 
         # preferenza 3 - vettore di pesi per ogni città
-        self.cities = np.random.uniform(0, 1, number_of_cities)
+        self.cities = np.random.normal(0.5, 0.2, number_of_cities)
+        self.cities.clip(0, 1, out=self.cities)
         self.cities = self.cities / np.sum(self.cities)
 
         # preferenza 4 - gaussiana multivariata per il merchandise
@@ -96,12 +98,13 @@ class Preferences:
         self.merchandise_multivariate = [self.means, covariance_diagonal]
 
         # preferenza 5 - se il driver vuole aggiungere, togliere, modificare o non fare nulla sulla merchandise
-        self.merch_changes_probability = np.random.uniform(0, 1, 4)
+        self.merch_changes_probability = np.random.normal(0.5, 0.2, 4)
         # lower a lot the probability to add merch
         self.merch_changes_probability[0] = self.merch_changes_probability[0] / 10
+        self.merch_changes_probability.clip(0, 1, out=self.merch_changes_probability)
         self.merch_changes_probability = self.merch_changes_probability / np.sum(self.merch_changes_probability)
 
-        self.number_of_trips_changed_for_merch = [random.randint(TRIPS_FOR_MERCH_CHANGED_MIN_VARIANCE, TRIPS_FOR_MERCH_CHANGED_MAX_MEAN), 
+        self.number_of_trips_changed_for_merch = [random.randint(TRIPS_FOR_MERCH_CHANGED_MIN_MEAN, TRIPS_FOR_MERCH_CHANGED_MAX_MEAN), 
                                         random.randint(TRIPS_FOR_MERCH_CHANGED_MIN_VARIANCE, TRIPS_FOR_MERCH_CHANGED_MAX_VARIANCE)]
 
     def get_number_of_trips_to_change(self, route_len):
@@ -109,7 +112,7 @@ class Preferences:
         percentage = np.random.normal(self.number_of_trips_changed[0], self.number_of_trips_changed[1])
         percentage = 0 if percentage < 0 else 100 if percentage > 100 else percentage
         
-        drivers_data.write(f"trips_to_change_percentage_sample: {percentage}\n")
+        # drivers_data.write(f"trips_to_change_percentage_sample: {percentage}\n")
         
         # il numero di trip da modificare equivale a route_len * actual percentage 
         return int(route_len * (percentage/100))
@@ -119,7 +122,7 @@ class Preferences:
         percentage = np.random.normal(self.number_of_trips_changed_for_merch[0], self.number_of_trips_changed_for_merch[1])
         percentage = 0 if percentage < 0 else 100 if percentage > 100 else percentage
         
-        drivers_data.write(f"trips_to_change_merch_percentage_sample: {percentage}\n")
+        # drivers_data.write(f"trips_to_change_merch_percentage_sample: {percentage}\n")
 
         # il numero di trip da modificare equivale a route_len * actual percentage 
         return int(route_len * (percentage/100))
@@ -307,7 +310,12 @@ def modify_merch(actual_route, driver):
 """
 
 def generate_actual_routes():
+    output = open("data/small2/actual_normal_small.json", "w")
+    output.write("[\n")
+
     actual_routes = []
+    drivers_dict = {}
+    drivers_counters = {}
 
     # create drivers with respective preferences and obtain standard routes and cities to use
     drivers_list = create_drivers()
@@ -316,9 +324,13 @@ def generate_actual_routes():
 
     counter = 0
     for driver in range(drivers):
-        print(drivers_list[driver].id)
 
-        drivers_data.write(f"id: {drivers_list[driver].id}\n")
+        driver_id = drivers_list[driver].id
+        print(driver_id)
+        drivers_data.write(f"id: {driver_id}\n")
+
+        drivers_dict[driver_id] = random.randint(1, max_actualroutes_per_driver)
+        drivers_counters[driver_id] = 0
         
         drivers_data.write(
             f"changes_probability: {drivers_list[driver].preferences.changes_probability}\n\
@@ -327,26 +339,40 @@ cities: {np.array2string(drivers_list[driver].preferences.cities, 100000000, sep
 merchandise_multivariate_means: {np.array2string(drivers_list[driver].preferences.means, 100000000, separator=' ')}\n\
 merchandise_multivariate_covariances: {np.array2string(drivers_list[driver].preferences.covariances, 100000000, separator=' ')}\n\
 merch_changes_probability: {drivers_list[driver].preferences.merch_changes_probability}\n\
-number_of_trips_changed_for_merch: {drivers_list[driver].preferences.number_of_trips_changed_for_merch}\n"
+number_of_trips_changed_for_merch: {drivers_list[driver].preferences.number_of_trips_changed_for_merch}\n\
+rotes_to_generate: {drivers_dict[driver_id]}\n"
             )
-
-        for k in range(random.randint(1, max_actualroutes_per_driver)):
-            actual_route_id = "a" + str(counter)
-            # select a random standard route
-            actual_route = deepcopy(standard_routes[random.randint(0, len(standard_routes) - 1)])
-            print("chosen standard route: ", actual_route["id"])
-
-            print("changing merch")
-            modified_actual_route = modify_merch(actual_route["route"], drivers_list[driver])
-            print("changing trips")
-            modified_actual_route = modify_route(modified_actual_route, drivers_list[driver], cities)
-            actual_routes.append({"id": actual_route_id, "driver" : drivers_list[driver].id , "sroute" : actual_route["id"]  , "route": modified_actual_route})
-            counter+=1
-            print("\n")
+        
         print("====================================")
         drivers_data.write("\n---\n\n")
 
-    return actual_routes
+    for k in range(sum(drivers_dict.values())):
+        actual_route_id = "a" + str(counter)
+        # pick a random driver
+        driver_id = random.choice(list(drivers_dict.keys()))
+        # check if the driver has already reached the max number of actual routes
+        while drivers_counters[driver_id] >= drivers_dict[driver_id]:
+            driver_id = random.choice(list(drivers_dict.keys()))
+        drivers_counters[driver_id] += 1
+        driver = int(driver_id[1:])
+        print(driver_id)
+        # select a random standard route
+        actual_route = deepcopy(standard_routes[random.randint(0, len(standard_routes) - 1)])
+        modified_actual_route = modify_merch(actual_route["route"], drivers_list[driver])
+        modified_actual_route = modify_route(modified_actual_route, drivers_list[driver], cities)
+        # actual_routes.append({"id": actual_route_id, "driver" : drivers_list[driver].id , "sroute" : actual_route["id"]  , "route": modified_actual_route})
+        counter+=1
+        # print the route in json format without appending to routes
+        json_output = json.dumps({"id": actual_route_id, "driver" : driver_id , "sroute" : actual_route["id"]  , "route": modified_actual_route}, indent=4)
+        output.write(json_output)
+        if k < sum(drivers_dict.values())-1:
+            output.write(",\n")
+        else:
+            output.write("\n")
+
+    output.write("]")
+
+    # return actual_routes
 
 
 """
@@ -376,9 +402,10 @@ if __name__ == "__main__":
     preferenza driver #6 - trip in cui la merch cambia
     idea - definire se il driver vuole o meno aggiungere/togliere merch in uno specifico trip, visto che certi trip potrebbero non cambiare assolutamente
     """
-    actual_routes = generate_actual_routes()
-    json_output = json.dumps(actual_routes, indent=4)
+    # actual_routes = generate_actual_routes()
+    generate_actual_routes()
+    # json_output = json.dumps(actual_routes, indent=4)
 
-    # Print the JSON output
-    output = open("data/small/actual_normal_small.json", "w")
-    output.write(json_output)
+    # # Print the JSON output
+    # output = open("data/small/actual_normal_small.json", "w")
+    # output.write(json_output)
