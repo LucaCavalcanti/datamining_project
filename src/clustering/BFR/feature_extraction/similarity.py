@@ -43,6 +43,7 @@ def get_cities(number_of_cities: int) -> list:
     return cities
 
 # cities = get_cities(number_of_cities)
+cities = []
 
 def get_standard(standard_id: str):
     '''get the standard routes'''
