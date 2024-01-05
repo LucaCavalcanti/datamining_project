@@ -1,6 +1,7 @@
 import sys
 sys.path.append('feature_extraction')
 from feature_extraction import feature_extraction as fe
+from feature_extraction import similarity as si
 
 import ijson
 import numpy as np
@@ -15,14 +16,15 @@ from copy import deepcopy
 # WARNING: these are placeholder values
 SAMPLE_BUFFER_SIZE = 50                 # ideally, the buffer should be as large as possible, a bit larger than the actual buffer as retainedset/compressedsets are not present in the sampling phase
 BUFFER_SIZE = 10                        # ideally, the buffer should be as large as possible
-MAHALANOBIS_DISTANCE_THRESHOLD = 30
+
+CITY_WEIGHTS = 0.5
+MERCH_WEIGHTS = 0.5
 
 Clusters = []       # the primary clusters
 RetainedSet = []    # the array of routes that did not fit any cluster
 Miniclusters = []   # the clusters created with the RetainedSet
 CompressedSets = [] # the secondary clusters created with the Miniclusters and older CompressedSets
 Buffer = []
-mahalanobis_distances = []
 number_of_clusters = 0
 number_of_compressed_sets = 0
 actual_routes_stream = None
@@ -34,10 +36,8 @@ class Cluster:
         self.index = index
         self.mahalanobis_threshold = 0
 
-        # servono?
-        self.sum = []
-        self.sum_squares = []
         self.routes = []
+        self.original_sroute_id = standard_route["id"]
     
     def __str__(self):
         return f"Cluster: {self.index}\nCentroid: {self.centroid}\nSize: {self.size}"
@@ -48,31 +48,35 @@ class Cluster:
     
     def update_centroid(self):
         # find the new centroid by taking the route with the minimum distance from all the other routes in the cluster
-        self.routes.append(self.centroid)
-        min_distance = sys.maxsize
-        min_route = None
-        city_indexes, cities_res, merch_indexes, merch_res = fe.get_features_total(self.routes)
-        route_counter = 0
-        other_route_counter = 0
-        for route in self.routes:
-            distance = 0
-            for other_route_counter in range(len(self.routes)):
-                distance += custom_distance(cities_res[route_counter], cities_res[other_route_counter], merch_res[route_counter], merch_res[other_route_counter])
-            # TODO: do we need to divide by the number of routes?
-            if distance < min_distance:
-                min_distance = distance
-                min_route = route
-            route_counter += 1
-        self.centroid = min_route
-        self.routes = [] 
-        print("New centroid for cluster", self.index, "is", self.centroid["id"])
+        if len(self.routes) > 2:
+            self.routes.append(self.centroid)
+            min_distance = sys.maxsize
+            min_route = None
+            city_indexes, cities_res, merch_indexes, merch_res = fe.get_features_total(self.routes)
+            route_counter = 0
+            other_route_counter = 0
+            for route in self.routes:
+                distance = 0
+                for other_route_counter in range(len(self.routes)):
+                    # distance += custom_distance(cities_res[route_counter], cities_res[other_route_counter], merch_res[route_counter], merch_res[other_route_counter])
+                    distance += custom_distance(city_indexes, cities_res[route_counter], cities_res[other_route_counter], merch_indexes, merch_res[route_counter], merch_res[other_route_counter])
+                # TODO: do we need to divide by the number of routes?
+                if distance < min_distance:
+                    min_distance = distance
+                    min_route = route
+                route_counter += 1
+            self.centroid = min_route
+            self.routes = [] 
+            #print("New centroid for cluster", self.index, "is", self.centroid["id"])
 
 
 def BFR(standard_routes, actual_routes):
     # INITIALIZATION STEP
     # Set the number of clusters to the number of standard routes, set the cluster centroids to the standard routes
+    print("Initializing BFR")
     init_clusters(standard_routes)
     sample_actual_routes(actual_routes)
+    find_route_and_merch_distance_weights()
     find_mahalanobis_thresholds()
     init_actual_routes_stream(actual_routes)
 
@@ -92,12 +96,12 @@ def BFR(standard_routes, actual_routes):
     #         Merge the Compressed Sets with Hierarchical clustering
     # UNTIL the buffer is empty
     # Merge each Compressed Set to the nearest cluster
-
+    print("Starting BFR")
     keep_filling_buffer()
 
     print("Clusters:")
     for cluster in Clusters:
-        print(cluster)
+        #print(cluster)
         print()
     print("Retained Set:")
     for route in RetainedSet:
@@ -130,7 +134,7 @@ def sample_actual_routes(actual_routes):
     
     # get a sample of actual routes
     sample_indexes = np.random.choice(counter, SAMPLE_BUFFER_SIZE, replace=False)
-    print("Sample indexes:", sample_indexes)
+    #print("Sample indexes:", sample_indexes)
 
     # get the actual routes at the sample indexes
     id_counter = 0
@@ -140,8 +144,43 @@ def sample_actual_routes(actual_routes):
                 Buffer.append(route)
             id_counter += 1
 
+def find_route_and_merch_distance_weights():
+    global CITY_WEIGHTS, MERCH_WEIGHTS
+    
+    merch_cosines = []
+    city_cosines = []
+
+    # by using the Buffer, calculate the distance between each route and the respective centroid (use the actual route's reference standard route to find the centroid)
+    for route in Buffer:
+        for cluster in Clusters:
+            if route["sroute"] == cluster.original_sroute_id:
+                print("Route", route["id"], "with cluster", cluster.index, "has driver", route["driver"])
+                city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch, _, _ = fe.get_features(cluster.centroid, route)
+                merch_cosine, city_cosine = si.similarity(city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch)
+                merch_cosines.append(merch_cosine)
+                city_cosines.append(city_cosine)
+                print("Route", route["id"], "has merch cosine", merch_cosine, "and city cosine", city_cosine, "with cluster", cluster.index)
+                break
+    
+    # calculate averages of merch and city cosine values, these values are between 0 and 1
+    avg_merch_cosine = np.average(merch_cosines)
+    avg_city_cosine = np.average(city_cosines)
+
+    # set weights to be the inverse of the averages and for them to sum to 1
+    CITY_WEIGHTS = avg_merch_cosine / (avg_merch_cosine + avg_city_cosine)
+    MERCH_WEIGHTS = avg_city_cosine / (avg_merch_cosine + avg_city_cosine)
+
+    # invert the weights so that the higher the cosine value, the higher the weight
+    CITY_WEIGHTS = 1 - CITY_WEIGHTS
+    MERCH_WEIGHTS = 1 - MERCH_WEIGHTS
+
+    #print("average merch cosine:", avg_merch_cosine)
+    #print("average city cosine:", avg_city_cosine)
+    print("city weights:", CITY_WEIGHTS)
+    print("merch weights:", MERCH_WEIGHTS)
+        
 def find_mahalanobis_thresholds():
-    global Buffer, mahalanobis_distances
+    global Buffer
     mahalanobis_distances = np.zeros((len(Clusters), len(Buffer)))
 
     # using the sample buffer, calculate the Mahalanobis distance between each route and the centroid of each cluster
@@ -162,7 +201,15 @@ def find_mahalanobis_thresholds():
 
     Buffer.clear()
 
-    
+
+def mahalanobis_distance(route, centroid):
+    city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch, _, _ = fe.get_features(centroid, route)
+    return custom_distance(city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch)
+
+def custom_distance(city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch):
+    # this function should, given the vectorial representation of routes A and B, parse their distance and return its value.
+    merch_cosine, city_cosine = si.similarity(city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch)
+    return CITY_WEIGHTS * (1 - city_cosine) + MERCH_WEIGHTS * (1 - merch_cosine)
 
 # Open actual routes JSON file
 def init_actual_routes_stream(actual_routes):
@@ -213,7 +260,7 @@ def primary_compression_criteria():
         # If closest cluster is under a certain distance threshold:
         if closest_distance < Clusters[closest_cluster].mahalanobis_threshold:
             # add the route to the cluster
-            print("Adding route", route["id"], "to cluster", closest_cluster)
+            print("Adding route", route["id"], "to cluster", closest_cluster, "with distance", closest_distance)
             Clusters[closest_cluster].add(route)
         else:
             # add the route to the retained set
@@ -234,12 +281,10 @@ def find_closest_cluster(route):
     
     return closest_cluster, closest_distance
 
-
-def mahalanobis_distance(route, centroid):
-    # TODO: how do we calculate the distance between a route and a centroid?
-    return 50
-
-# Cluster with K-Means the RetainedSet. We set k to be 30% more than the actual number of clusters in the Clusters[] array (the paper says to do so)
+# Cluster with K-Means the RetainedSet, and then the ComrpessedSets with Hierarchical. 
+# the RetainedSet will be clustered into k clusters, where k is a percentage of the number of clusters
+# the CompressedSets will be clustered into h clusters, where h is a percentage of the number of CompressedSets
+# we want h to be smaller than k but larger than the number of primary clusters.
 def secondary_compression_criteria():
     global RetainedSet, CompressedSets
     # k = int(number_of_clusters * 0.3 + number_of_clusters)
@@ -249,20 +294,21 @@ def secondary_compression_criteria():
     min_number_of_routes_to_cluster = 2*k
     if len(RetainedSet) >= min_number_of_routes_to_cluster:
         # cluster the retained set with K-Means
-        print("Clustering retained set with K-Means")
+        #print("Clustering retained set with K-Means")
         retainedSet_cluster_labels = cluster_retained_set(k)
         # add the new clusters to the set of compressed sets
         add_miniclusters_to_compressed_sets(retainedSet_cluster_labels)
 
     for cluster in CompressedSets:
         cluster.update_centroid()
-
+    
+    h = 5 #TODO: REMOVE THIS PLAECHOLDER
     # min_number_of_routes_to_cluster_compressedsets = 2 * number_of_clusters
-    min_number_of_routes_to_cluster_compressedsets = 5 #TODO: REMOVE THIS PLAECHOLDER
+    min_number_of_routes_to_cluster_compressedsets = h 
 
     if number_of_compressed_sets >= min_number_of_routes_to_cluster_compressedsets:
         # cluster the compressed sets with Hierarchical clustering
-        print("Clustering compressed sets with Hierarchical clustering")
+        #print("Clustering compressed sets with Hierarchical clustering")
 
         # cluster_compressed_sets(number_of_clusters)
         cluster_compressed_sets(5) #TODO: REMOVE THIS PLAECHOLDER
@@ -277,7 +323,7 @@ def cluster_retained_set(k):
     for i in range(len(RetainedSet)):
         # pick all routes from the next one to the end
         for j in range(i + 1, len(RetainedSet)):
-            distance_matrix[i][j] = custom_distance(cities_res[i], cities_res[j], merch_res[i], merch_res[j])
+            distance_matrix[i][j] = custom_distance(city_indexes, cities_res[i], cities_res[j], merch_indexes, merch_res[i], merch_res[j])
     # make the distance matrix symmetric
     distance_matrix = distance_matrix + distance_matrix.T
 
@@ -287,13 +333,9 @@ def cluster_retained_set(k):
 
     # Get cluster labels -> [0, 1, 1, 0] means route 0 has cluster index 0, route 1 has cluster index 1, etc.
     labels = kmeans.labels_
-    print("Cluster labels:", labels)
+    #print("Cluster labels:", labels)
 
     return labels
-
-def custom_distance(cities_A, cities_B, merch_A, merch_B):
-    # this function should, given the vectorial representation of routes A and B, parse their distance and return its value.
-    return 1
 
 def add_miniclusters_to_compressed_sets(labels):
     global RetainedSet, CompressedSets, number_of_compressed_sets
@@ -320,10 +362,10 @@ def add_miniclusters_to_compressed_sets(labels):
                 indexes[labels[i]] = number_of_compressed_sets
                 CompressedSets.append(Cluster(RetainedSet[i], number_of_compressed_sets))
                 number_of_compressed_sets += 1
-            print("Adding route", RetainedSet[i]["id"], "to compressed set", indexes[labels[i]])
+            #print("Adding route", RetainedSet[i]["id"], "to compressed set", indexes[labels[i]])
         else:
             new_retainedSet.append(RetainedSet[i])
-            print("Adding route", RetainedSet[i]["id"], "to new retained set")
+            #print("Adding route", RetainedSet[i]["id"], "to new retained set")
     
     RetainedSet = new_retainedSet
             
@@ -339,7 +381,7 @@ def cluster_compressed_sets(k):
     for i in range(len(CompressedSets)):
         # pick all routes from the next one to the end
         for j in range(i + 1, len(CompressedSets)):
-            distance_matrix[i][j] = custom_distance(cities_res[i], cities_res[j], merch_res[i], merch_res[j])
+            distance_matrix[i][j] = custom_distance(city_indexes, cities_res[i], cities_res[j], merch_indexes, merch_res[i], merch_res[j])
     # make the distance matrix symmetric
     distance_matrix = distance_matrix + distance_matrix.T
 
@@ -367,10 +409,10 @@ def update_CompressedSets(labels):
             new_compressedSets.append(Cluster(CompressedSets[i].centroid, new_number_of_compressed_sets))
             new_compressedSets[indexes[labels[i]]].size += CompressedSets[i].size - 1
             new_number_of_compressed_sets += 1
-        print("Adding old cluster centroid", CompressedSets[i].centroid["id"], "to compressed set", indexes[labels[i]])
+        #print("Adding old cluster centroid", CompressedSets[i].centroid["id"], "to compressed set", indexes[labels[i]])
     
     number_of_compressed_sets = new_number_of_compressed_sets
     CompressedSets = new_compressedSets
 
 if __name__ == "__main__":
-    BFR("data/small/standard_small.json", "data/small/actual_normal_small.json")
+    BFR("data/small2/standard_small.json", "data/small2/actual_normal_small.json")

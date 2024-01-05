@@ -21,9 +21,11 @@ import json
 import sys
 import numpy as np
 from numpy.linalg import norm
-from feature_extraction import get_features
+import sys
+sys.path.append('../feature_extraction')
+from feature_extraction import feature_extraction as fe
 
-number_of_cities = int(sys.argv[1])
+# number_of_cities = int(sys.argv[1])
 
 with open("data/merchandise/merchandise_small.json") as merch_file:
     merchandise_global = json.load(merch_file)
@@ -40,7 +42,7 @@ def get_cities(number_of_cities: int) -> list:
         counter += 1
     return cities
 
-cities = get_cities(number_of_cities)
+# cities = get_cities(number_of_cities)
 
 def get_standard(standard_id: str):
     '''get the standard routes'''
@@ -102,7 +104,7 @@ def cosine_similarity(standard_route, actual_route):
     cosine = np.dot(A, B)/ (norm(A) * norm(B))
     return cosine
 
-def similarity(standard_route, actual_route):
+def similarity(city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch):
     '''
     input:
         - standard_route: standard route
@@ -116,7 +118,7 @@ def similarity(standard_route, actual_route):
         - if a city is present only in the standard route than we multiply for a certain weight the error
         - if a city is present only in the actual route than we multiply for another weight the error
     '''
-    city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch, _, _ = get_features(standard_route, actual_route)
+    # city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch, _, _ = fe.get_features(standard_route, actual_route)
     
     A = np.array(standard_cities)
     B = np.array(actual_cities)
@@ -145,7 +147,7 @@ def similarity(standard_route, actual_route):
             cosine = cosine * 0.5
         cosines.append(cosine)
     cosine_mean = sum(cosines) / len(cosines)
-    print(cosine_mean)
+    # print(cosine_mean)
     return cosine_mean, route_cosine
 
 def search_city_vector (route: list, merch_index: list, city: str):
