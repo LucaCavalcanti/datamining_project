@@ -22,6 +22,7 @@
         "phone",
         "car",
         "train",
+        "airplane",
         "sweater",
         "egg",
         "carrot",
@@ -45,5 +46,7 @@
         "pot",
         "pan",
         "wine",
-        "grappa"
+        "grappa",
+        "vodka",
+        "tequila"
 ]
