@@ -49,6 +49,7 @@ class Cluster:
     def update_centroid(self):
         # find the new centroid by taking the route with the minimum distance from all the other routes in the cluster
         if len(self.routes) > 2:
+            print("Updating centroid for cluster", self.index)
             self.routes.append(self.centroid)
             min_distance = sys.maxsize
             min_route = None
@@ -58,6 +59,9 @@ class Cluster:
             for route in self.routes:
                 distance = 0
                 for other_route_counter in range(len(self.routes)):
+                    print("Checking route", route["id"], "with route", self.routes[other_route_counter]["id"])
+                    if route_counter == other_route_counter:
+                        continue
                     # distance += custom_distance(cities_res[route_counter], cities_res[other_route_counter], merch_res[route_counter], merch_res[other_route_counter])
                     distance += custom_distance(city_indexes, cities_res[route_counter], cities_res[other_route_counter], merch_indexes, merch_res[route_counter], merch_res[other_route_counter])
                 # TODO: do we need to divide by the number of routes?
@@ -154,12 +158,12 @@ def find_route_and_merch_distance_weights():
     for route in Buffer:
         for cluster in Clusters:
             if route["sroute"] == cluster.original_sroute_id:
-                print("Route", route["id"], "with cluster", cluster.index, "has driver", route["driver"])
+                # print("Route", route["id"], "with cluster", cluster.index, "has driver", route["driver"])
                 city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch, _, _ = fe.get_features(cluster.centroid, route)
                 merch_cosine, city_cosine = si.similarity(city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch)
                 merch_cosines.append(merch_cosine)
                 city_cosines.append(city_cosine)
-                print("Route", route["id"], "has merch cosine", merch_cosine, "and city cosine", city_cosine, "with cluster", cluster.index)
+                # print("Route", route["id"], "has merch cosine", merch_cosine, "and city cosine", city_cosine, "with cluster", cluster.index)
                 break
     
     # calculate averages of merch and city cosine values, these values are between 0 and 1
@@ -228,6 +232,7 @@ def keep_filling_buffer():
             if len(Buffer) == BUFFER_SIZE:
 
                 # Buffer has been read completely, use it
+                print("Buffer is full")
                 stream_buffer()
                 Buffer.clear()
         
@@ -254,7 +259,6 @@ def stream_buffer():
 def primary_compression_criteria():
     global Buffer, Clusters, RetainedSet
     for route in Buffer:
-        
         # Find closest cluster to route by passing all of them 
         closest_cluster, closest_distance = find_closest_cluster(route)    
         # If closest cluster is under a certain distance threshold:
@@ -274,6 +278,7 @@ def find_closest_cluster(route):
     closest_cluster = None
     closest_distance = sys.maxsize
     for cluster in Clusters:
+        # print("Checking route", route["id"] , "with cluster", cluster.index)
         distance = mahalanobis_distance(route, cluster.centroid)
         if distance < closest_distance:
             closest_cluster = cluster.index

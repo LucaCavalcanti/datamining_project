@@ -301,7 +301,7 @@ def get_features_total(routes):
         len_routeA = 0
         for entry in routeA["route"]:
             cities["cities"].append(entry["to"])
-            merch_dict = {"city": entry["to"]}
+            merch_dict = {"cities": entry["to"]}
             for merch_entry in entry["merchandise"]:
                 merch_dict[merch_entry] = entry["merchandise"][merch_entry]
             merch.append(merch_dict)
