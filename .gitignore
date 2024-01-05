@@ -5,3 +5,4 @@
 /data/big2/*
 
 !/data/big/.gitkeep
+!/data/big2/.gitkeep
