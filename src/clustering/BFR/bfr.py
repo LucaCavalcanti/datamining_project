@@ -7,19 +7,21 @@ import ijson
 import numpy as np
 
 from sklearn.cluster import KMeans
-from sklearn.metrics import pairwise_distances
-
 from sklearn.cluster import AgglomerativeClustering
+from sklearn.exceptions import ConvergenceWarning
 
-from copy import deepcopy
 from time import time
+import concurrent.futures
+import os
 
 # WARNING: these are placeholder values
-SAMPLE_BUFFER_SIZE = 500                 # ideally, the buffer should be as large as possible, a bit larger than the actual buffer as retainedset/compressedsets are not present in the sampling phase
+SAMPLE_BUFFER_SIZE = 1000                 # ideally, the buffer should be as large as possible, a bit larger than the actual buffer as retainedset/compressedsets are not present in the sampling phase
 BUFFER_SIZE = 200                        # ideally, the buffer should be as large as possible
 
 CITY_WEIGHTS = 0.5
 MERCH_WEIGHTS = 0.5
+
+max_threads = min(32, (os.cpu_count() or 1) + 4)
 
 Clusters = []       # the primary clusters
 RetainedSet = []    # the array of routes that did not fit any cluster
@@ -67,34 +69,59 @@ class Cluster:
         # find the new centroid by taking the route with the minimum distance from all the other routes in the cluster
         if len(self.routes) > 2:
             time_temp = time()
-            print(get_elapsed_time(), ":     Updating centroid for cluster", self.index)
+            print(get_elapsed_time(), ":     Updating centroid for cluster", self.index, "with size", self.size)
             self.routes.append(self.centroid)
             min_distance = sys.maxsize
             min_route = None
             city_indexes, cities_res, merch_indexes, merch_res = fe.get_features_total(self.routes)
             route_counter = 0
-            other_route_counter = 0
             for route in self.routes:
+                # print(get_elapsed_time(), ":        -----")
                 distance = 0
-                for other_route_counter in range(len(self.routes)):
-                    # print("Checking route", route["id"], "with route", self.routes[other_route_counter]["id"])
-                    if route_counter == other_route_counter:
-                        continue
-                    # distance += custom_distance(cities_res[route_counter], cities_res[other_route_counter], merch_res[route_counter], merch_res[other_route_counter])
-                    if self.routes[other_route_counter]["id"] == self.centroid["id"]:
-                        # when calculating the distance between the route and the centroid, we want to give it a higher weight
-                        weight = np.log(self.size_before_centroid_update)
-                        if weight == 0:
-                            weight = 1
-                        distance_temp = weight * custom_distance(city_indexes, cities_res[route_counter], cities_res[other_route_counter], merch_indexes, merch_res[route_counter], merch_res[other_route_counter])
-                        distance += distance_temp
-                    else:
-                        distance += custom_distance(city_indexes, cities_res[route_counter], cities_res[other_route_counter], merch_indexes, merch_res[route_counter], merch_res[other_route_counter])
-                # TODO: do we need to divide by the number of routes?
-                if distance < min_distance:
-                    min_distance = distance
+
+                distances = []
+                def compute_distances(thread_routes, distances, route_counter):
+                    # print(get_elapsed_time(), ":        Calculating distances for new centroids with threads. Thread size:", len(thread_routes))
+                    for other_route_counter in range(len(thread_routes)):
+                        if route_counter == other_route_counter:
+                            continue
+                        if thread_routes[other_route_counter]["id"] == self.centroid["id"]:
+                            # when calculating the distance between the route and the centroid, we want to give it a higher weight
+                            weight = np.log(self.size_before_centroid_update)
+                            if weight == 0:
+                                weight = 1
+                            distance_temp = weight * custom_distance(city_indexes, cities_res[route_counter], cities_res[other_route_counter], merch_indexes, merch_res[route_counter], merch_res[other_route_counter])
+                            distances.append(distance_temp)
+                        else:
+                            distances.append(custom_distance(city_indexes, cities_res[route_counter], cities_res[other_route_counter], merch_indexes, merch_res[route_counter], merch_res[other_route_counter]))
+                    
+
+                with concurrent.futures.ThreadPoolExecutor(max_workers=max_threads) as executor:
+                    # Split the routes list into chunks for each thread
+                    chunks = [self.routes[i:i + 5] for i in range(0, len(self.routes), 5)]
+                    futures = {executor.submit(compute_distances, chunk, distances, route_counter): chunk for chunk in chunks}
+
+                # for other_route_counter in range(len(self.routes)):
+                #     # print("Checking route", route["id"], "with route", self.routes[other_route_counter]["id"])
+                #     if route_counter == other_route_counter:
+                #         continue
+                #     # distance += custom_distance(cities_res[route_counter], cities_res[other_route_counter], merch_res[route_counter], merch_res[other_route_counter])
+                #     if self.routes[other_route_counter]["id"] == self.centroid["id"]:
+                #         # when calculating the distance between the route and the centroid, we want to give it a higher weight
+                #         weight = np.log(self.size_before_centroid_update)
+                #         if weight == 0:
+                #             weight = 1
+                #         distance_temp = weight * custom_distance(city_indexes, cities_res[route_counter], cities_res[other_route_counter], merch_indexes, merch_res[route_counter], merch_res[other_route_counter])
+                #         distance += distance_temp
+                #     else:
+                #         distance += custom_distance(city_indexes, cities_res[route_counter], cities_res[other_route_counter], merch_indexes, merch_res[route_counter], merch_res[other_route_counter])
+                
+                if sum(distances) < min_distance:
+                    min_distance = sum(distances)
                     min_route = route
                 route_counter += 1
+
+
             self.centroid = min_route
             self.routes = [] 
             self.size_before_centroid_update = self.size
@@ -258,9 +285,9 @@ def find_mahalanobis_thresholds():
     
     for cluster in Clusters:
         cluster_distances = mahalanobis_distances[cluster.index]
-        cluster_distances = cluster_distances[cluster_distances != 0]
+        # cluster_distances = cluster_distances[cluster_distances != 0]
         cluster.mahalanobis_threshold = max(0.6, np.average(cluster_distances))
-        print(get_elapsed_time(), ":     Mahalanobis threshold for cluster", cluster.index, "is", cluster.mahalanobis_threshold)
+        print(get_elapsed_time(), ":     Mahalanobis threshold for cluster", cluster.index, "is", cluster.mahalanobis_threshold, ", average was", np.average(cluster_distances))
 
     Buffer.clear()
 
@@ -297,13 +324,13 @@ def keep_filling_buffer():
             if len(Buffer) == BUFFER_SIZE:
 
                 # Buffer has been read completely, use it
-                print("     ", time_temp, ": Buffer is full")
+                print(get_elapsed_time(), ":     Buffer is full")
                 stream_buffer()
                 Buffer.clear()
         
         if len(Buffer) != 0:
             # Buffer is not empty, use it
-            print("     ", time_temp, ": Last cycle, Buffer isn't empty, using it")
+            print(get_elapsed_time(), ":     Last cycle, Buffer isn't empty, using it")
             stream_buffer()
             Buffer.clear()
 
@@ -330,6 +357,7 @@ def stream_buffer():
     time_temp4 = time()
     secondary_compression_criteria_times.append(time_temp4 - time_temp3)
 
+    print(get_elapsed_time(), ":     Updating primary clusters centroids")
     for cluster in Clusters:
         cluster.update_centroid()
 
@@ -374,7 +402,6 @@ def find_closest_cluster(route):
 def secondary_compression_criteria():
     global RetainedSet, CompressedSets
     k = int(number_of_clusters * 0.5 + number_of_clusters)
-    # k = 50 #TODO: REMOVE THIS PLAECHOLDER
 
 
     # idea: we need at least two routes per cluster to have some kind of results
@@ -387,14 +414,17 @@ def secondary_compression_criteria():
         time_temp2 = time()
         cluster_retained_set_times.append(time_temp2 - time_temp)
 
-        # add the new clusters to the set of compressed sets
-        time_temp3 = time()
-        add_miniclusters_to_compressed_sets(retainedSet_cluster_labels)
-        time_temp4 = time()
-        add_miniclusters_to_compressed_sets_times.append(time_temp4 - time_temp3)
+        if len(retainedSet_cluster_labels) != 0:
+            # add the new clusters to the set of compressed sets
+            time_temp3 = time()
+            add_miniclusters_to_compressed_sets(retainedSet_cluster_labels)
+            time_temp4 = time()
+            add_miniclusters_to_compressed_sets_times.append(time_temp4 - time_temp3)
 
-    for cluster in CompressedSets:
-        cluster.update_centroid()
+            print(get_elapsed_time(), ":         Updating centroids of compressed sets")
+            for cluster in CompressedSets:
+                cluster.update_centroid()
+            print(get_elapsed_time(), ":         -----")
     
     # h = 2 * number_of_clusters
     h = k
@@ -410,36 +440,54 @@ def secondary_compression_criteria():
         time_temp2 = time()
         cluster_compressed_sets_times.append(time_temp2 - time_temp)
 
-    for cluster in CompressedSets:
-        # TODO: centroid update here is different as we have other centroids in the routes[] array. We have to weight the distance between the routes and the centroid
-        cluster.update_centroid()
+        print(get_elapsed_time(), ":         Updating centroids of compressed sets")
+        for cluster in CompressedSets:
+            # TODO: centroid update here is different as we have other centroids in the routes[] array. We have to weight the distance between the routes and the centroid
+            cluster.update_centroid()
+        print(get_elapsed_time(), ":         -----")
     
 def cluster_retained_set(k):
     global RetainedSet, CompressedSets
+
     distance_matrix = np.zeros((len(RetainedSet), len(RetainedSet)))
     city_indexes, cities_res, merch_indexes, merch_res = fe.get_features_total(RetainedSet)
-    print(get_elapsed_time(), ":             Calculating distance matrix. RetainedSet size:", len(RetainedSet))
-    for i in range(len(RetainedSet)):
-        # pick all routes from the next one to the end
+
+    print(get_elapsed_time(), ":             Calculating distance matrix with multithreading. RetainedSet size:", len(RetainedSet))
+    # for i in range(len(RetainedSet)):
+    #     # pick all routes from the next one to the end
+    #     for j in range(i + 1, len(RetainedSet)):
+    #         distance_matrix[i][j] = custom_distance(city_indexes, cities_res[i], cities_res[j], merch_indexes, merch_res[i], merch_res[j])
+
+    # calculate the distance matrix in multiple threads
+    def compute_distances(i, distances):
+        # print(get_elapsed_time(), ":             Calculating distance matrix. Thread size:", len(thread_routes))
         for j in range(i + 1, len(RetainedSet)):
-            distance_matrix[i][j] = custom_distance(city_indexes, cities_res[i], cities_res[j], merch_indexes, merch_res[i], merch_res[j])
+            distances[i][j] = distances[j][i] = custom_distance(city_indexes, cities_res[i], cities_res[j], merch_indexes, merch_res[i], merch_res[j])
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=max_threads) as executor:
+        # Give one route to each thread
+        futures = {executor.submit(compute_distances, i, distance_matrix): i for i in range(len(RetainedSet))}
+    
     # make the distance matrix symmetric
-    distance_matrix = distance_matrix + distance_matrix.T
+    # distance_matrix = distance_matrix + distance_matrix.T
 
     print(get_elapsed_time(), ":             Calling K-Means")
-    # Perform K-Means clustering with the custom distance metric
-    kmeans = KMeans(n_clusters=k, init='k-means++', algorithm='lloyd', n_init=10)
-    kmeans.fit(distance_matrix)
+    try:
+        # Perform K-Means clustering with the custom distance metric
+        kmeans = KMeans(n_clusters=k, init='k-means++', algorithm='lloyd', n_init=10)
+        kmeans.fit(distance_matrix)
 
-    # Get cluster labels -> [0, 1, 1, 0] means route 0 has cluster index 0, route 1 has cluster index 1, etc.
-    labels = kmeans.labels_
-    #print("Cluster labels:", labels)
+        # Get cluster labels -> [0, 1, 1, 0] means route 0 has cluster index 0, route 1 has cluster index 1, etc.
+        labels = kmeans.labels_
+        #print("Cluster labels:", labels)
 
-    return labels
+        return labels
+    except ConvergenceWarning:
+        print("ConvergenceWarning")
+        return []
 
 def add_miniclusters_to_compressed_sets(labels):
     global RetainedSet, CompressedSets, number_of_compressed_sets
-
     # Count how many routes are in each cluster
     clusters_count = {}
     labels_len = len(labels)
@@ -477,14 +525,25 @@ def cluster_compressed_sets(k):
     for cluster in CompressedSets:
         compressedSets_centroids.append(cluster.centroid)
 
-    print(get_elapsed_time(), ":             Calculating distance matrix. CompressedSets size:", len(CompressedSets))
+    print(get_elapsed_time(), ":             Calculating distance matrix with multithreading. CompressedSets size:", len(CompressedSets))
     city_indexes, cities_res, merch_indexes, merch_res = fe.get_features_total(compressedSets_centroids)
-    for i in range(len(CompressedSets)):
-        # pick all routes from the next one to the end
+    # for i in range(len(CompressedSets)):
+    #     # pick all routes from the next one to the end
+    #     for j in range(i + 1, len(CompressedSets)):
+    #         distance_matrix[i][j] = custom_distance(city_indexes, cities_res[i], cities_res[j], merch_indexes, merch_res[i], merch_res[j])
+
+    # calculate the distance matrix in multiple threads
+    def compute_distances(i, distances):
+        # print(get_elapsed_time(), ":             Calculating distance matrix. Thread size:", len(thread_routes))
         for j in range(i + 1, len(CompressedSets)):
-            distance_matrix[i][j] = custom_distance(city_indexes, cities_res[i], cities_res[j], merch_indexes, merch_res[i], merch_res[j])
+            distances[i][j] = distances[j][i] = custom_distance(city_indexes, cities_res[i], cities_res[j], merch_indexes, merch_res[i], merch_res[j])
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=max_threads) as executor:
+        # Give one route to each thread
+        futures = {executor.submit(compute_distances, i, distance_matrix): i for i in range(len(CompressedSets))}
+
     # make the distance matrix symmetric
-    distance_matrix = distance_matrix + distance_matrix.T
+    # distance_matrix = distance_matrix + distance_matrix.T
 
     print(get_elapsed_time(), ":             Calling Hierarchical clustering")
     # Perform hierarchical clustering
@@ -521,4 +580,4 @@ def update_CompressedSets(labels):
     CompressedSets = new_compressedSets
 
 if __name__ == "__main__":
-    BFR("data/small2/standard_small.json", "data/small2/actual_normal_small.json")
+    BFR("data/small2/standard_small.json", "data/small2/actual_small.json")
