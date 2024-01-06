@@ -108,6 +108,19 @@ def get_elapsed_time():
     # return with two decimals precision
     return round(time_now - time_start, 2)
 
+def print_average_times():
+    # average over the times
+    print("Average mahalanobis distance time:", np.average(mahalanobis_distances_times))
+    print("Average custom distance time:", np.average(custom_distances_times))
+    print("Average centroid update time:", np.average(centroid_update_times))
+    print("Average primary compression criteria time:", np.average(primary_compression_criteria_times))
+    print("Average secondary compression criteria time:", np.average(secondary_compression_criteria_times))
+    print("Average stream buffer time:", np.average(stream_buffer_times))
+    print("Average cluster retained set time:", np.average(cluster_retained_set_times))
+    print("Average add miniclusters to compressed sets time:", np.average(add_miniclusters_to_compressed_sets_times))
+    print("Average cluster compressed sets time:", np.average(cluster_compressed_sets_times))
+    print("Average update compressed sets time:", np.average(update_CompressedSets_times))
+
 def BFR(standard_routes, actual_routes):
     global time_start
     # INITIALIZATION STEP
@@ -160,6 +173,7 @@ def BFR(standard_routes, actual_routes):
         print(compressedset)
         print()
     # do something with the final results
+    print_average_times()
 
 # Set initial cluster centroids to the standard routes
 def init_clusters(standard_routes):
