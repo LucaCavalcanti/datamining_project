@@ -1,7 +1,7 @@
 import sys
-sys.path.append('feature_extraction')
-from feature_extraction import feature_extraction as fe
-from feature_extraction import similarity as si
+sys.path.append('src/clustering/BFR/feature_extraction')
+from feature_extraction import get_features, get_features_total
+from similarity import similarity
 
 import ijson
 import numpy as np
@@ -73,7 +73,7 @@ class Cluster:
             self.routes.append(self.centroid)
             min_distance = sys.maxsize
             min_route = None
-            city_indexes, cities_res, merch_indexes, merch_res = fe.get_features_total(self.routes)
+            city_indexes, cities_res, merch_indexes, merch_res = get_features_total(self.routes)
             route_counter = 0
             for route in self.routes:
                 # print(get_elapsed_time(), ":        -----")
@@ -244,8 +244,8 @@ def find_route_and_merch_distance_weights():
         for cluster in Clusters:
             if route["sroute"] == cluster.original_sroute_id:
                 # print("Route", route["id"], "with cluster", cluster.index, "has driver", route["driver"])
-                city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch, _, _ = fe.get_features(cluster.centroid, route)
-                merch_cosine, city_cosine = si.similarity(city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch)
+                city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch, _, _ = get_features(cluster.centroid, route)
+                merch_cosine, city_cosine = similarity(city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch)
                 merch_cosines.append(merch_cosine)
                 city_cosines.append(city_cosine)
                 # print("Route", route["id"], "has merch cosine", merch_cosine, "and city cosine", city_cosine, "with cluster", cluster.index)
@@ -294,7 +294,7 @@ def find_mahalanobis_thresholds():
 
 def mahalanobis_distance(route, centroid):
     time_temp = time()
-    city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch, _, _ = fe.get_features(centroid, route)
+    city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch, _, _ = get_features(centroid, route)
     time_temp2 = time()
     mahalanobis_distances_times.append(time_temp2 - time_temp)
     return custom_distance(city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch)
@@ -302,7 +302,7 @@ def mahalanobis_distance(route, centroid):
 def custom_distance(city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch):
     # this function should, given the vectorial representation of routes A and B, parse their distance and return its value.
     time_temp = time()
-    merch_cosine, city_cosine = si.similarity(city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch)
+    merch_cosine, city_cosine = similarity(city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch)
     time_temp2 = time()
     custom_distances_times.append(time_temp2 - time_temp)
     return CITY_WEIGHTS * (1 - city_cosine) + MERCH_WEIGHTS * (1 - merch_cosine)
@@ -450,7 +450,7 @@ def cluster_retained_set(k):
     global RetainedSet, CompressedSets
 
     distance_matrix = np.zeros((len(RetainedSet), len(RetainedSet)))
-    city_indexes, cities_res, merch_indexes, merch_res = fe.get_features_total(RetainedSet)
+    city_indexes, cities_res, merch_indexes, merch_res = get_features_total(RetainedSet)
 
     print(get_elapsed_time(), ":             Calculating distance matrix with multithreading. RetainedSet size:", len(RetainedSet))
     # for i in range(len(RetainedSet)):
@@ -526,7 +526,7 @@ def cluster_compressed_sets(k):
         compressedSets_centroids.append(cluster.centroid)
 
     print(get_elapsed_time(), ":             Calculating distance matrix with multithreading. CompressedSets size:", len(CompressedSets))
-    city_indexes, cities_res, merch_indexes, merch_res = fe.get_features_total(compressedSets_centroids)
+    city_indexes, cities_res, merch_indexes, merch_res = get_features_total(compressedSets_centroids)
     # for i in range(len(CompressedSets)):
     #     # pick all routes from the next one to the end
     #     for j in range(i + 1, len(CompressedSets)):
@@ -580,4 +580,4 @@ def update_CompressedSets(labels):
     CompressedSets = new_compressedSets
 
 if __name__ == "__main__":
-    BFR("data/small2/standard_small.json", "data/small2/actual_small.json")
+    BFR("data/small2/standard_small.json", "data/small2/actual_normal_small.json")

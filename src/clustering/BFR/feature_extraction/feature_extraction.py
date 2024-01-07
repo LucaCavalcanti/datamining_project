@@ -241,7 +241,7 @@ def get_features(routeA, routeB):
         merch_A: list[int] of merch for each city in route A
         merch_B: list[int] of merch for each city in route B
     '''
-    start = time()
+    # start = time()
     cities = {"cities": []}
     cities = {"city": []}
     merchA = []
@@ -268,7 +268,7 @@ def get_features(routeA, routeB):
             merch_dict[merch_entry] = entry["merchandise"][merch_entry]
         merchB.append(merch_dict)
 
-    partial = time()
+    # partial = time()
     # print("Partial time: ", partial - start)
 
     res = vec.fit_transform([cities, cities2]).toarray()
@@ -281,13 +281,13 @@ def get_features(routeA, routeB):
     merch_B = res[len_routeA:]
     merch_indexes = vec.get_feature_names_out()
 
-    end = time()
+    # end = time()
     # print("Total time: ", end - start)
 
-    return city_indexes, cities_A, cities_B, merch_indexes, merch_A, merch_B, partial - start, end - partial
+    return city_indexes, cities_A, cities_B, merch_indexes, merch_A, merch_B
 
 def get_features_total(routes):
-    start = time()
+    # start = time()
     cities_total = []
     merch_total = []
     len_total = []
@@ -311,7 +311,7 @@ def get_features_total(routes):
         merch_total += merch
         len_total.append(len_routeA)
 
-    partial = time()
+    # partial = time()
     # print("Partial time: ", partial - start)
 
     cities_res = vec.fit_transform(cities_total).toarray()
@@ -325,7 +325,7 @@ def get_features_total(routes):
         merch_res.append(merch_transform[:len])
         merch_transform = merch_transform[len:]
 
-    end = time()
+    # end = time()
     # print("Total time: ", end - start)
 
     return city_indexes, cities_res, merch_indexes, merch_res
