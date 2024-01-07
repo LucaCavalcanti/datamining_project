@@ -17,92 +17,11 @@ p1p2 = 2 (two 1s in common) |p1| = |p2| = sqrt(3) (three 1s in the vector)
 cos a = 2/3     a = 48 degree
 '''
 
-import json
-import sys
 import numpy as np
 from numpy.linalg import norm
 from feature_extraction import get_features
 
-number_of_cities = int(sys.argv[1])
-
-with open("data/merchandise/merchandise_small.json") as merch_file:
-    merchandise_global = json.load(merch_file)
-
-def get_cities(number_of_cities: int) -> list:
-    cities_file = open("data/cities/italian_cities.csv", "r")
-    cities = []
-    cities_file.readline()
-    counter = 0
-    for cities_file_line in cities_file.readlines():
-        if counter == number_of_cities:
-            break
-        cities.append(cities_file_line.split(";")[5].replace('"',''))
-        counter += 1
-    return cities
-
-cities = get_cities(number_of_cities)
-
-def get_standard(standard_id: str):
-    '''get the standard routes'''
-    with open("data/standard3.json") as json_file:
-        standard_routes = json.load(json_file)
-    for route in standard_routes:
-        if route["id"] == standard_id:
-            return route
-    return []
-
-def get_actual():
-    '''get the actual routes'''
-    with open("data/actual_preference.json") as json_file:
-        actual_routes = json.load(json_file)
-    return actual_routes
-
-'''
-get actual
-get standard related to the actual
-convert the actual into a vector
-convert the standard into a vector
-'''
-
-def create_vector_cities(route: list) -> set:
-    cities_route: set = set()
-    for trip in route:
-        cities_route.add(trip['from'])
-        cities_route.add(trip['to'])
-    return cities_route
-
-def create_vector_merch(route: list) -> dict:
-    merch_route: dict = dict()
-    for trip in route:
-        merch_route[trip['to']] = trip['merchandise']
-    return merch_route
-
-def create_similarity_vector(route: dict) -> list:
-    if isinstance(route, dict):
-        route_vector: set = create_vector_cities(route['route'])
-        similarity_vector: list = []
-        for city in cities:
-            similarity_vector.append(1) if city in route_vector else similarity_vector.append(0)
-        return similarity_vector
-    else:
-        return []
-    
-def cosine_similarity(standard_route, actual_route):
-    '''
-    input:
-        routeA : dict
-        routeB : dict
-    output:
-        cosine : the cosine similarity between route A and route B
-    '''
-    standard_similarity_vector = create_similarity_vector(standard_route)
-    actual_similarity_vector = create_similarity_vector(actual_route)
-    A = np.array(standard_similarity_vector)
-    B = np.array(actual_similarity_vector)
-    cosine = np.dot(A, B)/ (norm(A) * norm(B))
-    return cosine
-
-def similarity(standard_route, actual_route):
+def calculate_similarity(standard_route, actual_route):
     '''
     input:
         - standard_route: standard route
@@ -124,11 +43,11 @@ def similarity(standard_route, actual_route):
     
     cosines = list()
     for index in range(len(standard_cities)):
-        if standard_cities[index] == 1:
+        if standard_cities[index] > 0:
             standard = search_city_vector(standard_merch, merch_indexes, city_indexes[index])
             # if the list is empty then the city is the starting point of the route
             if len(standard) == 0: continue
-        if actual_cities[index] == 1:
+        if actual_cities[index] > 0:
             actual = search_city_vector(actual_merch, merch_indexes, city_indexes[index])
             # if the list is empty then the city is the starting point of the route
             if len(actual) == 0: continue
@@ -145,7 +64,6 @@ def similarity(standard_route, actual_route):
             cosine = cosine * 0.5
         cosines.append(cosine)
     cosine_mean = sum(cosines) / len(cosines)
-    print(cosine_mean)
     return cosine_mean, route_cosine
 
 def search_city_vector (route: list, merch_index: list, city: str):
@@ -196,9 +114,10 @@ if __name__ == "__main__":
         A = np.array(actual_similarity)
         B = np.array(standard_similarity)
         cosine = np.dot(A, B)/ (norm(A)*norm(B))
-        print(route['id'], route['sroute'], cosine) """
+        print(route['id'], route['sroute'], cosine)
     actual_routes = get_actual()
     actual_route = actual_routes[0]
     actual_route_2 = actual_routes[1]
     standard_route = get_standard(actual_route['sroute'])
-    merch_sim, city_sim = similarity(standard_route, actual_route)
+    merch_sim, city_sim = calculate_similarity(standard_route, standard_route)
+    print(merch_sim, city_sim) """
