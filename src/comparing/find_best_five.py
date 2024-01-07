@@ -21,7 +21,8 @@ import sys
 import numpy as np
 from numpy.linalg import norm
 sys.path.append('src/clustering/BFR/feature_extraction')
-from similarity import calculate_similarity
+from similarity import similarity
+from feature_extractions import get_features
 
 
 def get_standards():
@@ -76,19 +77,20 @@ def compare_routes(standards : list, actuals : list):
         - best_five: list of the best five standard routes for the driver
     '''
     
-    similarity = dict()
+    similarity_dict = dict()
     
     for standard in standards:
         cities = list()
         merchandise = list()
         for actual in actuals:
-            city_similarity, merch_similarity = calculate_similarity(standard, actual)
+            city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch = get_features(standard, actual)
+            city_similarity, merch_similarity = similarity(city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch)
             cities.append(city_similarity)
             merchandise.append(merch_similarity)
         cosine = (sum(cities) / len(cities)) + (sum(merchandise) / len(merchandise))
-        similarity[standard['id']] = cosine
+        similarity_dict[standard['id']] = cosine
 
-    sorted_dict = dict(sorted(similarity.items(), key=lambda item: item[1], reverse=True))
+    sorted_dict = dict(sorted(similarity_dict.items(), key=lambda item: item[1], reverse=True))
     
     best_five = list()
     for route in sorted_dict:

@@ -19,7 +19,6 @@ cos a = 2/3     a = 48 degree
 
 import numpy as np
 from numpy.linalg import norm
-# from feature_extraction import get_features
 
 def similarity(city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch):
     '''
@@ -191,35 +190,3 @@ def create_vector_for_absent_city(other: list, merch_index: list, city : str):
         else:
             vector.append(0)
     return vector
-
-if __name__ == "__main__":
-    """ actual_routes = get_actual()
-    for route in actual_routes:
-        standard_route = get_standard(route['sroute'])
-        actual_similarity = create_similarity_vector(route)
-        standard_similarity = create_similarity_vector(standard_route)
-        A = np.array(actual_similarity)
-        B = np.array(standard_similarity)
-        cosine = np.dot(A, B)/ (norm(A)*norm(B))
-        print(route['id'], route['sroute'], cosine) """
-    # actual_routes = get_actual()
-    # actual_route = actual_routes[0]
-    # actual_route_2 = actual_routes[1]
-    # standard_route = get_standard(actual_route['sroute'])
-    # merch_sim, city_sim = similarity(standard_route, actual_route)
-
-    city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch, _, _ = fe.get_features(sroute, aroute)
-    print(np.array(city_indexes))
-    print("\n\n")
-    print(np.array(merch_indexes))
-    print("\n\n")
-    print("\n\n")
-    print(similarity(city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch))
-
-    # city_indexes, standard_cities, merch_indexes, standard_merch = fe.get_features_total([sroute, aroute])
-    # print(np.array(city_indexes))
-    # print("\n\n")
-    # print(np.array(merch_indexes))
-    # print("\n\n")
-    # print("\n\n")
-    # print(similarity(city_indexes, standard_cities[0], standard_cities[1], merch_indexes, standard_merch[0], standard_merch[1]))
