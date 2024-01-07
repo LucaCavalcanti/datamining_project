@@ -19,7 +19,7 @@ cos a = 2/3     a = 48 degree
 
 import numpy as np
 from numpy.linalg import norm
-from feature_extraction import get_features
+# from feature_extraction import get_features
 
 def similarity(city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch):
     '''

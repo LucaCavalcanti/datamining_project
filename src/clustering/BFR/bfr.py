@@ -1,6 +1,6 @@
 import sys
 sys.path.append('src/clustering/BFR/feature_extraction')
-from feature_extraction import get_features, get_features_total
+from feature_extractions import get_features, get_features_total
 from similarity import similarity
 
 import ijson
@@ -244,7 +244,7 @@ def find_route_and_merch_distance_weights():
         for cluster in Clusters:
             if route["sroute"] == cluster.original_sroute_id:
                 # print("Route", route["id"], "with cluster", cluster.index, "has driver", route["driver"])
-                city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch, _, _ = get_features(cluster.centroid, route)
+                city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch = get_features(cluster.centroid, route)
                 merch_cosine, city_cosine = similarity(city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch)
                 merch_cosines.append(merch_cosine)
                 city_cosines.append(city_cosine)
@@ -294,7 +294,7 @@ def find_mahalanobis_thresholds():
 
 def mahalanobis_distance(route, centroid):
     time_temp = time()
-    city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch, _, _ = get_features(centroid, route)
+    city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch = get_features(centroid, route)
     time_temp2 = time()
     mahalanobis_distances_times.append(time_temp2 - time_temp)
     return custom_distance(city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch)
