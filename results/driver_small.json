@@ -1,0 +1,12 @@
+[
+    {"driver": "D6", "routes": ["s3", "s1", "s9", "s2", "s0"]},
+    {"driver": "D1", "routes": ["s0", "s9", "s6", "s2", "s3"]},
+    {"driver": "D3", "routes": ["s7", "s3", "s5", "s9", "s4"]},
+    {"driver": "D0", "routes": ["s2", "s9", "s0", "s1", "s6"]},
+    {"driver": "D4", "routes": ["s2", "s4", "s3", "s9", "s7"]},
+    {"driver": "D5", "routes": ["s0", "s3", "s6", "s2", "s5"]},
+    {"driver": "D7", "routes": ["s9", "s7", "s1", "s3", "s4"]},
+    {"driver": "D2", "routes": ["s3", "s5", "s9", "s0", "s1"]},
+    {"driver": "D9", "routes": ["s8", "s2", "s1", "s7", "s9"]},
+    {"driver": "D8", "routes": ["s5", "s1", "s2", "s8", "s0"]}
+]

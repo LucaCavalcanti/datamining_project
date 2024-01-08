@@ -38,7 +38,7 @@ def similarity(city_indexes, standard_cities, actual_cities, merch_indexes, stan
     
     A = np.array(standard_cities)
     B = np.array(actual_cities)
-    route_cosine = np.dot(A, B) / (norm(A) * norm(B))
+    city_cosine = np.dot(A, B) / (norm(A) * norm(B))
     
     cosines = list()
     # print(np.array(standard_cities))
@@ -121,9 +121,9 @@ def similarity(city_indexes, standard_cities, actual_cities, merch_indexes, stan
                 cosines.append(cosine)
 
 
-    cosine_mean = sum(cosines) / len(cosines)
+    merch_cosine = sum(cosines) / len(cosines)
     # print(cosine_mean)
-    return cosine_mean, route_cosine
+    return merch_cosine, city_cosine
 
 '''
 if standard_cities[index] == 1:

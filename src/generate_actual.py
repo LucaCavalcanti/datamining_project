@@ -54,7 +54,6 @@ def generate_italian_cities(number_of_cities):
 def generate_actual_routes():
     output = open("data/small2/actual_small.json", "w")
     output.write("[\n")
-    routes = []
     standard_routes = get_standard()
     counter = 0
     drivers_dict = {}
@@ -109,29 +108,29 @@ def modify_route(actual_route):
                 # print("Changing a city.")
                 trip["to"] = cities[random.randint(0, len(cities) - 1)]
                 if counter+1 < len(actual_route["route"]):
-                    actual_route["route"][counter+1]["from"] = trip["to"]
+                    actual_route["route"][counter + 1]["from"] = trip["to"]
             else:
                 # skip the city
                 # print("Skipping a city.")
                 if counter+1 < len(actual_route["route"]):
-                    trip["to"] = actual_route["route"][counter+1]["to"]
+                    trip["to"] = actual_route["route"][counter + 1]["to"]
                     # counter+=1
-                    del actual_route["route"][counter+1]
+                    del actual_route["route"][counter + 1]
         else:
             if random.randint(0, 1) == 0:
                 # add the city
                 if counter > 0:
                     merchandise = {}
-                    for j in range(random.randint(1, len(merchandise_global))):
+                    for _ in range(random.randint(1, len(merchandise_global))):
                         merchandise[random.choice(merchandise_global)] = random.randint(MIN_MERCH, MAX_MERCH)
-                    new_trip = {"from": actual_route["route"][counter-1]["to"], "to": cities[random.randint(0, len(cities) - 1)], "merchandise": merchandise}
+                    new_trip = {"from": actual_route["route"][counter - 1]["to"], "to": cities[random.randint(0, len(cities) - 1)], "merchandise": merchandise}
                     """ print("Adding a new trip.")
                     print("counter: ", counter, "actual_route id", actual_route["id"])
                     print("bug? ", actual_route["route"][counter-2]["to"]) """
                     # new_trip = {"from": actual_route["route"][counter-1]["to"], "to": cities[random.randint(0, len(cities) - 1)]}
                     actual_route["route"].insert(counter, new_trip)
                     if counter+1 < len(actual_route["route"]):
-                        actual_route["route"][counter+1]["from"] = new_trip["to"]
+                        actual_route["route"][counter + 1]["from"] = new_trip["to"]
                     # counter+=1
         counter+=1
         
@@ -148,7 +147,7 @@ def modify_route(actual_route):
                 residue = merch_copy[merch_name] - MAX_MERCH
                 merch_copy[merch_name] = MAX_MERCH
                 new_merch = random.choice(merchandise_global)
-                if not new_merch in merch:
+                if new_merch not in merch:
                     merch_copy[new_merch] = residue
                     # print("new merch added: ", new_merch, " - ", residue)
             if merch_copy[merch_name] <= 0:

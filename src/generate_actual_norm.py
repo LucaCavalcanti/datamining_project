@@ -156,7 +156,7 @@ class Driver:
 
 def generate_merchandise():
     trip_merchandise = {}
-    for j in range(random.randint(1, len(merchandise)-1)):
+    for _ in range(random.randint(1, len(merchandise)-1)):
         trip_merchandise[random.choice(merchandise)] = random.randint(MIN_MERCH, MAX_MERCH)
     return trip_merchandise
 
@@ -222,7 +222,7 @@ def apply_changes_to_indexes(actual_route, driver, cities, indexes_to_change):
     for index in indexes_to_change:
         change_type = np.random.choice(["skip", "add", "change"], p=driver.preferences.changes_probability)
         # print("change type: ", change_type, " at index: ", index, ", trips added: ", trips_added, ", index + trips_added: ", index + trips_added)
-       
+
         actual_route_copy, trips_added = change_index(actual_route_copy, driver, cities, index, trips_added, change_type)
 
         # print_actual_route(actual_route_copy)
@@ -313,7 +313,6 @@ def generate_actual_routes():
     output = open("data/small2/actual_normal_small.json", "w")
     output.write("[\n")
 
-    actual_routes = []
     drivers_dict = {}
     drivers_counters = {}
 
