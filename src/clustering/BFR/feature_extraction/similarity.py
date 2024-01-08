@@ -64,7 +64,7 @@ def similarity(city_indexes, standard_cities, actual_cities, merch_indexes, stan
         # normalize the vectors to have the same length, and for items at the same index to be the closest possible
         if len(standard) > len(actual):
             # driver missed some cities
-            penalty = 0.5
+            # penalty = 0.5
             # sort the vectors by cosine similarity - put at the same indexes the closest vectors, pair the outliers with the null vector
             for i in range(len(actual)):
                 max_cosine = 0
@@ -86,8 +86,8 @@ def similarity(city_indexes, standard_cities, actual_cities, merch_indexes, stan
             actual = new_actual
         elif len(actual) > len(standard):
             # driver added some cities
-            penalty = 0.75
-            # sort the vectors by cosine similarity - put at the same indexes the closest vectors, pair the outliers with the null vector
+            # penalty = 0.75
+            # sort the vectors by cosine similarity - put at the same indexes the closest vectors, pair the outliers with the null vectors
             for i in range(len(standard)):
                 max_cosine = 0
                 max_index = 0

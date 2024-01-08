@@ -576,6 +576,8 @@ def update_CompressedSets(labels):
 
 def merge_compressed_sets_with_primary_clusters():
     global CompressedSets, Clusters
+    if len(CompressedSets) == 0:
+        return
     closest_cluster_means = []
     closest_clusters = []
     for compressedSet in CompressedSets:
@@ -601,7 +603,7 @@ def write_results_to_file(results_file):
     with open(results_file, "w") as f:
         f.write("[\n")
         for route in Clusters:
-            json_output = json.dumps({"id": "ns" + str(counter), "route": route["route"]})
+            json_output = json.dumps({"id": "ns" + str(counter), "route": route.centroid["route"]}, indent=4)
             f.write(json_output)
             if counter != len(Clusters) - 1:
                 f.write(",\n")
@@ -611,7 +613,7 @@ def write_results_to_file(results_file):
                 f.write("\n")
             counter += 1
         for route in CompressedSets:
-            json_output = json.dumps({"id": "ns" + str(counter), "route": route["route"]})
+            json_output = json.dumps({"id": "ns" + str(counter), "route": route.centroid["route"]}, indent=4)
             f.write(json_output)
             if counter != len(CompressedSets) - 1:
                 f.write(",\n")
@@ -622,3 +624,5 @@ def write_results_to_file(results_file):
 
 if __name__ == "__main__":
     BFR("data/small2/standard_small.json", "data/small2/actual_normal_small.json", "results/recStandard_normal_small.json")
+    # init_clusters("data/small2/standard_small.json")
+    # write_results_to_file("results/recStandard_normal_small.json")
