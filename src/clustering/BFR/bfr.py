@@ -4,6 +4,7 @@ from feature_extractions import get_features, get_features_total
 from similarity import similarity
 
 import ijson
+import json
 import numpy as np
 
 from sklearn.cluster import KMeans
@@ -15,7 +16,7 @@ import concurrent.futures
 import os
 
 # WARNING: these are placeholder values
-SAMPLE_BUFFER_SIZE = 1000                 # ideally, the buffer should be as large as possible, a bit larger than the actual buffer as retainedset/compressedsets are not present in the sampling phase
+SAMPLE_BUFFER_SIZE = 500                 # ideally, the buffer should be as large as possible, a bit larger than the actual buffer as retainedset/compressedsets are not present in the sampling phase
 BUFFER_SIZE = 200                        # ideally, the buffer should be as large as possible
 
 CITY_WEIGHTS = 0.5
@@ -56,14 +57,16 @@ class Cluster:
         self.mahalanobis_threshold = 0
 
         self.routes = []
+        self.routesweights = {}
         self.original_sroute_id = standard_route["id"]
     
     def __str__(self):
         return f"Cluster: {self.index}\nCentroid: {self.centroid}\nSize: {self.size}"
 
-    def add(self, route):
+    def add(self, route, centorid_weight=1):
         self.size += 1
         self.routes.append(route)
+        self.routesweights[route["id"]] = centorid_weight
     
     def update_centroid(self):
         # find the new centroid by taking the route with the minimum distance from all the other routes in the cluster
@@ -71,6 +74,7 @@ class Cluster:
             time_temp = time()
             print(get_elapsed_time(), ":     Updating centroid for cluster", self.index, "with size", self.size)
             self.routes.append(self.centroid)
+            self.routesweights[self.centroid["id"]] = self.size_before_centroid_update
             min_distance = sys.maxsize
             min_route = None
             city_indexes, cities_res, merch_indexes, merch_res = get_features_total(self.routes)
@@ -85,16 +89,10 @@ class Cluster:
                     for other_route_counter in range(len(thread_routes)):
                         if route_counter == other_route_counter:
                             continue
-                        if thread_routes[other_route_counter]["id"] == self.centroid["id"]:
-                            # when calculating the distance between the route and the centroid, we want to give it a higher weight
-                            weight = np.log(self.size_before_centroid_update)
-                            if weight == 0:
-                                weight = 1
-                            distance_temp = weight * custom_distance(city_indexes, cities_res[route_counter], cities_res[other_route_counter], merch_indexes, merch_res[route_counter], merch_res[other_route_counter])
-                            distances.append(distance_temp)
-                        else:
-                            distances.append(custom_distance(city_indexes, cities_res[route_counter], cities_res[other_route_counter], merch_indexes, merch_res[route_counter], merch_res[other_route_counter]))
-                    
+                        distance_temp = custom_distance(city_indexes, cities_res[route_counter], cities_res[other_route_counter], merch_indexes, merch_res[route_counter], merch_res[other_route_counter])
+                        weight = self.routesweights[self.routes[route_counter]["id"]] / (self.routesweights[thread_routes[other_route_counter]["id"]] + self.routesweights[self.routes[route_counter]["id"]] )
+                        distance_temp = weight * distance_temp
+                        distances.append(distance_temp)
 
                 with concurrent.futures.ThreadPoolExecutor(max_workers=max_threads) as executor:
                     # Split the routes list into chunks for each thread
@@ -106,15 +104,6 @@ class Cluster:
                 #     if route_counter == other_route_counter:
                 #         continue
                 #     # distance += custom_distance(cities_res[route_counter], cities_res[other_route_counter], merch_res[route_counter], merch_res[other_route_counter])
-                #     if self.routes[other_route_counter]["id"] == self.centroid["id"]:
-                #         # when calculating the distance between the route and the centroid, we want to give it a higher weight
-                #         weight = np.log(self.size_before_centroid_update)
-                #         if weight == 0:
-                #             weight = 1
-                #         distance_temp = weight * custom_distance(city_indexes, cities_res[route_counter], cities_res[other_route_counter], merch_indexes, merch_res[route_counter], merch_res[other_route_counter])
-                #         distance += distance_temp
-                #     else:
-                #         distance += custom_distance(city_indexes, cities_res[route_counter], cities_res[other_route_counter], merch_indexes, merch_res[route_counter], merch_res[other_route_counter])
                 
                 if sum(distances) < min_distance:
                     min_distance = sum(distances)
@@ -148,7 +137,7 @@ def print_average_times():
     print("Average cluster compressed sets time:", np.average(cluster_compressed_sets_times))
     print("Average update compressed sets time:", np.average(update_CompressedSets_times))
 
-def BFR(standard_routes, actual_routes):
+def BFR(standard_routes, actual_routes, results_file):
     global time_start
     # INITIALIZATION STEP
     # Set the number of clusters to the number of standard routes, set the cluster centroids to the standard routes
@@ -186,19 +175,25 @@ def BFR(standard_routes, actual_routes):
     print(get_elapsed_time(), ": Starting BFR")
     keep_filling_buffer()
 
+    print(get_elapsed_time(), ": Merging compressed sets with primary clusters")
+    merge_compressed_sets_with_primary_clusters()
+
+    print(get_elapsed_time(), ": Writing results to file")
+    write_results_to_file(results_file)
+
     print(get_elapsed_time(), ": BFR has ended!")
     # print("Retained Set:")
     # for route in RetainedSet:
     #     print(route)
     #     print()
-    print("Clusters:")
-    for cluster in Clusters:
-        print(cluster)
-        print()
-    print("Compressed Sets:")
-    for compressedset in CompressedSets:
-        print(compressedset)
-        print()
+    # print("Clusters:")
+    # for cluster in Clusters:
+    #     print(cluster)
+    #     print()
+    # print("Compressed Sets:")
+    # for compressedset in CompressedSets:
+    #     print(compressedset)
+    #     print()
     # do something with the final results
     print_average_times()
 
@@ -279,8 +274,8 @@ def find_mahalanobis_thresholds():
     route_counter = 0
     for route in Buffer:
         for cluster in Clusters:
-            if route["sroute"] == cluster.original_sroute_id:
-                mahalanobis_distances[cluster.index].append(mahalanobis_distance(route, cluster.centroid))
+            # if route["sroute"] == cluster.original_sroute_id:
+            mahalanobis_distances[cluster.index].append(mahalanobis_distance(route, cluster.centroid))
         route_counter += 1
     
     for cluster in Clusters:
@@ -567,7 +562,7 @@ def update_CompressedSets(labels):
     indexes = {}
     for i in range(labels_len):
         if labels[i] in indexes:
-            new_compressedSets[indexes[labels[i]]].add(CompressedSets[i].centroid)
+            new_compressedSets[indexes[labels[i]]].add(CompressedSets[i].centroid, CompressedSets[i].size)
             new_compressedSets[indexes[labels[i]]].size += CompressedSets[i].size - 1
         else:
             indexes[labels[i]] = new_number_of_compressed_sets
@@ -579,5 +574,51 @@ def update_CompressedSets(labels):
     number_of_compressed_sets = new_number_of_compressed_sets
     CompressedSets = new_compressedSets
 
+def merge_compressed_sets_with_primary_clusters():
+    global CompressedSets, Clusters
+    closest_cluster_means = []
+    closest_clusters = []
+    for compressedSet in CompressedSets:
+        closest_cluster, closest_distance = find_closest_cluster(compressedSet.centroid)
+        closest_clusters.append(closest_cluster)
+        closest_cluster_means.append(closest_distance)
+
+    clusters_threshold = np.average(closest_cluster_means)
+    print(get_elapsed_time(), ":     Clustering compressed sets with primary clusters with threshold", clusters_threshold)
+    
+    counter = 0
+    for compressedSet in CompressedSets:
+        closest_cluster = closest_clusters[counter]
+        closest_distance = closest_cluster_means[counter]
+        counter += 1
+        if closest_distance < clusters_threshold:
+            # add the compressed set to the cluster
+            print(get_elapsed_time(), ":     Adding compressed set", compressedSet.centroid["id"], "to cluster", closest_cluster, "with distance", closest_distance)
+            Clusters[closest_cluster].add(compressedSet.centroid, compressedSet.size)
+        
+def write_results_to_file(results_file):
+    counter = 0
+    with open(results_file, "w") as f:
+        f.write("[\n")
+        for route in Clusters:
+            json_output = json.dumps({"id": "ns" + str(counter), "route": route["route"]})
+            f.write(json_output)
+            if counter != len(Clusters) - 1:
+                f.write(",\n")
+            elif len(CompressedSets) != 0:
+                f.write(",\n")
+            else:
+                f.write("\n")
+            counter += 1
+        for route in CompressedSets:
+            json_output = json.dumps({"id": "ns" + str(counter), "route": route["route"]})
+            f.write(json_output)
+            if counter != len(CompressedSets) - 1:
+                f.write(",\n")
+            else:
+                f.write("\n")
+            counter += 1
+        f.write("]\n")
+
 if __name__ == "__main__":
-    BFR("data/small2/standard_small.json", "data/small2/actual_normal_small.json")
+    BFR("data/small2/standard_small.json", "data/small2/actual_normal_small.json", "results/recStandard_normal_small.json")
