@@ -12,7 +12,7 @@ from sklearn.cluster import AgglomerativeClustering
 from sklearn.exceptions import ConvergenceWarning
 
 from time import time
-import concurrent.futures
+# import concurrent.futures
 import os
 
 # WARNING: these are placeholder values
@@ -84,26 +84,30 @@ class Cluster:
                 distance = 0
 
                 distances = []
-                def compute_distances(thread_routes, distances, route_counter):
-                    # print(get_elapsed_time(), ":        Calculating distances for new centroids with threads. Thread size:", len(thread_routes))
-                    for other_route_counter in range(len(thread_routes)):
-                        if route_counter == other_route_counter:
-                            continue
-                        distance_temp = custom_distance(city_indexes, cities_res[route_counter], cities_res[other_route_counter], merch_indexes, merch_res[route_counter], merch_res[other_route_counter])
-                        weight = self.routesweights[self.routes[route_counter]["id"]] / (self.routesweights[thread_routes[other_route_counter]["id"]] + self.routesweights[self.routes[route_counter]["id"]] )
-                        distance_temp = weight * distance_temp
-                        distances.append(distance_temp)
+                # def compute_distances(thread_routes, distances, route_counter):
+                #     # print(get_elapsed_time(), ":        Calculating distances for new centroids with threads. Thread size:", len(thread_routes))
+                #     for other_route_counter in range(len(thread_routes)):
+                #         if route_counter == other_route_counter:
+                #             continue
+                #         distance_temp = custom_distance(city_indexes, cities_res[route_counter], cities_res[other_route_counter], merch_indexes, merch_res[route_counter], merch_res[other_route_counter])
+                #         weight = self.routesweights[self.routes[route_counter]["id"]] / (self.routesweights[thread_routes[other_route_counter]["id"]] + self.routesweights[self.routes[route_counter]["id"]] )
+                #         distance_temp = weight * distance_temp
+                #         distances.append(distance_temp)
 
-                with concurrent.futures.ThreadPoolExecutor(max_workers=max_threads) as executor:
-                    # Split the routes list into chunks for each thread
-                    chunks = [self.routes[i:i + 5] for i in range(0, len(self.routes), 5)]
-                    futures = {executor.submit(compute_distances, chunk, distances, route_counter): chunk for chunk in chunks}
+                # with concurrent.futures.ThreadPoolExecutor(max_workers=max_threads) as executor:
+                #     # Split the routes list into chunks for each thread
+                #     chunks = [self.routes[i:i + 5] for i in range(0, len(self.routes), 5)]
+                #     futures = {executor.submit(compute_distances, chunk, distances, route_counter): chunk for chunk in chunks}
 
-                # for other_route_counter in range(len(self.routes)):
-                #     # print("Checking route", route["id"], "with route", self.routes[other_route_counter]["id"])
-                #     if route_counter == other_route_counter:
-                #         continue
-                #     # distance += custom_distance(cities_res[route_counter], cities_res[other_route_counter], merch_res[route_counter], merch_res[other_route_counter])
+                for other_route_counter in range(len(self.routes)):
+                    # print("Checking route", route["id"], "with route", self.routes[other_route_counter]["id"])
+                    if route_counter == other_route_counter:
+                        continue
+                    distance_temp = custom_distance(city_indexes, cities_res[route_counter], cities_res[other_route_counter], merch_indexes, merch_res[route_counter], merch_res[other_route_counter])
+                    weight = self.routesweights[self.routes[route_counter]["id"]] / (self.routesweights[self.routes[other_route_counter]["id"]] + self.routesweights[self.routes[route_counter]["id"]] )
+                    distance_temp = weight * distance_temp
+                    distances.append(distance_temp)
+                    # distance += custom_distance(cities_res[route_counter], cities_res[other_route_counter], merch_res[route_counter], merch_res[other_route_counter])
                 
                 if sum(distances) < min_distance:
                     min_distance = sum(distances)
@@ -448,20 +452,20 @@ def cluster_retained_set(k):
     city_indexes, cities_res, merch_indexes, merch_res = get_features_total(RetainedSet)
 
     print(get_elapsed_time(), ":             Calculating distance matrix with multithreading. RetainedSet size:", len(RetainedSet))
-    # for i in range(len(RetainedSet)):
-    #     # pick all routes from the next one to the end
-    #     for j in range(i + 1, len(RetainedSet)):
-    #         distance_matrix[i][j] = custom_distance(city_indexes, cities_res[i], cities_res[j], merch_indexes, merch_res[i], merch_res[j])
+    for i in range(len(RetainedSet)):
+        # pick all routes from the next one to the end
+        for j in range(i + 1, len(RetainedSet)):
+            distance_matrix[i][j] = distance_matrix[j][i] = custom_distance(city_indexes, cities_res[i], cities_res[j], merch_indexes, merch_res[i], merch_res[j])
 
     # calculate the distance matrix in multiple threads
-    def compute_distances(i, distances):
-        # print(get_elapsed_time(), ":             Calculating distance matrix. Thread size:", len(thread_routes))
-        for j in range(i + 1, len(RetainedSet)):
-            distances[i][j] = distances[j][i] = custom_distance(city_indexes, cities_res[i], cities_res[j], merch_indexes, merch_res[i], merch_res[j])
+    # def compute_distances(i, distances):
+    #     # print(get_elapsed_time(), ":             Calculating distance matrix. Thread size:", len(thread_routes))
+    #     for j in range(i + 1, len(RetainedSet)):
+    #         distances[i][j] = distances[j][i] = custom_distance(city_indexes, cities_res[i], cities_res[j], merch_indexes, merch_res[i], merch_res[j])
 
-    with concurrent.futures.ThreadPoolExecutor(max_workers=max_threads) as executor:
-        # Give one route to each thread
-        futures = {executor.submit(compute_distances, i, distance_matrix): i for i in range(len(RetainedSet))}
+    # with concurrent.futures.ThreadPoolExecutor(max_workers=max_threads) as executor:
+    #     # Give one route to each thread
+    #     futures = {executor.submit(compute_distances, i, distance_matrix): i for i in range(len(RetainedSet))}
     
     # make the distance matrix symmetric
     # distance_matrix = distance_matrix + distance_matrix.T
@@ -522,20 +526,20 @@ def cluster_compressed_sets(k):
 
     print(get_elapsed_time(), ":             Calculating distance matrix with multithreading. CompressedSets size:", len(CompressedSets))
     city_indexes, cities_res, merch_indexes, merch_res = get_features_total(compressedSets_centroids)
-    # for i in range(len(CompressedSets)):
-    #     # pick all routes from the next one to the end
-    #     for j in range(i + 1, len(CompressedSets)):
-    #         distance_matrix[i][j] = custom_distance(city_indexes, cities_res[i], cities_res[j], merch_indexes, merch_res[i], merch_res[j])
+    for i in range(len(CompressedSets)):
+        # pick all routes from the next one to the end
+        for j in range(i + 1, len(CompressedSets)):
+            distance_matrix[i][j] = distance_matrix[j][i] = custom_distance(city_indexes, cities_res[i], cities_res[j], merch_indexes, merch_res[i], merch_res[j])
 
     # calculate the distance matrix in multiple threads
-    def compute_distances(i, distances):
-        # print(get_elapsed_time(), ":             Calculating distance matrix. Thread size:", len(thread_routes))
-        for j in range(i + 1, len(CompressedSets)):
-            distances[i][j] = distances[j][i] = custom_distance(city_indexes, cities_res[i], cities_res[j], merch_indexes, merch_res[i], merch_res[j])
+    # def compute_distances(i, distances):
+    #     # print(get_elapsed_time(), ":             Calculating distance matrix. Thread size:", len(thread_routes))
+    #     for j in range(i + 1, len(CompressedSets)):
+    #         distances[i][j] = distances[j][i] = custom_distance(city_indexes, cities_res[i], cities_res[j], merch_indexes, merch_res[i], merch_res[j])
 
-    with concurrent.futures.ThreadPoolExecutor(max_workers=max_threads) as executor:
-        # Give one route to each thread
-        futures = {executor.submit(compute_distances, i, distance_matrix): i for i in range(len(CompressedSets))}
+    # with concurrent.futures.ThreadPoolExecutor(max_workers=max_threads) as executor:
+    #     # Give one route to each thread
+    #     futures = {executor.submit(compute_distances, i, distance_matrix): i for i in range(len(CompressedSets))}
 
     # make the distance matrix symmetric
     # distance_matrix = distance_matrix + distance_matrix.T
