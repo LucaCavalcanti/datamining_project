@@ -22,23 +22,14 @@ sys.path.append('src/clustering/BFR/feature_extraction')
 from similarity import similarity
 from feature_extractions import get_features
 
-def get_standards():
+def get_routes(standard_file: str):
     '''to test
     
-    get the standard routes'''
+    get the routes'''
     with open(standard_file) as json_file:
-        standard_routes = json.load(json_file)
-    return standard_routes
+        routes = json.load(json_file)
+    return routes
 
-#standard_routes = get_standards()
-
-def get_actual():
-    '''to test
-    
-    get the actual routes'''
-    with open(actual_file) as json_file:
-        actual_routes = json.load(json_file)
-    return actual_routes
 
 #actual_routes = get_actual()
 
@@ -96,16 +87,17 @@ def compare_routes(standards : list, actuals : list):
         best_five.append(route)
     return best_five
 
-def find_best_five_per_driver(standard_routes, actual_routes, result_file: str):
+def find_best_five_per_driver(standard_routes, actual_routes, rec_standard, result_file: str):
     output = open(result_file, 'w')
     output.write('[\n')
     
     drivers = get_drivers(actual_routes)
     
     counter = 0
+    standards = standard_routes + rec_standard
     for driver in drivers:
         actuals = get_actual_to_driver(driver, actual_routes)
-        best_five = compare_routes(standard_routes, actuals)
+        best_five = compare_routes(standards, actuals)
         
         json_output = json.dumps({"driver": driver, "routes": best_five})
         
@@ -122,6 +114,8 @@ if __name__ == "__main__":
     standard_file = 'data/small2/standard_small.json'
     actual_file = 'data/small2/actual_normal_small.json'
     result_file = 'results/driver_normal_small.json'
-    standards = get_standards()
-    actuals = get_actual()
-    find_best_five_per_driver(standards, actuals, result_file)
+    recStandard_file = 'results/recStandard_normal_small.json'
+    standards = get_routes(standard_file)
+    actuals = get_routes(actual_file)
+    recStandard = get_routes(recStandard_file)
+    find_best_five_per_driver(standards, actuals, recStandard, result_file)
