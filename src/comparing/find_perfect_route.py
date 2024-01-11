@@ -26,21 +26,17 @@ dict<string, dict>
 import json
 
 
-actual_file = 'actual_small.json'
-result_file = 'perfectRoute.json'
-
-
-def get_actual():
+def get_actual(actual_file: str):
     '''to test
     
     get the actual routes'''
-    with open("data/small2/" + actual_file) as json_file:
+    with open(actual_file) as json_file:
         actual_routes = json.load(json_file)
     return actual_routes
 
-actual_routes = get_actual()
+#actual_routes = get_actual()
 
-def get_actual_to_driver(driver_id: int):
+def get_actual_to_driver(driver_id: int, actual_routes: dict):
     '''
     get the actual routes associated to the given driver
     '''
@@ -50,7 +46,7 @@ def get_actual_to_driver(driver_id: int):
             actuals.append(route)
     return actuals
 
-def get_drivers():
+def get_drivers(actual_routes: dict):
     '''
     get the list of drivers
     '''
@@ -59,9 +55,9 @@ def get_drivers():
         drivers.add(route['driver'])
     return drivers
 
-drivers = get_drivers()
+#drivers = get_drivers()
 
-def find_perfect_route(driver_id: int):
+def find_perfect_route(driver_id: int, actual_routes: dict):
     '''
     function to find the perfect route for a specific driver
     
@@ -72,7 +68,7 @@ def find_perfect_route(driver_id: int):
         - best_route: dict, the perfect route for the driver
     '''
     
-    actuals = get_actual_to_driver(driver_id)
+    actuals = get_actual_to_driver(driver_id, actual_routes)
     
     cities = dict()
     merchandise = dict()
@@ -120,29 +116,19 @@ def find_perfect_route(driver_id: int):
     new_route['route'] = trips
     return new_route
 
-'''
-dict<string, dict>
-{
-    'milano': {
-        'tomatoes': 10,
-        ...
-    }
-}
-
-'''
-
 def add_city(city: str, cities: dict):
     if city in cities:
         cities[city] += 1
     else:
         cities[city] = 1
 
-def find_perfect_route_per_driver():
-    output = open('results/' + result_file, 'w')
+def find_perfect_route_per_driver(actuals: dict, result_file: str):
+    output = open(result_file, 'w')
     output.write('[\n')
     index = 0
+    drivers = get_drivers(actuals)
     for driver in drivers:
-        route = find_perfect_route(driver)
+        route = find_perfect_route(driver, actuals)
         json_output = json.dumps(route)
         output.write(json_output)
         if index == len(drivers) - 1:
@@ -154,4 +140,8 @@ def find_perfect_route_per_driver():
 
 
 if __name__ == "__main__":
-    find_perfect_route_per_driver()
+    actual_file = 'data/small2/actual_small.json'
+    actuals = get_actual(actual_file)
+    result_file = 'results/perfectRoute.json'
+    
+    find_perfect_route_per_driver(actuals, result_file)
