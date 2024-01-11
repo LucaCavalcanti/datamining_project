@@ -104,10 +104,10 @@ class Cluster:
                     if route_counter == other_route_counter:
                         continue
                     distance_temp = custom_distance(city_indexes, cities_res[route_counter], cities_res[other_route_counter], merch_indexes, merch_res[route_counter], merch_res[other_route_counter])
-                    # weight = self.routesweights[self.routes[route_counter]["id"]] / (self.routesweights[self.routes[other_route_counter]["id"]] + self.routesweights[self.routes[route_counter]["id"]] )
-                    weight = np.log(self.routesweights[self.routes[other_route_counter]["id"]])
-                    if weight == 0:
-                        weight = 1
+                    weight = self.routesweights[self.routes[route_counter]["id"]] / (self.routesweights[self.routes[other_route_counter]["id"]] + self.routesweights[self.routes[route_counter]["id"]] )
+                    # weight = np.log(self.routesweights[self.routes[other_route_counter]["id"]])
+                    # if weight == 0:
+                    #     weight = 1
                     distance_temp = weight * distance_temp
                     distances.append(distance_temp)
                     # distance += custom_distance(cities_res[route_counter], cities_res[other_route_counter], merch_res[route_counter], merch_res[other_route_counter])
