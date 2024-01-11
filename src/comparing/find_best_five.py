@@ -18,17 +18,19 @@ I need to compare every actual made by the driver with the standards and store e
 
 import json
 import sys
-import numpy as np
-from numpy.linalg import norm
 sys.path.append('src/clustering/BFR/feature_extraction')
-from similarity import calculate_similarity
+from similarity import similarity
+from feature_extractions import get_features
 
+standard_file = 'standard_small.json'
+actual_file = 'actual_normal_small.json'
+result_file = 'driver_normal_small.json'
 
 def get_standards():
     '''to test
     
     get the standard routes'''
-    with open("data/small/standard_small.json") as json_file:
+    with open("data/small2/" + standard_file) as json_file:
         standard_routes = json.load(json_file)
     return standard_routes
 
@@ -38,7 +40,7 @@ def get_actual():
     '''to test
     
     get the actual routes'''
-    with open("data/small/actual_small.json") as json_file:
+    with open("data/small2/" + actual_file) as json_file:
         actual_routes = json.load(json_file)
     return actual_routes
 
@@ -76,19 +78,20 @@ def compare_routes(standards : list, actuals : list):
         - best_five: list of the best five standard routes for the driver
     '''
     
-    similarity = dict()
+    similarity_dict = dict()
     
     for standard in standards:
         cities = list()
         merchandise = list()
         for actual in actuals:
-            city_similarity, merch_similarity = calculate_similarity(standard, actual)
+            city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch = get_features(standard, actual)
+            city_similarity, merch_similarity = similarity(city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch)
             cities.append(city_similarity)
             merchandise.append(merch_similarity)
         cosine = (sum(cities) / len(cities)) + (sum(merchandise) / len(merchandise))
-        similarity[standard['id']] = cosine
+        similarity_dict[standard['id']] = cosine
 
-    sorted_dict = dict(sorted(similarity.items(), key=lambda item: item[1], reverse=True))
+    sorted_dict = dict(sorted(similarity_dict.items(), key=lambda item: item[1], reverse=True))
     
     best_five = list()
     for route in sorted_dict:
@@ -98,10 +101,24 @@ def compare_routes(standards : list, actuals : list):
     return best_five
 
 def find_best_five_per_driver():
+    output = open('results/' + result_file, 'w')
+    output.write('[\n')
+    
+    counter = 0
     for driver in drivers:
         actuals = get_actual_to_driver(driver)
         best_five = compare_routes(standard_routes, actuals)
-        print(driver, best_five)
+        
+        json_output = json.dumps({"driver": driver, "routes": best_five})
+        
+        output.write(json_output)
+        if counter == len(drivers) - 1:
+            output.write('\n')
+        else:
+            output.write(',\n')
+        counter += 1
+        
+    output.write(']')
 
 if __name__ == "__main__":
     find_best_five_per_driver()
