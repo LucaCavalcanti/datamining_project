@@ -45,12 +45,12 @@ def generate_trips(cities, max_route_len):
     trips = []
     merchandise = {}
     from_city = cities[random.randint(0, len(cities) - 1)]
-    for k in range(random.randint(1, max_route_len)):
+    for _ in range(random.randint(1, max_route_len)):
         to_city = cities[random.randint(0, len(cities) - 1)]
         while from_city == to_city:
             to_city = cities[random.randint(0, len(cities) - 1)]
         merchandise = {}
-        for j in range(random.randint(1, len(merchandise_global))):
+        for _ in range(random.randint(1, len(merchandise_global))):
             merchandise[random.choice(merchandise_global)] = random.randint(MIN_MERCH, MAX_MERCH)
         trips.append({"from": from_city, "to": to_city, "merchandise": merchandise})
         from_city = to_city

@@ -22,10 +22,6 @@ sys.path.append('src/clustering/BFR/feature_extraction')
 from similarity import similarity
 from feature_extractions import get_features
 
-standard_file = 'standard_small.json'
-actual_file = 'actual_normal_small.json'
-result_file = 'driver_normal_small.json'
-
 def get_standards():
     '''to test
     
@@ -100,7 +96,7 @@ def compare_routes(standards : list, actuals : list):
         best_five.append(route)
     return best_five
 
-def find_best_five_per_driver():
+def find_best_five_per_driver(standard_file: str, actual_file: str, result_file: str):
     output = open('results/' + result_file, 'w')
     output.write('[\n')
     
@@ -121,4 +117,7 @@ def find_best_five_per_driver():
     output.write(']')
 
 if __name__ == "__main__":
-    find_best_five_per_driver()
+    standard_file = 'standard_small.json'
+    actual_file = 'actual_normal_small.json'
+    result_file = 'driver_normal_small.json'
+    find_best_five_per_driver(standard_file, actual_file, result_file)

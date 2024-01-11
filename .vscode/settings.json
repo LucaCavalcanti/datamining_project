@@ -1,5 +1,6 @@
 {
     "python.analysis.extraPaths": [
-        "./src/clustering/BFR/feature_extraction"
+        "./src/clustering/BFR/feature_extraction",
+        "./src/clustering/BFR"
     ]
 }
