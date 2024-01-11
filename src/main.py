@@ -11,21 +11,14 @@ from find_perfect_route import find_perfect_route_per_driver
 # GLOBAL VARIABLES
 type_file = int(sys.argv[1])
 
-def get_standards(standard_file: str):
+def get_route(standard_file: str):
     '''
     get the standard routes
     '''
     with open(standard_file) as json_file:
-        standard_routes = json.load(json_file)
-    return standard_routes
+        routes = json.load(json_file)
+    return routes
 
-def get_actual(actual_file: str):
-    '''
-    get the actual routes
-    '''
-    with open(actual_file) as json_file:
-        actual_routes = json.load(json_file)
-    return actual_routes
 
 def data_mining():
     '''
@@ -43,46 +36,49 @@ def data_mining():
     
     standard_file = ''
     actual_file = ''
-    rec_standard = ''
+    rec_standard_file = ''
     driver = ''
     perfect_route = ''
     
     if type_file == 'small':
         standard_file = 'data/standard_small.json'
         actual_file = 'data/actual_small.json'
-        rec_standard = 'results/recStandard_small.json'
+        rec_standard_file = 'results/recStandard_small.json'
         driver = 'results/driver_small.json'
         perfect_route = 'results/perfectRoute_small.json'
     elif type_file == 'normal_small':
         standard_file = 'data/standard_normal_small.json'
         actual_file = 'data/actual_normal_small.json'
-        rec_standard = 'results/recStandard_normal_small.json'
+        rec_standard_file = 'results/recStandard_normal_small.json'
         driver = 'results/driver_normal_small.json'
         perfect_route = 'results/perfectRoute_normal_small.json'
     elif type_file == 'big':
         standard_file = 'data/standard_big.json'
         actual_file = 'data/actual_big.json'
-        rec_standard = 'results/recStandard_big.json'
+        rec_standard_file = 'results/recStandard_big.json'
         driver = 'results/driver_big.json'
         perfect_route = 'results/perfectRoute_big.json'
     else:
         standard_file = 'data/standard_normal_big.json'
         actual_file = 'data/actual_normal_big.json'
-        rec_standard = 'results/recStandard_normal_big.json'
+        rec_standard_file = 'results/recStandard_normal_big.json'
         driver = 'results/driver_normal_big.json'
         perfect_route = 'results/perfectRoute_normal_big.json'
         
     # get the list of standards
-    standard = get_standards(standard_file)
+    standard = get_route(standard_file)
     
     # get the list of actuals
-    actual = get_actual(actual_file)
+    actual = get_route(actual_file)
         
     # recStandard
-    BFR(standard, actual, rec_standard)
+    BFR(standard, actual, rec_standard_file)
+    
+    # get the list of rec standards
+    rec_standard = get_route(rec_standard_file)
     
     # driver
-    find_best_five_per_driver(standard, actual, driver)
+    find_best_five_per_driver(standard, actual, rec_standard, driver)
     
     # perfectRoute
     find_perfect_route_per_driver(standard, actual, perfect_route)
