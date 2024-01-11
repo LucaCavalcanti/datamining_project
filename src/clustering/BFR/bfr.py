@@ -59,6 +59,7 @@ class Cluster:
         self.routes = []
         self.routesweights = {}
         self.original_sroute_id = standard_route["id"]
+        self.centroid_distance = sys.maxsize
     
     def __str__(self):
         return f"Cluster: {self.index}\nCentroid: {self.centroid}\nSize: {self.size}"
@@ -117,14 +118,17 @@ class Cluster:
                     min_route = route
                 route_counter += 1
 
-
-            self.centroid = min_route
+            if self.centroid_distance > min_distance:
+                print(get_elapsed_time(), ":     New centroid for cluster", self.index, "is", min_route["id"], "with size", self.size, "was", self.centroid["id"])
+                self.centroid = min_route
+                self.centroid_distance = min_distance
+            else:
+                print(get_elapsed_time(), ":     Centroid for cluster", self.index, "did not change, is", self.centroid["id"], "with size", self.size)
             self.routes = [] 
             self.size_before_centroid_update = self.size
 
             time_temp2 = time()
             centroid_update_times.append(time_temp2 - time_temp)
-            print(get_elapsed_time(), ":     New centroid for cluster", self.index, "is", self.centroid["id"], "with size", self.size)
 
 def get_elapsed_time():
     time_now = time()
@@ -288,7 +292,7 @@ def find_mahalanobis_thresholds():
     for cluster in Clusters:
         cluster_distances = mahalanobis_distances[cluster.index]
         # cluster_distances = cluster_distances[cluster_distances != 0]
-        cluster.mahalanobis_threshold = max(0.6, np.average(cluster_distances))
+        cluster.mahalanobis_threshold = max(0.7, np.average(cluster_distances))
         print(get_elapsed_time(), ":     Mahalanobis threshold for cluster", cluster.index, "is", cluster.mahalanobis_threshold, ", average was", np.average(cluster_distances))
 
     Buffer.clear()
@@ -604,6 +608,18 @@ def merge_compressed_sets_with_primary_clusters():
             # add the compressed set to the cluster
             print(get_elapsed_time(), ":     Adding compressed set", compressedSet.centroid["id"], "to cluster", closest_cluster, "with distance", closest_distance)
             Clusters[closest_cluster].add(compressedSet.centroid, compressedSet.size)
+    
+    # get average sizes of clusters
+    cluster_sizes = []
+    for cluster in Clusters:
+        cluster_sizes.append(cluster.size)
+    average_cluster_size = np.average(cluster_sizes)
+
+    # keep only compressed sets that are larger than the average cluster size
+    CompressedSets = [compressedSet for compressedSet in CompressedSets if compressedSet.size >= average_cluster_size/3]
+
+    # keep only clusters that are larger than the average cluster size
+    Clusters = [cluster for cluster in Clusters if cluster.size >= average_cluster_size/2]
         
 def write_results_to_file(results_file):
     counter = 0
@@ -630,6 +646,6 @@ def write_results_to_file(results_file):
         f.write("]\n")
 
 if __name__ == "__main__":
-    BFR("data/small2/standard_small.json", "data/small2/actual_small.json", "results/recStandard_small_logweights.json")
+    BFR("data/small2/standard_small.json", "data/small2/actual_normal_small.json", "results/recStandard_normal_small_logweights3.json")
     # init_clusters("data/small2/standard_small.json")
     # write_results_to_file("results/recStandard_normal_small.json")
