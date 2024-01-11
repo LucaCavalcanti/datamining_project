@@ -33,13 +33,13 @@ TRIPS_FOR_MERCH_CHANGED_MIN_VARIANCE = 20
 TRIPS_FOR_MERCH_CHANGED_MAX_VARIANCE = 50
 
 MIN_MERCH = 1
-MAX_MERCH = 100
+MAX_MERCH = 10
 
 
-with open("data/merchandise/merchandise_small.json") as merch_file:
+with open("data/merchandise/merchandise_toy.json") as merch_file:
     merchandise = json.load(merch_file)
 
-drivers_data = open("data/small2/drivers_data_small.txt", "w")
+drivers_data = open("data/toy/drivers_data_toy.txt", "w")
 
 """
 ==================SETUP==================
@@ -268,6 +268,9 @@ def change_merch_at_index(trip_merchandise, driver):
             if trip_merchandise[merch] <= 0:
                 # merch went under or is 0, delete it
                 del(trip_merchandise[merch])
+                if len(trip_merchandise) == 0:
+                    # print("merch_copy is empty")
+                    trip_merchandise[merch] = random.randint(MIN_MERCH, MAX_MERCH)
 
     return trip_merchandise
 
@@ -310,7 +313,7 @@ def modify_merch(actual_route, driver):
 """
 
 def generate_actual_routes():
-    output = open("data/small2/actual_normal_small.json", "w")
+    output = open("data/toy/actual_normal_toy.json", "w")
     output.write("[\n")
 
     drivers_dict = {}

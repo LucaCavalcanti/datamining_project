@@ -1,0 +1,136 @@
+[
+    {
+        "id": "s0",
+        "route": [
+            {
+                "from": "Alpette",
+                "to": "Alpignano",
+                "merchandise": {
+                    "milk": 5,
+                    "bread": 7,
+                    "cola": 8
+                }
+            },
+            {
+                "from": "Alpignano",
+                "to": "Ala di Stura",
+                "merchandise": {
+                    "milk": 3
+                }
+            },
+            {
+                "from": "Ala di Stura",
+                "to": "Alpette",
+                "merchandise": {
+                    "milk": 9
+                }
+            },
+            {
+                "from": "Alpette",
+                "to": "Albiano d'Ivrea",
+                "merchandise": {
+                    "milk": 6
+                }
+            },
+            {
+                "from": "Albiano d'Ivrea",
+                "to": "Alpignano",
+                "merchandise": {
+                    "bread": 2
+                }
+            },
+            {
+                "from": "Alpignano",
+                "to": "Almese",
+                "merchandise": {
+                    "milk": 1
+                }
+            },
+            {
+                "from": "Almese",
+                "to": "Alpette",
+                "merchandise": {
+                    "bread": 2
+                }
+            }
+        ]
+    },
+    {
+        "id": "s1",
+        "route": [
+            {
+                "from": "Alpette",
+                "to": "Albiano d'Ivrea",
+                "merchandise": {
+                    "cola": 5
+                }
+            },
+            {
+                "from": "Albiano d'Ivrea",
+                "to": "Almese",
+                "merchandise": {
+                    "bread": 2
+                }
+            },
+            {
+                "from": "Almese",
+                "to": "Albiano d'Ivrea",
+                "merchandise": {
+                    "cola": 6
+                }
+            },
+            {
+                "from": "Albiano d'Ivrea",
+                "to": "Almese",
+                "merchandise": {
+                    "cola": 2
+                }
+            },
+            {
+                "from": "Almese",
+                "to": "Alpette",
+                "merchandise": {
+                    "bread": 8
+                }
+            }
+        ]
+    },
+    {
+        "id": "s2",
+        "route": [
+            {
+                "from": "Albiano d'Ivrea",
+                "to": "Alpignano",
+                "merchandise": {
+                    "milk": 8,
+                    "bread": 8
+                }
+            },
+            {
+                "from": "Alpignano",
+                "to": "Albiano d'Ivrea",
+                "merchandise": {
+                    "bread": 1,
+                    "cola": 6,
+                    "milk": 2
+                }
+            },
+            {
+                "from": "Albiano d'Ivrea",
+                "to": "Almese",
+                "merchandise": {
+                    "cola": 10,
+                    "bread": 9
+                }
+            },
+            {
+                "from": "Almese",
+                "to": "Albiano d'Ivrea",
+                "merchandise": {
+                    "milk": 3,
+                    "cola": 1
+                }
+            }
+        ]
+    }
+]
