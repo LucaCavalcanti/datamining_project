@@ -77,9 +77,10 @@ def find_perfect_route(driver_id: int):
     merchandise = dict()
     
     total_length = 0
+    print(len(actuals))
     for actual in actuals:
-        add_city(actual['route'][0]['from'], cities)
         total_length += 1
+        add_city(actual['route'][0]['from'], cities)
         for trip in actual['route']:
             city = trip['to']
             add_city(city, cities)
@@ -91,10 +92,9 @@ def find_perfect_route(driver_id: int):
                     merchandise[city][merch] += trip['merchandise'][merch]
                 else:
                     merchandise[city][merch] = trip['merchandise'][merch]
-    print(cities)
-    print(merchandise)
     
     new_route_length = int(total_length / len(actuals))
+    print('new: ', new_route_length)
     
     sorted_cities = dict(sorted(cities.items(), key=lambda item: item[1], reverse=True))
     
@@ -105,12 +105,12 @@ def find_perfect_route(driver_id: int):
     # take the n cities in order to create the new route where n is the length calculate in new_route_length
     cities_to_insert = list()
     for city in sorted_cities:
-        if (len(sorted_cities) == new_route_length):
+        if (len(cities_to_insert) == new_route_length):
             break
         if (city in merchandise):
             cities_to_insert.append(city)
-        
-    print(new_route_length)
+            
+    print(cities_to_insert)
     
     for index in range(len(cities_to_insert) - 1):
         city = cities_to_insert[index]
@@ -137,6 +137,7 @@ dict<string, dict>
         ...
     }
 }
+
 '''
 
 def add_city(city: str, cities: dict):
