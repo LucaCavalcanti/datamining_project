@@ -29,6 +29,7 @@ import json
 actual_file = 'actual_small.json'
 result_file = 'perfectRoute.json'
 
+
 def get_actual():
     '''to test
     
@@ -77,7 +78,6 @@ def find_perfect_route(driver_id: int):
     merchandise = dict()
     
     total_length = 0
-    print(len(actuals))
     for actual in actuals:
         total_length += 1
         add_city(actual['route'][0]['from'], cities)
@@ -94,12 +94,8 @@ def find_perfect_route(driver_id: int):
                     merchandise[city][merch] = trip['merchandise'][merch]
     
     new_route_length = int(total_length / len(actuals))
-    print('new: ', new_route_length)
     
     sorted_cities = dict(sorted(cities.items(), key=lambda item: item[1], reverse=True))
-    
-    output = open('results/' + result_file, 'w')
-    output.write('[\n')
     
     
     # take the n cities in order to create the new route where n is the length calculate in new_route_length
@@ -107,11 +103,12 @@ def find_perfect_route(driver_id: int):
     for city in sorted_cities:
         if (len(cities_to_insert) == new_route_length):
             break
-        if (city in merchandise):
+        if city in merchandise:
             cities_to_insert.append(city)
             
-    print(cities_to_insert)
     
+    new_route = {'driver': driver_id}
+    trips = list()
     for index in range(len(cities_to_insert) - 1):
         city = cities_to_insert[index]
         next_city = cities_to_insert[index + 1]
@@ -119,15 +116,9 @@ def find_perfect_route(driver_id: int):
         mean_merch = dict()
         for merch in merchandise[city]:
             mean_merch[merch] = int(merchandise[city][merch] / length)
-        json_output = json.dumps({'from': city, 'to': next_city, 'merchandise': mean_merch})
-        output.write(json_output)
-        
-        if index == len(cities_to_insert) - 2:
-            output.write('\n')
-        else:
-            output.write(',\n')
-    
-    output.write(']')
+        trips.append({'from': city, 'to': next_city, 'merchandise': mean_merch})
+    new_route['route'] = trips
+    return new_route
 
 '''
 dict<string, dict>
@@ -147,9 +138,19 @@ def add_city(city: str, cities: dict):
         cities[city] = 1
 
 def find_perfect_route_per_driver():
+    output = open('results/' + result_file, 'w')
+    output.write('[\n')
+    index = 0
     for driver in drivers:
-        find_perfect_route(driver)
-        break
+        route = find_perfect_route(driver)
+        json_output = json.dumps(route)
+        output.write(json_output)
+        if index == len(drivers) - 1:
+            output.write('\n')
+        else:
+            output.write(',\n')
+        index += 1
+    output.write(']')
 
 
 if __name__ == "__main__":
