@@ -1,0 +1,24 @@
+id: D0
+changes_probability: [0.21826248 0.12662555 0.65511197]
+number_of_trips_changed: [52, 29]
+cities: [0.10276077 0.20301999 0.23183041 0.21492451 0.24746433]
+merchandise_multivariate_means: [0. 0. 0.]
+merchandise_multivariate_covariances: [663.02803576 962.8572396  137.09005661]
+merch_changes_probability: [0.02185665 0.41601869 0.27145782 0.29066684]
+number_of_trips_changed_for_merch: [78, 27]
+rotes_to_generate: 7
+
+---
+
+id: D1
+changes_probability: [0.31081851 0.32423143 0.36495006]
+number_of_trips_changed: [31, 40]
+cities: [0.3002825  0.24178714 0.1837665  0.16303777 0.11112609]
+merchandise_multivariate_means: [0. 0. 0.]
+merchandise_multivariate_covariances: [731.73604685 915.6367321  976.42085011]
+merch_changes_probability: [0.04019273 0.30105827 0.30710954 0.35163946]
+number_of_trips_changed_for_merch: [97, 21]
+rotes_to_generate: 14
+
+---
+

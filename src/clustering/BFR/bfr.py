@@ -16,8 +16,8 @@ import concurrent.futures
 import os
 
 # WARNING: these are placeholder values
-SAMPLE_BUFFER_SIZE = 700                 # ideally, the buffer should be as large as possible, a bit larger than the actual buffer as retainedset/compressedsets are not present in the sampling phase
-BUFFER_SIZE = 50                        # ideally, the buffer should be as large as possible
+SAMPLE_BUFFER_SIZE = 700                  # ideally, the buffer should be as large as possible, a bit larger than the actual buffer as retainedset/compressedsets are not present in the sampling phase
+BUFFER_SIZE = 50                          # ideally, the buffer should be as large as possible
 
 CITY_WEIGHTS = 0.5
 MERCH_WEIGHTS = 0.5
@@ -597,7 +597,7 @@ def merge_compressed_sets_with_primary_clusters():
         closest_cluster_means.append(closest_distance)
 
     clusters_threshold = np.average(closest_cluster_means)
-    print(get_elapsed_time(), ":     Clustering compressed sets with primary clusters with threshold", clusters_threshold)
+    print("\n\n", get_elapsed_time(), ":     Clustering compressed sets with primary clusters with threshold", clusters_threshold)
     
     counter = 0
     for compressedSet in CompressedSets:
@@ -613,6 +613,7 @@ def merge_compressed_sets_with_primary_clusters():
     cluster_sizes = []
     for cluster in Clusters:
         cluster_sizes.append(cluster.size)
+        print(get_elapsed_time(), ":     Cluster", cluster.index, "has size", cluster.size)
     average_cluster_size = np.average(cluster_sizes)
     print(get_elapsed_time(), ":     Average cluster size is", average_cluster_size)
 
@@ -625,10 +626,11 @@ def merge_compressed_sets_with_primary_clusters():
     print(get_elapsed_time(), ":     Average compressed set size is", average_compressedSet_size)
 
     # keep only compressed sets that are larger than the average cluster size
-    CompressedSets = [compressedSet for compressedSet in CompressedSets if compressedSet.size >= average_cluster_size/3]
+    CompressedSets = [compressedSet for compressedSet in CompressedSets if compressedSet.size >= average_compressedSet_size]
 
     # keep only clusters that are larger than the average cluster size
-    Clusters = [cluster for cluster in Clusters if cluster.size >= average_cluster_size/2]
+    Clusters = [cluster for cluster in Clusters if cluster.size >= average_cluster_size]
+    print("\n\n")
         
 def write_results_to_file(results_file):
     counter = 0
@@ -657,6 +659,6 @@ def write_results_to_file(results_file):
         f.write("]\n")
 
 if __name__ == "__main__":
-    BFR("data/small2/standard_small.json", "data/small2/actual_normal_small.json", "results/recStandard_normal_small_logweights3.json")
+    BFR("data/toy/standard_toy.json", "data/toy/actual_normal_toy.json", "results/recStandard_normal_toy.json")
     # init_clusters("data/small2/standard_small.json")
     # write_results_to_file("results/recStandard_normal_small.json")

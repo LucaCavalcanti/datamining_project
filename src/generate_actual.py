@@ -13,14 +13,14 @@ drivers = int(sys.argv[1])
 number_of_cities = int(sys.argv[2])
 max_actualroutes_per_driver = int(sys.argv[3])
 
-with open("data/merchandise/merchandise_small.json") as merch_file:
+with open("data/merchandise/merchandise_toy.json") as merch_file:
     merchandise_global = json.load(merch_file)
 
 MIN_MERCH = 1
-MAX_MERCH = 100
+MAX_MERCH = 10
 
 def get_standard():
-    with open("data/small2/standard_small.json") as json_file:
+    with open("data/toy/standard_toy.json") as json_file:
         standard_routes = json.load(json_file)
     return standard_routes
 
@@ -52,7 +52,7 @@ def generate_italian_cities(number_of_cities):
     # print("\n")
 
 def generate_actual_routes():
-    output = open("data/small2/actual_small.json", "w")
+    output = open("data/toy/actual_toy.json", "w")
     output.write("[\n")
     standard_routes = get_standard()
     counter = 0
@@ -153,6 +153,9 @@ def modify_route(actual_route):
             if merch_copy[merch_name] <= 0:
                 # item went under 0, delete it
                 del merch_copy[merch_name]
+                if len(merch_copy) == 0:
+                    # print("merch_copy is empty")
+                    merch_copy[merch_name] = random.randint(MIN_MERCH, MAX_MERCH)
             # print("\n")
         trip["merchandise"] = merch_copy
 
