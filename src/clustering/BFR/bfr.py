@@ -659,6 +659,6 @@ def write_results_to_file(results_file):
         f.write("]\n")
 
 if __name__ == "__main__":
-    BFR("data/toy/standard_toy.json", "data/toy/actual_normal_toy.json", "results/recStandard_normal_toy.json")
+    BFR("data/small2/standard_small.json", "data/small2/actual_normal_small.json", "results/recStandard_normal_small3.json")
     # init_clusters("data/small2/standard_small.json")
     # write_results_to_file("results/recStandard_normal_small.json")
