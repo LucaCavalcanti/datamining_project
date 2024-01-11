@@ -614,6 +614,15 @@ def merge_compressed_sets_with_primary_clusters():
     for cluster in Clusters:
         cluster_sizes.append(cluster.size)
     average_cluster_size = np.average(cluster_sizes)
+    print(get_elapsed_time(), ":     Average cluster size is", average_cluster_size)
+
+    # get average sizes of compressed sets
+    compressedSet_sizes = []
+    for compressedSet in CompressedSets:
+        compressedSet_sizes.append(compressedSet.size)
+        print(get_elapsed_time(), ":     Compressed set", compressedSet.index, "has size", compressedSet.size)
+    average_compressedSet_size = np.average(compressedSet_sizes)
+    print(get_elapsed_time(), ":     Average compressed set size is", average_compressedSet_size)
 
     # keep only compressed sets that are larger than the average cluster size
     CompressedSets = [compressedSet for compressedSet in CompressedSets if compressedSet.size >= average_cluster_size/3]
