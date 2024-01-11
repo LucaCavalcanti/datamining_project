@@ -8,6 +8,8 @@ sys.path.append('src/comparing')
 from find_best_five import find_best_five_per_driver
 from find_perfect_route import find_perfect_route_per_driver
 
+from time import time
+
 # GLOBAL VARIABLES
 type_file = int(sys.argv[1])
 
@@ -71,6 +73,7 @@ def data_mining():
     # get the list of actuals
     actual = get_route(actual_file)
         
+    start_time = time()
     # recStandard
     BFR(standard, actual, rec_standard_file)
     
@@ -82,6 +85,9 @@ def data_mining():
     
     # perfectRoute
     find_perfect_route_per_driver(standard, actual, perfect_route)
+    
+    end_time = time()
+    print(end_time - start_time)
 
 if __name__ == '__main__':
     data_mining()
