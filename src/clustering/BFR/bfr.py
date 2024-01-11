@@ -627,6 +627,7 @@ def write_results_to_file(results_file):
         f.write("[\n")
         for route in Clusters:
             json_output = json.dumps({"id": "ns" + str(counter), "route": route.centroid["route"]}, indent=4)
+            print("Writing cluster", route.index, "with size", route.size, "with id", "ns" + str(counter))
             f.write(json_output)
             if counter != len(Clusters) - 1:
                 f.write(",\n")
@@ -637,6 +638,7 @@ def write_results_to_file(results_file):
             counter += 1
         for route in CompressedSets:
             json_output = json.dumps({"id": "ns" + str(counter), "route": route.centroid["route"]}, indent=4)
+            print("Writing compressed set", route.index, "with size", route.size, "with id", "ns" + str(counter))
             f.write(json_output)
             if counter != len(CompressedSets) - 1:
                 f.write(",\n")
