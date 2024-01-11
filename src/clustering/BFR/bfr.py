@@ -383,7 +383,7 @@ def primary_compression_criteria():
             Clusters[closest_cluster].add(route)
         else:
             # add the route to the retained set
-            print("         Adding route", route["id"], "to retained set")
+            print("         Adding route", route["id"], "to retained set", "with minimal distance that was", closest_distance)
             RetainedSet.append(route)
 
         # remove the route from the buffer
