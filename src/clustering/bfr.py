@@ -238,9 +238,9 @@ def sample_actual_routes(actual_routes):
             counter += 1
     
     SAMPLE_BUFFER_SIZE = min(counter, SAMPLE_BUFFER_SIZE)
-    BUFFER_SIZE = min(counter, BUFFER_SIZE)
-    if BUFFER_SIZE == counter:
-        BUFFER_SIZE = int(counter / 2)
+    BUFFER_SIZE = min(counter/2, BUFFER_SIZE)
+    if BUFFER_SIZE == 0:
+        BUFFER_SIZE = 1
 
     # get a sample of actual routes
     sample_indexes = np.random.choice(counter, SAMPLE_BUFFER_SIZE, replace=False)
@@ -656,20 +656,23 @@ def write_results_to_file(results_file):
             f.write(json_output)
             if counter != len(Clusters) - 1:
                 f.write(",\n")
-            elif len(CompressedSets) != 0:
-                f.write(",\n")
             else:
-                f.write("\n")
+                if len(CompressedSets) != 0:
+                    f.write(",\n")
+                else:
+                    f.write("\n")
             counter += 1
+        compressedsets_counter = 0
         for route in CompressedSets:
             json_output = json.dumps({"id": "ns" + str(counter), "route": route.centroid["route"]}, indent=4)
             print("Writing compressed set", route.index, "with size", route.size, "with id", "ns" + str(counter))
             f.write(json_output)
-            if counter != len(CompressedSets) - 1:
+            if compressedsets_counter != len(CompressedSets) - 1:
                 f.write(",\n")
             else:
                 f.write("\n")
             counter += 1
+            compressedsets_counter += 1
         f.write("]\n")
 
 if __name__ == "__main__":
