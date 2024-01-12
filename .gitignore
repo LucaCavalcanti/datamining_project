@@ -1,8 +1,6 @@
 # ignore data
 /data/*.json
 /data/drivers_data_small.txt
-/data/big/*
-/data/big2/*
+# /data/big/*
 
 !/data/big/.gitkeep
-!/data/big2/.gitkeep
