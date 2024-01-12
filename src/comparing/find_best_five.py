@@ -78,6 +78,7 @@ def compare_routes(standards : list, actuals : list, city_weight: int, merch_wei
         similarity_dict[standard['id']] = cosine
 
     sorted_dict = dict(sorted(similarity_dict.items(), key=lambda item: item[1], reverse=True))
+    print('list of cosine similarity related to the standard:\n', sorted_dict)
     
     best_five = list()
     for route in sorted_dict:
