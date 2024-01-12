@@ -18,7 +18,7 @@ I need to compare every actual made by the driver with the standards and store e
 
 import json
 import sys
-sys.path.append('src/clustering/BFR/feature_extraction')
+sys.path.append('src/clustering/similarities')
 from similarity import similarity
 from feature_extractions import get_features
 

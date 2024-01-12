@@ -1,7 +1,7 @@
 import json
 import sys
 
-sys.path.append('src/clustering/BFR')
+sys.path.append('src/clustering')
 from bfr import BFR
 
 sys.path.append('src/comparing')
