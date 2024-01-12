@@ -1,0 +1,1586 @@
+=====BFR=====
+0.0 : Initializing BFR
+0.02 : Sampling from actual routes
+4.18 : Finding route and merch distance weights
+31.92 :     city weights: 0.6239653829465988
+31.92 :     merch weights: 0.37603461705340124
+31.92 : Finding Mahalanobis thresholds
+59.81 :     Mahalanobis threshold for cluster 0 is 0.75 , average was 0.40512142595853406
+59.81 :     Mahalanobis threshold for cluster 1 is 0.75 , average was 0.389573520912105
+59.81 :     Mahalanobis threshold for cluster 2 is 0.75 , average was 0.3821800861018532
+59.81 :     Mahalanobis threshold for cluster 3 is 0.75 , average was 0.4107223997901841
+59.81 :     Mahalanobis threshold for cluster 4 is 0.75 , average was 0.3639734585277007
+59.81 :     Mahalanobis threshold for cluster 5 is 0.75 , average was 0.3389999738106879
+59.81 :     Mahalanobis threshold for cluster 6 is 0.75 , average was 0.34457951921774904
+59.81 :     Mahalanobis threshold for cluster 7 is 0.75 , average was 0.3986150377559901
+59.81 :     Mahalanobis threshold for cluster 8 is 0.75 , average was 0.4248752589366652
+59.81 :     Mahalanobis threshold for cluster 9 is 0.75 , average was 0.3864851927151846
+60.01 : Starting BFR
+60.12 :     Buffer is full
+60.12 :     Checking primary compression criteria
+         Adding route a0 to cluster 0 with distance 0.6403781806709439
+         Adding route a1 to cluster 5 with distance 0.04700886435114271
+         Adding route a2 to cluster 1 with distance 0.06173782200247187
+         Adding route a3 to cluster 7 with distance 0.1643480148561353
+         Adding route a4 to cluster 5 with distance 0.05848367482146292
+         Adding route a5 to cluster 4 with distance 0.0657305860513331
+         Adding route a6 to cluster 0 with distance 0.46849279813746003
+         Adding route a7 to cluster 7 with distance 0.05722977742960642
+         Adding route a8 to cluster 9 with distance 0.5513288512204662
+         Adding route a9 to cluster 1 with distance 0.28520565742033965
+         Adding route a10 to cluster 8 with distance 0.4709098084432408
+         Adding route a11 to cluster 2 with distance 0.7096438450012158
+         Adding route a12 to cluster 3 with distance 0.09591581483094122
+         Adding route a13 to retained set with minimal distance that was 0.7539818542628629
+         Adding route a14 to cluster 9 with distance 0.302270168224796
+         Adding route a15 to retained set with minimal distance that was 0.7519971849158997
+         Adding route a16 to cluster 2 with distance 0.6253190266138873
+         Adding route a17 to cluster 7 with distance 0.2220126060196686
+         Adding route a18 to cluster 4 with distance 0.018047461092856203
+         Adding route a19 to cluster 5 with distance 0.19981092445874418
+         Adding route a20 to cluster 6 with distance 0.25818207705730756
+         Adding route a21 to cluster 2 with distance 0.5845852492185823
+         Adding route a22 to cluster 7 with distance 0.0908527074868154
+         Adding route a23 to cluster 7 with distance 0.4201967278465979
+         Adding route a24 to cluster 7 with distance 0.24859976683304336
+         Adding route a25 to retained set with minimal distance that was 0.7650627245026886
+         Adding route a26 to cluster 4 with distance 0.11149964509343332
+         Adding route a27 to cluster 3 with distance 0.26107673717268143
+         Adding route a28 to cluster 8 with distance 0.23616713555491603
+         Adding route a29 to cluster 9 with distance 0.6876257087850542
+         Adding route a30 to cluster 0 with distance 0.025861340542255355
+         Adding route a31 to cluster 4 with distance 0.17944986790605016
+         Adding route a32 to cluster 2 with distance 0.6574267710889967
+         Adding route a33 to cluster 6 with distance 0.11830307758106332
+         Adding route a34 to cluster 2 with distance 0.023426566343195333
+         Adding route a35 to cluster 2 with distance 0.24942730969828264
+         Adding route a36 to cluster 2 with distance 0.4696852446342318
+         Adding route a37 to cluster 8 with distance 0.3833660424899324
+         Adding route a38 to cluster 8 with distance 0.6932164178567838
+         Adding route a39 to cluster 1 with distance 0.3570807506871272
+         Adding route a40 to cluster 8 with distance 0.007849762913574554
+         Adding route a41 to cluster 8 with distance 0.376629580979534
+         Adding route a42 to cluster 9 with distance 0.3459367659360393
+         Adding route a43 to cluster 5 with distance 0.27681794088461326
+         Adding route a44 to retained set with minimal distance that was 0.7657689375128224
+         Adding route a45 to cluster 0 with distance 0.04512779754712056
+         Adding route a46 to cluster 9 with distance 0.21200585728431945
+         Adding route a47 to cluster 8 with distance 0.1299686627937291
+         Adding route a48 to cluster 2 with distance 0.674303097951661
+         Adding route a49 to cluster 1 with distance 0.5583532867599816
+94.82 :     Checking secondary compression criteria
+94.82 :     Updating primary clusters centroids
+94.82 :     Updating centroid for cluster 0 with size 5
+95.19 :     New centroid for cluster 0 is s0 with size 5 was s0
+95.19 :     Updating centroid for cluster 1 with size 5
+96.18 :     New centroid for cluster 1 is s1 with size 5 was s1
+96.19 :     Updating centroid for cluster 2 with size 9
+100.61 :     New centroid for cluster 2 is s2 with size 9 was s2
+100.61 :     Updating centroid for cluster 4 with size 5
+100.63 :     New centroid for cluster 4 is s4 with size 5 was s4
+100.63 :     Updating centroid for cluster 5 with size 5
+101.71 :     New centroid for cluster 5 is s5 with size 5 was s5
+101.71 :     Updating centroid for cluster 7 with size 7
+103.31 :     New centroid for cluster 7 is s7 with size 7 was s7
+103.31 :     Updating centroid for cluster 8 with size 8
+109.65 :     New centroid for cluster 8 is s8 with size 8 was s8
+109.66 :     Updating centroid for cluster 9 with size 6
+111.43 :     New centroid for cluster 9 is s9 with size 6 was s9
+111.73 :     Buffer is full
+111.73 :     Checking primary compression criteria
+         Adding route a50 to cluster 3 with distance 0.5774655571831171
+         Adding route a51 to cluster 2 with distance 0.10911033336178144
+         Adding route a52 to cluster 0 with distance 0.053637288379823594
+         Adding route a53 to retained set with minimal distance that was 0.786225961374801
+         Adding route a54 to cluster 4 with distance 0.032414135210955125
+         Adding route a55 to cluster 9 with distance 0.599305927528913
+         Adding route a56 to cluster 9 with distance 0.3989212065655309
+         Adding route a57 to cluster 7 with distance 0.08956268404173869
+         Adding route a58 to cluster 8 with distance 0.3557175893211154
+         Adding route a59 to cluster 1 with distance 0.5619089897823897
+         Adding route a60 to cluster 3 with distance 0.3351987348927049
+         Adding route a61 to cluster 0 with distance 0.03841266932884799
+         Adding route a62 to cluster 8 with distance 0.4338920616809816
+         Adding route a63 to cluster 4 with distance 0.35383876038562195
+         Adding route a64 to cluster 4 with distance 0.14508594315678813
+         Adding route a65 to retained set with minimal distance that was 0.7706214462823588
+         Adding route a66 to cluster 7 with distance 0.2652037386927531
+         Adding route a67 to cluster 9 with distance 0.7432644669418076
+         Adding route a68 to cluster 7 with distance 0.49133682460450046
+         Adding route a69 to cluster 0 with distance 0.16061825238766586
+         Adding route a70 to cluster 1 with distance 0.05902047400831251
+         Adding route a71 to cluster 8 with distance 0.017129569789399154
+         Adding route a72 to cluster 8 with distance 0.04931379531581544
+         Adding route a73 to cluster 4 with distance 0.5827759058440138
+         Adding route a74 to cluster 8 with distance 0.22718097268851672
+         Adding route a75 to cluster 1 with distance 0.10004992712251794
+         Adding route a76 to cluster 9 with distance 0.6927460812005589
+         Adding route a77 to cluster 3 with distance 0.03621224383359419
+         Adding route a78 to cluster 2 with distance 0.5703575602485346
+         Adding route a79 to cluster 0 with distance 0.5931477443229012
+         Adding route a80 to cluster 4 with distance 0.5415750369183214
+         Adding route a81 to cluster 1 with distance 0.054633501566523315
+         Adding route a82 to cluster 8 with distance 0.49887950245454327
+         Adding route a83 to cluster 1 with distance 0.5392203661694146
+         Adding route a84 to cluster 4 with distance 0.03859292144424956
+         Adding route a85 to cluster 9 with distance 0.21736165659078477
+         Adding route a86 to cluster 1 with distance 0.5080886768710916
+         Adding route a87 to cluster 5 with distance 0.014797432146058985
+         Adding route a88 to cluster 2 with distance 0.7252467223822454
+         Adding route a89 to cluster 6 with distance 0.004376864672064855
+         Adding route a90 to cluster 5 with distance 0.6306687123404541
+         Adding route a91 to cluster 8 with distance 0.3916356617914978
+         Adding route a92 to cluster 7 with distance 0.23924197533158462
+         Adding route a93 to cluster 4 with distance 0.1861121709945434
+         Adding route a94 to cluster 3 with distance 0.16004093977935085
+         Adding route a95 to cluster 7 with distance 0.4053787281706628
+         Adding route a96 to cluster 4 with distance 0.5713812395124056
+         Adding route a97 to cluster 6 with distance 0.03984005877850996
+         Adding route a98 to cluster 8 with distance 0.4984436738945416
+         Adding route a99 to cluster 8 with distance 0.471732449625145
+148.19 :     Checking secondary compression criteria
+148.19 :     Updating primary clusters centroids
+148.19 :     Updating centroid for cluster 0 with size 9
+148.46 :     New centroid for cluster 0 is a61 with size 9 was s0
+148.46 :     Updating centroid for cluster 1 with size 11
+150.63 :     Centroid for cluster 1 did not change, is s1 with size 11
+150.63 :     Updating centroid for cluster 2 with size 12
+151.04 :     New centroid for cluster 2 is a51 with size 12 was s2
+151.04 :     Updating centroid for cluster 3 with size 7
+152.13 :     New centroid for cluster 3 is s3 with size 7 was s3
+152.13 :     Updating centroid for cluster 4 with size 13
+152.21 :     Centroid for cluster 4 did not change, is s4 with size 13
+152.21 :     Updating centroid for cluster 6 with size 5
+152.24 :     New centroid for cluster 6 is s6 with size 5 was s6
+152.24 :     Updating centroid for cluster 7 with size 12
+153.62 :     Centroid for cluster 7 did not change, is s7 with size 12
+153.62 :     Updating centroid for cluster 8 with size 17
+165.26 :     Centroid for cluster 8 did not change, is s8 with size 17
+165.27 :     Updating centroid for cluster 9 with size 11
+167.31 :     Centroid for cluster 9 did not change, is s9 with size 11
+167.4 :     Buffer is full
+167.4 :     Checking primary compression criteria
+         Adding route a100 to cluster 0 with distance 0.39523709956116015
+         Adding route a101 to cluster 0 with distance 0.06808466534177195
+         Adding route a102 to cluster 6 with distance 0.045569546205503776
+         Adding route a103 to cluster 4 with distance 0.713691870344362
+         Adding route a104 to cluster 8 with distance 0.7477053063833488
+         Adding route a105 to cluster 4 with distance 0.3434229832392435
+         Adding route a106 to retained set with minimal distance that was 0.8374872251226905
+         Adding route a107 to cluster 0 with distance 0.2160844246785008
+         Adding route a108 to cluster 4 with distance 0.5870162832626298
+         Adding route a109 to cluster 2 with distance 0.3082733656771665
+         Adding route a110 to cluster 6 with distance 0.3592223969221283
+         Adding route a111 to cluster 7 with distance 0.7178715011759006
+         Adding route a112 to cluster 9 with distance 0.01548877954630642
+         Adding route a113 to cluster 2 with distance 0.732534942907349
+         Adding route a114 to cluster 5 with distance 0.5354151209441464
+         Adding route a115 to cluster 8 with distance 0.09028727388499001
+         Adding route a116 to cluster 2 with distance 0.7119164503999889
+         Adding route a117 to cluster 8 with distance 0.5806769442904347
+         Adding route a118 to cluster 4 with distance 0.47547275747849366
+         Adding route a119 to retained set with minimal distance that was 0.9399587091787827
+         Adding route a120 to cluster 6 with distance 0.03225763967788117
+         Adding route a121 to cluster 0 with distance 0.7174021768703522
+         Adding route a122 to cluster 4 with distance 0.39949524867858976
+         Adding route a123 to cluster 6 with distance 0.6493199100332758
+         Adding route a124 to cluster 4 with distance 0.17019043965927577
+         Adding route a125 to cluster 9 with distance 0.028810087410241502
+         Adding route a126 to cluster 5 with distance 0.1718161957406425
+         Adding route a127 to cluster 3 with distance 0.5307738956301231
+         Adding route a128 to cluster 8 with distance 0.02202146195780911
+         Adding route a129 to cluster 1 with distance 0.6408745442577539
+         Adding route a130 to cluster 6 with distance 0.3532724625995468
+         Adding route a131 to cluster 0 with distance 0.07727121977250077
+         Adding route a132 to cluster 4 with distance 0.3922131095404447
+         Adding route a133 to cluster 4 with distance 0.0286946437297439
+         Adding route a134 to cluster 4 with distance 0.3664616245154324
+         Adding route a135 to cluster 7 with distance 0.25012127902991893
+         Adding route a136 to cluster 9 with distance 0.41688839888481877
+         Adding route a137 to cluster 2 with distance 0.7289121791756636
+         Adding route a138 to cluster 7 with distance 0.3136929572958993
+         Adding route a139 to cluster 6 with distance 0.4002187016133956
+         Adding route a140 to retained set with minimal distance that was 0.778178221836813
+         Adding route a141 to cluster 0 with distance 0.7084823338944992
+         Adding route a142 to cluster 7 with distance 0.5828878544540854
+         Adding route a143 to cluster 2 with distance 0.16029370300638932
+         Adding route a144 to cluster 3 with distance 0.6135218585833191
+         Adding route a145 to cluster 2 with distance 0.24459317577577747
+         Adding route a146 to cluster 1 with distance 0.009111097021950378
+         Adding route a147 to cluster 7 with distance 0.533692773733857
+         Adding route a148 to cluster 2 with distance 0.14655118401566752
+         Adding route a149 to cluster 9 with distance 0.4758718196571577
+198.2 :     Checking secondary compression criteria
+198.2 :     Updating primary clusters centroids
+198.2 :     Updating centroid for cluster 0 with size 15
+199.0 :     Centroid for cluster 0 did not change, is a61 with size 15
+199.0 :     Updating centroid for cluster 2 with size 19
+201.21 :     Centroid for cluster 2 did not change, is a51 with size 19
+201.21 :     Updating centroid for cluster 4 with size 22
+201.34 :     Centroid for cluster 4 did not change, is s4 with size 22
+201.34 :     Updating centroid for cluster 5 with size 9
+203.19 :     Centroid for cluster 5 did not change, is s5 with size 9
+203.19 :     Updating centroid for cluster 6 with size 11
+203.3 :     Centroid for cluster 6 did not change, is s6 with size 11
+203.31 :     Updating centroid for cluster 7 with size 17
+205.74 :     Centroid for cluster 7 did not change, is s7 with size 17
+205.74 :     Updating centroid for cluster 8 with size 21
+207.64 :     New centroid for cluster 8 is a128 with size 21 was s8
+207.65 :     Updating centroid for cluster 9 with size 15
+208.48 :     New centroid for cluster 9 is a112 with size 15 was s9
+208.68 :     Buffer is full
+208.68 :     Checking primary compression criteria
+         Adding route a150 to cluster 0 with distance 0.7472300806689566
+         Adding route a151 to cluster 1 with distance 0.055586360123960295
+         Adding route a152 to cluster 5 with distance 0.33407809640392405
+         Adding route a153 to cluster 1 with distance 0.12119589907949246
+         Adding route a154 to cluster 8 with distance 0.04657706814578157
+         Adding route a155 to cluster 4 with distance 0.6313497084796467
+         Adding route a156 to cluster 3 with distance 0.7360350792217928
+         Adding route a157 to cluster 8 with distance 0.07764687509111287
+         Adding route a158 to cluster 3 with distance 0.017005244669999985
+         Adding route a159 to cluster 7 with distance 0.6942729508732594
+         Adding route a160 to cluster 1 with distance 0.49699129102672956
+         Adding route a161 to cluster 5 with distance 0.5763317963029562
+         Adding route a162 to cluster 0 with distance 0.5990758695573467
+         Adding route a163 to cluster 9 with distance 0.016068824263011282
+         Adding route a164 to cluster 1 with distance 0.04083113455882011
+         Adding route a165 to cluster 1 with distance 0.20338886991271588
+         Adding route a166 to cluster 8 with distance 0.7372458194633933
+         Adding route a167 to cluster 8 with distance 0.27917667025923637
+         Adding route a168 to cluster 3 with distance 0.2815061935517963
+         Adding route a169 to cluster 7 with distance 0.6965706716092939
+         Adding route a170 to cluster 1 with distance 0.37848306707152146
+         Adding route a171 to cluster 5 with distance 0.5377680700176669
+         Adding route a172 to cluster 3 with distance 0.7413030511560403
+         Adding route a173 to cluster 3 with distance 0.6167003566462341
+         Adding route a174 to cluster 7 with distance 0.7044603198923545
+         Adding route a175 to cluster 9 with distance 0.430215959786364
+         Adding route a176 to cluster 6 with distance 0.3395165696069469
+         Adding route a177 to cluster 8 with distance 0.699906429606922
+         Adding route a178 to cluster 5 with distance 0.010891006246954665
+         Adding route a179 to cluster 4 with distance 0.5345255776764788
+         Adding route a180 to cluster 7 with distance 0.6364461243160843
+         Adding route a181 to cluster 5 with distance 0.6479412052443358
+         Adding route a182 to cluster 5 with distance 0.0040256321996422345
+         Adding route a183 to cluster 7 with distance 0.7306852251938076
+         Adding route a184 to retained set with minimal distance that was 0.9141969558493834
+         Adding route a185 to cluster 2 with distance 0.5536218977840957
+         Adding route a186 to cluster 8 with distance 0.69653740346426
+         Adding route a187 to cluster 1 with distance 0.1991741882422958
+         Adding route a188 to retained set with minimal distance that was 0.8232156923368842
+         Adding route a189 to cluster 8 with distance 0.41998466318806915
+         Adding route a190 to cluster 0 with distance 0.03841266932884799
+         Adding route a191 to retained set with minimal distance that was 0.7690775144484452
+         Adding route a192 to cluster 6 with distance 0.5882951576793458
+         Adding route a193 to cluster 7 with distance 0.4915338764446776
+         Adding route a194 to cluster 3 with distance 0.735044352835601
+         Adding route a195 to cluster 8 with distance 0.3351401561009798
+         Adding route a196 to cluster 9 with distance 0.5746161336439966
+         Adding route a197 to cluster 9 with distance 0.03997679910902403
+         Adding route a198 to cluster 7 with distance 0.002512142198055899
+         Adding route a199 to cluster 5 with distance 0.286907314122435
+248.22 :     Checking secondary compression criteria
+248.22 :     Updating primary clusters centroids
+248.22 :     Updating centroid for cluster 0 with size 18
+248.46 :     Centroid for cluster 0 did not change, is a61 with size 18
+248.46 :     Updating centroid for cluster 1 with size 20
+252.92 :     Centroid for cluster 1 did not change, is s1 with size 20
+252.92 :     Updating centroid for cluster 3 with size 15
+258.44 :     Centroid for cluster 3 did not change, is s3 with size 15
+258.44 :     Updating centroid for cluster 5 with size 16
+265.33 :     Centroid for cluster 5 did not change, is s5 with size 16
+265.33 :     Updating centroid for cluster 7 with size 24
+271.78 :     Centroid for cluster 7 did not change, is s7 with size 24
+271.78 :     Updating centroid for cluster 8 with size 29
+283.02 :     Centroid for cluster 8 did not change, is a128 with size 29
+283.02 :     Updating centroid for cluster 9 with size 19
+283.77 :     Centroid for cluster 9 did not change, is a112 with size 19
+283.86 :     Buffer is full
+283.86 :     Checking primary compression criteria
+         Adding route a200 to cluster 0 with distance 0.5118676270197948
+         Adding route a201 to cluster 2 with distance 0.45998820436573934
+         Adding route a202 to cluster 3 with distance 0.06826349571578
+         Adding route a203 to cluster 0 with distance 0.5715866493289767
+         Adding route a204 to retained set with minimal distance that was 0.7504807867806049
+         Adding route a205 to cluster 0 with distance 0.4244725914348774
+         Adding route a206 to cluster 1 with distance 0.7228874980729367
+         Adding route a207 to cluster 9 with distance 0.22490497364600096
+         Adding route a208 to cluster 9 with distance 0.03482586261275451
+         Adding route a209 to cluster 6 with distance 0.37783964084605115
+         Adding route a210 to cluster 7 with distance 0.4202479229577546
+         Adding route a211 to cluster 4 with distance 0.7294981847012585
+         Adding route a212 to cluster 1 with distance 0.6925402277983732
+         Adding route a213 to cluster 4 with distance 0.125873215785204
+         Adding route a214 to cluster 2 with distance 0.5975029841074448
+         Adding route a215 to cluster 0 with distance 0.5794296077679407
+         Adding route a216 to cluster 2 with distance 0.5508065155605882
+         Adding route a217 to cluster 2 with distance 0.13597844188658562
+         Adding route a218 to cluster 4 with distance 0.3938276362387977
+         Adding route a219 to cluster 0 with distance 0.04267550570421537
+         Adding route a220 to cluster 2 with distance 0.6555853781947373
+         Adding route a221 to cluster 1 with distance 0.5410635823032692
+         Adding route a222 to cluster 8 with distance 0.7257806394738959
+         Adding route a223 to cluster 9 with distance 0.6922205340472364
+         Adding route a224 to cluster 5 with distance 0.6624471454401091
+         Adding route a225 to cluster 9 with distance 0.6194552133884859
+         Adding route a226 to cluster 3 with distance 0.013001996760170092
+         Adding route a227 to cluster 2 with distance 0.4041986525082524
+         Adding route a228 to cluster 6 with distance 0.09934347602141347
+         Adding route a229 to cluster 3 with distance 0.08775944947888367
+         Adding route a230 to cluster 5 with distance 0.5081783577582368
+         Adding route a231 to cluster 0 with distance 0.7347811863882898
+         Adding route a232 to cluster 5 with distance 0.5211815633262822
+         Adding route a233 to cluster 1 with distance 0.6302432001552503
+         Adding route a234 to cluster 4 with distance 0.05695886753662487
+         Adding route a235 to cluster 4 with distance 0.5996704589018782
+         Adding route a236 to cluster 5 with distance 0.6218785629068162
+         Adding route a237 to cluster 4 with distance 0.6932101238702383
+         Adding route a238 to cluster 9 with distance 0.4115775161383408
+         Adding route a239 to cluster 4 with distance 0.7404358009016399
+         Adding route a240 to cluster 7 with distance 0.26622009292863535
+         Adding route a241 to cluster 5 with distance 0.6039972578707217
+         Adding route a242 to cluster 9 with distance 0.6742521182418495
+         Adding route a243 to cluster 8 with distance 0.4083616544107459
+         Adding route a244 to cluster 3 with distance 0.17475223770025
+         Adding route a245 to cluster 6 with distance 0.03560186449268373
+         Adding route a246 to cluster 9 with distance 0.13071461299218862
+         Adding route a247 to cluster 4 with distance 0.32038956276645814
+         Adding route a248 to cluster 3 with distance 0.528277652288487
+         Adding route a249 to cluster 8 with distance 0.6251926609776894
+318.1 :     Checking secondary compression criteria
+318.1 :     Updating primary clusters centroids
+318.1 :     Updating centroid for cluster 0 with size 24
+319.29 :     Centroid for cluster 0 did not change, is a61 with size 24
+319.29 :     Updating centroid for cluster 1 with size 24
+321.67 :     Centroid for cluster 1 did not change, is s1 with size 24
+321.67 :     Updating centroid for cluster 2 with size 26
+325.5 :     Centroid for cluster 2 did not change, is a51 with size 26
+325.51 :     Updating centroid for cluster 3 with size 20
+326.19 :     New centroid for cluster 3 is a226 with size 20 was s3
+326.19 :     Updating centroid for cluster 4 with size 32
+326.37 :     Centroid for cluster 4 did not change, is s4 with size 32
+326.37 :     Updating centroid for cluster 5 with size 21
+331.94 :     Centroid for cluster 5 did not change, is s5 with size 21
+331.94 :     Updating centroid for cluster 6 with size 16
+332.0 :     Centroid for cluster 6 did not change, is s6 with size 16
+332.0 :     Updating centroid for cluster 8 with size 32
+333.71 :     Centroid for cluster 8 did not change, is a128 with size 32
+333.71 :     Updating centroid for cluster 9 with size 26
+337.38 :     Centroid for cluster 9 did not change, is a112 with size 26
+337.48 :     Buffer is full
+337.48 :     Checking primary compression criteria
+         Adding route a250 to cluster 3 with distance 0.7044836499617803
+         Adding route a251 to cluster 3 with distance 0.4467191518241057
+         Adding route a252 to cluster 9 with distance 0.44930562909652716
+         Adding route a253 to cluster 9 with distance 0.26537693485536806
+         Adding route a254 to cluster 5 with distance 0.7371807608286314
+         Adding route a255 to cluster 6 with distance 0.5170215400529324
+         Adding route a256 to cluster 2 with distance 0.5205961103512081
+         Adding route a257 to cluster 2 with distance 0.5184998158547992
+         Adding route a258 to cluster 3 with distance 0.6211245331903946
+         Adding route a259 to cluster 1 with distance 0.678147619726936
+         Adding route a260 to cluster 7 with distance 0.539000936792863
+         Adding route a261 to cluster 9 with distance 0.4382375899216227
+         Adding route a262 to retained set with minimal distance that was 0.7998473771197483
+         Adding route a263 to cluster 8 with distance 0.44670039989886356
+         Adding route a264 to cluster 1 with distance 0.2569706065270949
+         Adding route a265 to cluster 1 with distance 0.036448505669149284
+         Adding route a266 to cluster 4 with distance 0.533849449971207
+         Adding route a267 to cluster 5 with distance 0.5308848689937734
+         Adding route a268 to cluster 9 with distance 0.3690835307327171
+         Adding route a269 to cluster 9 with distance 0.6295586443882237
+         Adding route a270 to cluster 2 with distance 0.6359224863380744
+         Adding route a271 to cluster 5 with distance 0.40914463062510853
+         Adding route a272 to cluster 5 with distance 0.5317264101879449
+         Adding route a273 to cluster 0 with distance 0.20262790305306758
+         Adding route a274 to cluster 7 with distance 0.6748207490495863
+         Adding route a275 to cluster 5 with distance 0.38715399853081517
+         Adding route a276 to cluster 9 with distance 0.43443929419130256
+         Adding route a277 to cluster 9 with distance 0.49419200771770533
+         Adding route a278 to cluster 2 with distance 0.6971266001926463
+         Adding route a279 to cluster 9 with distance 0.7394489691414141
+         Adding route a280 to cluster 3 with distance 0.3543781740904219
+         Adding route a281 to cluster 7 with distance 0.47279677655912056
+         Adding route a282 to cluster 6 with distance 0.03648087522969656
+         Adding route a283 to cluster 9 with distance 0.12034370492853962
+         Adding route a284 to cluster 0 with distance 0.1021488521261898
+         Adding route a285 to cluster 3 with distance 0.2428007981234661
+         Adding route a286 to retained set with minimal distance that was 0.7862601449520519
+         Adding route a287 to cluster 0 with distance 0.6887198683731635
+         Adding route a288 to cluster 7 with distance 0.5578320847712984
+         Adding route a289 to cluster 4 with distance 0.005553471819657793
+         Adding route a290 to cluster 8 with distance 0.6604787720619092
+         Adding route a291 to cluster 3 with distance 0.4383107649054988
+         Adding route a292 to cluster 1 with distance 0.6426625866523485
+         Adding route a293 to cluster 5 with distance 0.4442471285559441
+         Adding route a294 to cluster 9 with distance 0.6576692886012024
+         Adding route a295 to cluster 0 with distance 0.7083410410499963
+         Adding route a296 to retained set with minimal distance that was 0.7627935269450097
+         Adding route a297 to cluster 0 with distance 0.33009460144288594
+         Adding route a298 to retained set with minimal distance that was 0.796136373784557
+         Adding route a299 to cluster 5 with distance 0.5280437295922458
+373.49 :     Checking secondary compression criteria
+373.49 :         Clustering retained set with K-Means
+373.57 :             Calculating distance matrix with multithreading. RetainedSet size: 17
+398.77 :             Calling K-Means
+399.04 :         Updating centroids of compressed sets
+399.04 :         -----
+399.04 :     Updating primary clusters centroids
+399.04 :     Updating centroid for cluster 0 with size 29
+399.62 :     Centroid for cluster 0 did not change, is a61 with size 29
+399.62 :     Updating centroid for cluster 1 with size 28
+400.77 :     Centroid for cluster 1 did not change, is s1 with size 28
+400.77 :     Updating centroid for cluster 2 with size 30
+401.79 :     Centroid for cluster 2 did not change, is a51 with size 30
+401.79 :     Updating centroid for cluster 3 with size 26
+403.63 :     Centroid for cluster 3 did not change, is a226 with size 26
+403.64 :     Updating centroid for cluster 5 with size 28
+412.48 :     Centroid for cluster 5 did not change, is s5 with size 28
+412.48 :     Updating centroid for cluster 7 with size 30
+416.19 :     Centroid for cluster 7 did not change, is s7 with size 30
+416.2 :     Updating centroid for cluster 9 with size 36
+425.86 :     Centroid for cluster 9 did not change, is a112 with size 36
+425.94 :     Buffer is full
+425.94 :     Checking primary compression criteria
+         Adding route a300 to retained set with minimal distance that was 0.7660755929457637
+         Adding route a301 to cluster 5 with distance 0.030186952080929096
+         Adding route a302 to cluster 0 with distance 0.16303225595026077
+         Adding route a303 to cluster 7 with distance 0.6994236420675461
+         Adding route a304 to cluster 3 with distance 0.3027077507614017
+         Adding route a305 to cluster 1 with distance 0.6685621366283481
+         Adding route a306 to cluster 0 with distance 0.42317535293834996
+         Adding route a307 to cluster 7 with distance 0.059741823963145826
+         Adding route a308 to cluster 1 with distance 0.46404574707381946
+         Adding route a309 to cluster 0 with distance 0.4963984837647367
+         Adding route a310 to cluster 2 with distance 0.22249782147691283
+         Adding route a311 to cluster 7 with distance 0.4573333982785075
+         Adding route a312 to cluster 6 with distance 0.6649225929642872
+         Adding route a313 to cluster 0 with distance 0.707496882599936
+         Adding route a314 to cluster 9 with distance 0.4414818243433039
+         Adding route a315 to cluster 9 with distance 0.47315136683603776
+         Adding route a316 to cluster 2 with distance 0.662973971763551
+         Adding route a317 to cluster 3 with distance 0.47670753034802726
+         Adding route a318 to cluster 7 with distance 0.03174809996521529
+         Adding route a319 to cluster 4 with distance 0.6021259602147104
+         Adding route a320 to cluster 9 with distance 0.7201958743606003
+         Adding route a321 to cluster 6 with distance 0.6202082223874676
+         Adding route a322 to cluster 9 with distance 0.06931869361822497
+         Adding route a323 to cluster 3 with distance 0.7407728243581411
+         Adding route a324 to cluster 3 with distance 0.6818394933620021
+         Adding route a325 to cluster 4 with distance 0.038636951502230364
+         Adding route a326 to cluster 8 with distance 0.6872477542111104
+         Adding route a327 to cluster 7 with distance 0.6154679319867493
+         Adding route a328 to cluster 7 with distance 0.19124494143249487
+         Adding route a329 to cluster 4 with distance 0.45897012871364457
+         Adding route a330 to cluster 4 with distance 0.4304021303941906
+         Adding route a331 to cluster 7 with distance 0.08431519276433262
+         Adding route a332 to cluster 5 with distance 0.6294923853828354
+         Adding route a333 to cluster 4 with distance 0.058244864499709954
+         Adding route a334 to cluster 6 with distance 0.5069083071837575
+         Adding route a335 to cluster 0 with distance 0.30973259756185373
+         Adding route a336 to cluster 8 with distance 0.5772924722988324
+         Adding route a337 to cluster 9 with distance 0.5628259406362035
+         Adding route a338 to retained set with minimal distance that was 0.7751675161029125
+         Adding route a339 to cluster 6 with distance 0.638055497115575
+         Adding route a340 to cluster 1 with distance 0.42175653331765045
+         Adding route a341 to cluster 6 with distance 0.5372024121085044
+         Adding route a342 to cluster 4 with distance 0.6432733098164909
+         Adding route a343 to cluster 4 with distance 0.1631038449903921
+         Adding route a344 to cluster 5 with distance 0.5918881097068451
+         Adding route a345 to cluster 6 with distance 0.2985863520179123
+         Adding route a346 to cluster 1 with distance 0.2598807760325179
+         Adding route a347 to cluster 6 with distance 0.062052766981250465
+         Adding route a348 to cluster 4 with distance 0.5739879601285729
+         Adding route a349 to cluster 4 with distance 0.4578875776863498
+457.9 :     Checking secondary compression criteria
+457.9 :         Clustering retained set with K-Means
+457.94 :             Calculating distance matrix with multithreading. RetainedSet size: 15
+471.6 :             Calling K-Means
+471.66 :         Updating centroids of compressed sets
+471.66 :         -----
+471.66 :     Updating primary clusters centroids
+471.66 :     Updating centroid for cluster 0 with size 34
+472.22 :     Centroid for cluster 0 did not change, is a61 with size 34
+472.22 :     Updating centroid for cluster 1 with size 32
+473.3 :     Centroid for cluster 1 did not change, is s1 with size 32
+473.3 :     Updating centroid for cluster 3 with size 30
+474.29 :     Centroid for cluster 3 did not change, is a226 with size 30
+474.29 :     Updating centroid for cluster 4 with size 43
+474.5 :     Centroid for cluster 4 did not change, is s4 with size 43
+474.5 :     Updating centroid for cluster 5 with size 31
+475.8 :     Centroid for cluster 5 did not change, is s5 with size 31
+475.8 :     Updating centroid for cluster 6 with size 25
+476.09 :     Centroid for cluster 6 did not change, is s6 with size 25
+476.09 :     Updating centroid for cluster 7 with size 37
+480.32 :     Centroid for cluster 7 did not change, is s7 with size 37
+480.32 :     Updating centroid for cluster 8 with size 36
+482.99 :     Centroid for cluster 8 did not change, is a128 with size 36
+482.99 :     Updating centroid for cluster 9 with size 41
+484.64 :     Centroid for cluster 9 did not change, is a112 with size 41
+484.72 :     Buffer is full
+484.72 :     Checking primary compression criteria
+         Adding route a350 to cluster 3 with distance 0.31534602177133486
+         Adding route a351 to cluster 5 with distance 0.5811057520171197
+         Adding route a352 to cluster 6 with distance 0.14298691166854643
+         Adding route a353 to cluster 5 with distance 0.0
+         Adding route a354 to cluster 5 with distance 0.03549546525271725
+         Adding route a355 to cluster 4 with distance 0.2984175147588869
+         Adding route a356 to cluster 0 with distance 0.6797521609957775
+         Adding route a357 to cluster 3 with distance 0.10272457504834018
+         Adding route a358 to cluster 4 with distance 0.6235610949599747
+         Adding route a359 to cluster 5 with distance 0.1072839534422911
+         Adding route a360 to cluster 6 with distance 0.6410981347509432
+         Adding route a361 to cluster 4 with distance 0.5751720168780214
+         Adding route a362 to cluster 5 with distance 0.5515330910217091
+         Adding route a363 to cluster 5 with distance 0.42604220583357466
+         Adding route a364 to cluster 0 with distance 0.27619686530071524
+         Adding route a365 to cluster 7 with distance 0.6883993103815278
+         Adding route a366 to cluster 5 with distance 0.2843257718609541
+         Adding route a367 to cluster 1 with distance 0.6571526272525833
+         Adding route a368 to cluster 9 with distance 0.559164586979926
+         Adding route a369 to cluster 6 with distance 0.6415014060981347
+         Adding route a370 to cluster 8 with distance 0.1332011355766884
+         Adding route a371 to cluster 1 with distance 0.702047555921569
+         Adding route a372 to cluster 0 with distance 0.5223749954031801
+         Adding route a373 to cluster 3 with distance 0.7132772361205488
+         Adding route a374 to retained set with minimal distance that was 0.7629829779564085
+         Adding route a375 to cluster 9 with distance 0.12484462228381893
+         Adding route a376 to cluster 8 with distance 0.3652384511264294
+         Adding route a377 to cluster 4 with distance 0.5878477781270866
+         Adding route a378 to cluster 4 with distance 0.4054258942704658
+         Adding route a379 to cluster 0 with distance 0.4315419594219325
+         Adding route a380 to cluster 0 with distance 0.32304858394235
+         Adding route a381 to cluster 1 with distance 0.24972968456614633
+         Adding route a382 to cluster 6 with distance 0.3122244219182224
+         Adding route a383 to cluster 5 with distance 0.18550517949619244
+         Adding route a384 to cluster 8 with distance 0.2728533748907589
+         Adding route a385 to cluster 9 with distance 0.7106757022204904
+         Adding route a386 to cluster 3 with distance 0.6427665714864248
+         Adding route a387 to cluster 9 with distance 0.6731350489429928
+         Adding route a388 to cluster 2 with distance 0.13578703897797334
+         Adding route a389 to cluster 0 with distance 0.06899082924847773
+         Adding route a390 to cluster 4 with distance 0.11937089174206658
+         Adding route a391 to cluster 2 with distance 0.597224366210071
+         Adding route a392 to cluster 6 with distance 0.17446571720177623
+         Adding route a393 to cluster 7 with distance 0.19423717621642167
+         Adding route a394 to cluster 9 with distance 0.7180334758417204
+         Adding route a395 to cluster 0 with distance 0.5880536047694939
+         Adding route a396 to cluster 3 with distance 0.5431466579591803
+         Adding route a397 to retained set with minimal distance that was 0.7554526662167604
+         Adding route a398 to cluster 4 with distance 0.23658411595076678
+         Adding route a399 to cluster 0 with distance 0.6189732640748224
+516.79 :     Checking secondary compression criteria
+516.79 :         Clustering retained set with K-Means
+516.84 :             Calculating distance matrix with multithreading. RetainedSet size: 17
+540.5 :             Calling K-Means
+540.56 :         Updating centroids of compressed sets
+540.56 :         -----
+540.56 :     Updating primary clusters centroids
+540.56 :     Updating centroid for cluster 0 with size 42
+543.0 :     Centroid for cluster 0 did not change, is a61 with size 42
+543.01 :     Updating centroid for cluster 1 with size 35
+544.08 :     Centroid for cluster 1 did not change, is s1 with size 35
+544.08 :     Updating centroid for cluster 2 with size 34
+544.75 :     Centroid for cluster 2 did not change, is a51 with size 34
+544.75 :     Updating centroid for cluster 3 with size 35
+546.06 :     Centroid for cluster 3 did not change, is a226 with size 35
+546.06 :     Updating centroid for cluster 4 with size 50
+546.14 :     Centroid for cluster 4 did not change, is s4 with size 50
+546.14 :     Updating centroid for cluster 5 with size 39
+552.9 :     Centroid for cluster 5 did not change, is s5 with size 39
+552.9 :     Updating centroid for cluster 6 with size 30
+552.98 :     Centroid for cluster 6 did not change, is s6 with size 30
+552.98 :     Updating centroid for cluster 8 with size 39
+553.63 :     New centroid for cluster 8 is a370 with size 39 was a128
+553.63 :     Updating centroid for cluster 9 with size 46
+556.0 :     Centroid for cluster 9 did not change, is a112 with size 46
+556.1 :     Buffer is full
+556.1 :     Checking primary compression criteria
+         Adding route a400 to cluster 5 with distance 0.04533900738146163
+         Adding route a401 to cluster 3 with distance 0.7307955156440769
+         Adding route a402 to retained set with minimal distance that was 0.7910847836647374
+         Adding route a403 to cluster 7 with distance 0.03244086223475313
+         Adding route a404 to cluster 9 with distance 0.5565097751590227
+         Adding route a405 to cluster 0 with distance 0.5559642568279862
+         Adding route a406 to cluster 7 with distance 0.42719763367405783
+         Adding route a407 to cluster 3 with distance 0.21037693897966891
+         Adding route a408 to cluster 3 with distance 0.037085410829843166
+         Adding route a409 to cluster 0 with distance 0.36342169855172135
+         Adding route a410 to cluster 2 with distance 0.15388726779724346
+         Adding route a411 to cluster 3 with distance 0.445053454258069
+         Adding route a412 to cluster 6 with distance 0.5802008139614406
+         Adding route a413 to cluster 9 with distance 0.47814538471896945
+         Adding route a414 to cluster 2 with distance 0.12426826705918866
+         Adding route a415 to cluster 9 with distance 0.3018323433813705
+         Adding route a416 to cluster 1 with distance 0.6628288384089562
+         Adding route a417 to cluster 5 with distance 0.45754667914549496
+         Adding route a418 to cluster 8 with distance 0.6936243318311863
+         Adding route a419 to cluster 8 with distance 0.579071164314394
+         Adding route a420 to cluster 7 with distance 0.5574892841009624
+         Adding route a421 to cluster 3 with distance 0.48187711248460174
+         Adding route a422 to cluster 8 with distance 0.13375260507088485
+         Adding route a423 to cluster 0 with distance 0.667689064076951
+         Adding route a424 to cluster 7 with distance 0.7187402208388354
+         Adding route a425 to cluster 1 with distance 0.6618711440517742
+         Adding route a426 to cluster 3 with distance 0.5222937246829329
+         Adding route a427 to cluster 0 with distance 0.5063210492393507
+         Adding route a428 to cluster 5 with distance 0.4019047682354366
+         Adding route a429 to cluster 4 with distance 0.5032343825233117
+         Adding route a430 to retained set with minimal distance that was 0.8567713135052307
+         Adding route a431 to cluster 4 with distance 0.1641652818420346
+         Adding route a432 to cluster 5 with distance 0.5884874749352962
+         Adding route a433 to retained set with minimal distance that was 0.7870267392502281
+         Adding route a434 to cluster 2 with distance 0.37804798312785953
+         Adding route a435 to cluster 1 with distance 0.0553238296091764
+         Adding route a436 to cluster 6 with distance 0.38378380069777784
+         Adding route a437 to cluster 0 with distance 0.0627790907963456
+         Adding route a438 to cluster 4 with distance 0.7373199683859519
+         Adding route a439 to cluster 2 with distance 0.14765730575823494
+         Adding route a440 to cluster 5 with distance 0.464610907490643
+         Adding route a441 to cluster 5 with distance 0.06303275767171362
+         Adding route a442 to cluster 3 with distance 0.5595030393093032
+         Adding route a443 to cluster 1 with distance 0.039065832271066254
+         Adding route a444 to cluster 3 with distance 0.05095037627439081
+         Adding route a445 to cluster 2 with distance 0.5435106904066161
+         Adding route a446 to cluster 5 with distance 0.0
+         Adding route a447 to cluster 9 with distance 0.14573536305461257
+         Adding route a448 to cluster 5 with distance 0.4167914170345698
+         Adding route a449 to cluster 2 with distance 0.13284348936198806
+590.27 :     Checking secondary compression criteria
+590.27 :         Clustering retained set with K-Means
+590.34 :             Calculating distance matrix with multithreading. RetainedSet size: 16
+611.59 :             Calling K-Means
+611.65 :         Updating centroids of compressed sets
+611.65 :         -----
+611.65 :     Updating primary clusters centroids
+611.65 :     Updating centroid for cluster 0 with size 47
+612.25 :     Centroid for cluster 0 did not change, is a61 with size 47
+612.25 :     Updating centroid for cluster 1 with size 39
+613.36 :     Centroid for cluster 1 did not change, is s1 with size 39
+613.36 :     Updating centroid for cluster 2 with size 40
+614.29 :     New centroid for cluster 2 is a414 with size 40 was a51
+614.29 :     Updating centroid for cluster 3 with size 43
+617.56 :     Centroid for cluster 3 did not change, is a226 with size 43
+617.56 :     Updating centroid for cluster 4 with size 53
+617.58 :     Centroid for cluster 4 did not change, is s4 with size 53
+617.59 :     Updating centroid for cluster 5 with size 47
+625.65 :     Centroid for cluster 5 did not change, is s5 with size 47
+625.65 :     Updating centroid for cluster 7 with size 43
+628.85 :     Centroid for cluster 7 did not change, is s7 with size 43
+628.85 :     Updating centroid for cluster 8 with size 42
+630.03 :     Centroid for cluster 8 did not change, is a370 with size 42
+630.03 :     Updating centroid for cluster 9 with size 50
+630.96 :     Centroid for cluster 9 did not change, is a112 with size 50
+631.06 :     Buffer is full
+631.06 :     Checking primary compression criteria
+         Adding route a450 to cluster 1 with distance 0.7292726946374819
+         Adding route a451 to cluster 8 with distance 0.5806025581953034
+         Adding route a452 to cluster 6 with distance 0.3905971292775552
+         Adding route a453 to cluster 4 with distance 0.04505604743754117
+         Adding route a454 to cluster 6 with distance 0.5129647239426147
+         Adding route a455 to cluster 9 with distance 0.2623554506648692
+         Adding route a456 to cluster 7 with distance 0.509697416463806
+         Adding route a457 to cluster 1 with distance 0.07524659233897718
+         Adding route a458 to cluster 5 with distance 0.5807541022133543
+         Adding route a459 to cluster 1 with distance 0.7203817336471618
+         Adding route a460 to cluster 3 with distance 0.6967130879538738
+         Adding route a461 to cluster 7 with distance 0.18094619906466397
+         Adding route a462 to cluster 4 with distance 0.3392960660354203
+         Adding route a463 to cluster 4 with distance 0.26590956104548535
+         Adding route a464 to cluster 5 with distance 0.49517252343410184
+         Adding route a465 to cluster 1 with distance 0.331440514430433
+         Adding route a466 to cluster 9 with distance 0.6609942505144348
+         Adding route a467 to cluster 3 with distance 0.5460951729068817
+         Adding route a468 to cluster 5 with distance 0.6055142894812071
+         Adding route a469 to cluster 8 with distance 0.6141806166672386
+         Adding route a470 to cluster 6 with distance 0.6331657639803252
+         Adding route a471 to cluster 3 with distance 0.17396234812012015
+         Adding route a472 to cluster 2 with distance 0.05873115017019492
+         Adding route a473 to cluster 0 with distance 0.532446756678179
+         Adding route a474 to cluster 8 with distance 0.6356016430785629
+         Adding route a475 to cluster 7 with distance 0.04248738952192758
+         Adding route a476 to cluster 7 with distance 0.608578120563153
+         Adding route a477 to cluster 3 with distance 0.6656862432688483
+         Adding route a478 to cluster 8 with distance 0.4968843178410701
+         Adding route a479 to cluster 8 with distance 0.7091031548112388
+         Adding route a480 to cluster 2 with distance 0.7187085481513417
+         Adding route a481 to cluster 9 with distance 0.47150411541966447
+         Adding route a482 to cluster 2 with distance 0.6680277982446603
+         Adding route a483 to cluster 8 with distance 0.6333935676764213
+         Adding route a484 to cluster 9 with distance 0.4692198375424825
+         Adding route a485 to cluster 8 with distance 0.5585263616477928
+         Adding route a486 to cluster 5 with distance 0.10476888864087372
+         Adding route a487 to cluster 5 with distance 0.3597442253205976
+         Adding route a488 to cluster 6 with distance 0.04071092954519235
+         Adding route a489 to cluster 2 with distance 0.036832832181035474
+         Adding route a490 to cluster 8 with distance 0.12075481335466923
+         Adding route a491 to cluster 9 with distance 0.028134218077157824
+         Adding route a492 to cluster 2 with distance 0.27921396629814266
+         Adding route a493 to cluster 9 with distance 0.09087927443545153
+         Adding route a494 to cluster 7 with distance 0.6984773143771041
+         Adding route a495 to cluster 2 with distance 0.4568489050906831
+         Adding route a496 to cluster 3 with distance 0.491154412797462
+         Adding route a497 to cluster 1 with distance 0.6026554370730448
+         Adding route a498 to cluster 4 with distance 0.3751481892956732
+         Adding route a499 to cluster 1 with distance 0.4203701154903148
+669.42 :     Checking secondary compression criteria
+669.42 :     Updating primary clusters centroids
+669.42 :     Updating centroid for cluster 1 with size 45
+672.76 :     Centroid for cluster 1 did not change, is s1 with size 45
+672.77 :     Updating centroid for cluster 2 with size 46
+675.29 :     Centroid for cluster 2 did not change, is a414 with size 46
+675.29 :     Updating centroid for cluster 3 with size 48
+676.9 :     Centroid for cluster 3 did not change, is a226 with size 48
+676.9 :     Updating centroid for cluster 4 with size 57
+676.92 :     Centroid for cluster 4 did not change, is s4 with size 57
+676.92 :     Updating centroid for cluster 5 with size 52
+680.59 :     Centroid for cluster 5 did not change, is s5 with size 52
+680.6 :     Updating centroid for cluster 6 with size 36
+680.72 :     Centroid for cluster 6 did not change, is s6 with size 36
+680.72 :     Updating centroid for cluster 7 with size 48
+683.12 :     Centroid for cluster 7 did not change, is s7 with size 48
+683.12 :     Updating centroid for cluster 8 with size 50
+696.16 :     Centroid for cluster 8 did not change, is a370 with size 50
+696.16 :     Updating centroid for cluster 9 with size 56
+698.14 :     Centroid for cluster 9 did not change, is a112 with size 56
+698.24 :     Buffer is full
+698.24 :     Checking primary compression criteria
+         Adding route a500 to cluster 3 with distance 0.054678273879438105
+         Adding route a501 to cluster 3 with distance 0.598277041497847
+         Adding route a502 to cluster 0 with distance 0.6526972146132302
+         Adding route a503 to cluster 3 with distance 0.39063193206192326
+         Adding route a504 to cluster 7 with distance 0.6004191769976226
+         Adding route a505 to cluster 8 with distance 0.7326126283643268
+         Adding route a506 to cluster 6 with distance 0.44866676336716677
+         Adding route a507 to cluster 3 with distance 0.4728431199005202
+         Adding route a508 to retained set with minimal distance that was 0.7882808372921265
+         Adding route a509 to cluster 7 with distance 0.6954652138698885
+         Adding route a510 to cluster 2 with distance 0.6764665569618091
+         Adding route a511 to cluster 9 with distance 0.13504216331333102
+         Adding route a512 to cluster 2 with distance 0.275454414522528
+         Adding route a513 to cluster 9 with distance 0.5253703945500554
+         Adding route a514 to cluster 6 with distance 0.16012098861333818
+         Adding route a515 to cluster 4 with distance 0.024541763531544993
+         Adding route a516 to cluster 9 with distance 0.3090684942331166
+         Adding route a517 to cluster 8 with distance 0.3560076579491067
+         Adding route a518 to cluster 2 with distance 0.7498357576392417
+         Adding route a519 to cluster 2 with distance 0.6283309362402164
+         Adding route a520 to cluster 2 with distance 0.6924437903067362
+         Adding route a521 to cluster 1 with distance 0.1500895737023249
+         Adding route a522 to cluster 4 with distance 0.014393038128105455
+         Adding route a523 to cluster 6 with distance 0.3679363164050783
+         Adding route a524 to cluster 3 with distance 0.2546552078992069
+         Adding route a525 to cluster 9 with distance 0.7027695324475955
+         Adding route a526 to cluster 8 with distance 0.6376995775849092
+         Adding route a527 to cluster 5 with distance 0.6852566513767501
+         Adding route a528 to cluster 7 with distance 0.5493115120554573
+         Adding route a529 to cluster 6 with distance 0.6664425349547788
+         Adding route a530 to cluster 1 with distance 0.09469396730740696
+         Adding route a531 to cluster 9 with distance 0.7378841138800261
+         Adding route a532 to cluster 9 with distance 0.05799128110467463
+         Adding route a533 to cluster 4 with distance 0.5807854769981733
+         Adding route a534 to cluster 7 with distance 0.3026561659302084
+         Adding route a535 to cluster 8 with distance 0.5981546730600622
+         Adding route a536 to cluster 0 with distance 0.5729955505705435
+         Adding route a537 to cluster 7 with distance 0.6442257160950502
+         Adding route a538 to retained set with minimal distance that was 0.7525727541804483
+         Adding route a539 to cluster 0 with distance 0.31950689459331405
+         Adding route a540 to cluster 5 with distance 0.3934137200869507
+         Adding route a541 to cluster 9 with distance 0.7375286408679551
+         Adding route a542 to cluster 2 with distance 0.1018541754995887
+         Adding route a543 to cluster 7 with distance 0.4619499064318348
+         Adding route a544 to cluster 9 with distance 0.6174545100549376
+         Adding route a545 to cluster 5 with distance 0.6599162595500465
+         Adding route a546 to cluster 8 with distance 0.635509272279669
+         Adding route a547 to cluster 7 with distance 0.6615644730843571
+         Adding route a548 to cluster 6 with distance 0.3915045772439845
+         Adding route a549 to cluster 5 with distance 0.7233252267119598
+734.31 :     Checking secondary compression criteria
+734.31 :         Clustering retained set with K-Means
+734.37 :             Calculating distance matrix with multithreading. RetainedSet size: 16
+753.04 :             Calling K-Means
+753.1 :         Updating centroids of compressed sets
+753.1 :         -----
+753.1 :     Updating primary clusters centroids
+753.1 :     Updating centroid for cluster 0 with size 51
+753.58 :     Centroid for cluster 0 did not change, is a61 with size 51
+753.58 :     Updating centroid for cluster 2 with size 52
+755.88 :     Centroid for cluster 2 did not change, is a414 with size 52
+755.88 :     Updating centroid for cluster 3 with size 53
+756.84 :     Centroid for cluster 3 did not change, is a226 with size 53
+756.84 :     Updating centroid for cluster 4 with size 60
+756.85 :     Centroid for cluster 4 did not change, is s4 with size 60
+756.85 :     Updating centroid for cluster 5 with size 56
+760.11 :     Centroid for cluster 5 did not change, is s5 with size 56
+760.11 :     Updating centroid for cluster 6 with size 41
+760.2 :     Centroid for cluster 6 did not change, is s6 with size 41
+760.2 :     Updating centroid for cluster 7 with size 55
+767.26 :     Centroid for cluster 7 did not change, is s7 with size 55
+767.26 :     Updating centroid for cluster 8 with size 55
+772.37 :     Centroid for cluster 8 did not change, is a370 with size 55
+772.37 :     Updating centroid for cluster 9 with size 64
+778.3 :     Centroid for cluster 9 did not change, is a112 with size 64
+778.58 :     Buffer is full
+778.58 :     Checking primary compression criteria
+         Adding route a550 to cluster 2 with distance 0.10070191425548715
+         Adding route a551 to cluster 1 with distance 0.11054381240082914
+         Adding route a552 to cluster 0 with distance 0.625676952495835
+         Adding route a553 to cluster 6 with distance 0.5243147824829117
+         Adding route a554 to cluster 7 with distance 0.694670021797451
+         Adding route a555 to cluster 1 with distance 0.5568604811626641
+         Adding route a556 to cluster 4 with distance 0.4211449175044133
+         Adding route a557 to cluster 9 with distance 0.6722486648110002
+         Adding route a558 to cluster 5 with distance 0.5259317569078894
+         Adding route a559 to cluster 7 with distance 0.13659704147103363
+         Adding route a560 to retained set with minimal distance that was 0.7833812795698545
+         Adding route a561 to cluster 3 with distance 0.5885002867520983
+         Adding route a562 to cluster 7 with distance 0.44862106082972186
+         Adding route a563 to cluster 0 with distance 0.7152122393848163
+         Adding route a564 to cluster 2 with distance 0.23011474135818843
+         Adding route a565 to cluster 0 with distance 0.22601273870496405
+         Adding route a566 to cluster 8 with distance 0.43982022639491036
+         Adding route a567 to retained set with minimal distance that was 0.7614747375878914
+         Adding route a568 to cluster 5 with distance 0.5019776322925663
+         Adding route a569 to cluster 0 with distance 0.08307779395722024
+         Adding route a570 to cluster 7 with distance 0.5160017963751247
+         Adding route a571 to cluster 5 with distance 0.16103125900011708
+         Adding route a572 to cluster 4 with distance 0.11513646658054105
+         Adding route a573 to cluster 1 with distance 0.030165628562208276
+         Adding route a574 to cluster 1 with distance 0.6943030610399944
+         Adding route a575 to cluster 1 with distance 0.31871578858596644
+         Adding route a576 to cluster 3 with distance 0.16939322145508623
+         Adding route a577 to cluster 3 with distance 0.13601885635377528
+         Adding route a578 to cluster 2 with distance 0.02131643982039073
+         Adding route a579 to cluster 2 with distance 0.060494929754672445
+         Adding route a580 to cluster 7 with distance 0.1070250757646405
+         Adding route a581 to cluster 8 with distance 0.7331074409799956
+         Adding route a582 to cluster 5 with distance 0.3323253326089643
+         Adding route a583 to cluster 1 with distance 0.29946361487548384
+         Adding route a584 to cluster 1 with distance 0.7026080606513598
+         Adding route a585 to cluster 1 with distance 0.15985445689650543
+         Adding route a586 to cluster 6 with distance 0.5392056651012056
+         Adding route a587 to cluster 8 with distance 0.17257209409973093
+         Adding route a588 to cluster 9 with distance 0.18169166265087608
+         Adding route a589 to cluster 3 with distance 0.636704808620009
+         Adding route a590 to cluster 8 with distance 0.7055324957084478
+         Adding route a591 to cluster 8 with distance 0.17373034409510515
+         Adding route a592 to cluster 2 with distance 0.6387202512025157
+         Adding route a593 to cluster 2 with distance 0.36943895029398016
+         Adding route a594 to cluster 7 with distance 0.04245569249103687
+         Adding route a595 to cluster 6 with distance 0.47056988256231086
+         Adding route a596 to cluster 8 with distance 0.6891327703057367
+         Adding route a597 to cluster 4 with distance 0.3452454433211624
+         Adding route a598 to cluster 9 with distance 0.18357147071690763
+         Adding route a599 to cluster 7 with distance 0.5552124197338175
+813.69 :     Checking secondary compression criteria
+813.69 :         Clustering retained set with K-Means
+813.73 :             Calculating distance matrix with multithreading. RetainedSet size: 16
+828.07 :             Calling K-Means
+828.12 :         Updating centroids of compressed sets
+828.12 :         -----
+828.12 :     Updating primary clusters centroids
+828.12 :     Updating centroid for cluster 0 with size 55
+828.49 :     Centroid for cluster 0 did not change, is a61 with size 55
+828.49 :     Updating centroid for cluster 1 with size 55
+835.75 :     Centroid for cluster 1 did not change, is s1 with size 55
+835.75 :     Updating centroid for cluster 2 with size 58
+836.82 :     Centroid for cluster 2 did not change, is a414 with size 58
+836.82 :     Updating centroid for cluster 3 with size 57
+837.56 :     Centroid for cluster 3 did not change, is a226 with size 57
+837.56 :     Updating centroid for cluster 4 with size 63
+837.57 :     Centroid for cluster 4 did not change, is s4 with size 63
+837.57 :     Updating centroid for cluster 5 with size 60
+839.41 :     Centroid for cluster 5 did not change, is s5 with size 60
+839.41 :     Updating centroid for cluster 6 with size 44
+839.45 :     Centroid for cluster 6 did not change, is s6 with size 44
+839.45 :     Updating centroid for cluster 7 with size 62
+843.58 :     Centroid for cluster 7 did not change, is s7 with size 62
+843.58 :     Updating centroid for cluster 8 with size 61
+849.43 :     Centroid for cluster 8 did not change, is a370 with size 61
+849.43 :     Updating centroid for cluster 9 with size 67
+850.36 :     Centroid for cluster 9 did not change, is a112 with size 67
+850.48 :     Buffer is full
+850.48 :     Checking primary compression criteria
+         Adding route a600 to cluster 1 with distance 0.34888506511172607
+         Adding route a601 to cluster 6 with distance 0.3732624863195567
+         Adding route a602 to cluster 3 with distance 0.3886868265263428
+         Adding route a603 to cluster 9 with distance 0.38286624090639826
+         Adding route a604 to cluster 8 with distance 0.668181770101702
+         Adding route a605 to cluster 0 with distance 0.11591748123738177
+         Adding route a606 to cluster 8 with distance 0.5425101750222088
+         Adding route a607 to cluster 4 with distance 0.6571913496186123
+         Adding route a608 to cluster 2 with distance 0.6432686838316508
+         Adding route a609 to cluster 2 with distance 0.360186264062248
+         Adding route a610 to cluster 3 with distance 0.7026202468615534
+         Adding route a611 to retained set with minimal distance that was 0.7891609078537534
+         Adding route a612 to cluster 2 with distance 0.3689760302969052
+         Adding route a613 to cluster 3 with distance 0.17363995659875628
+         Adding route a614 to cluster 7 with distance 0.6953440780687159
+         Adding route a615 to cluster 2 with distance 0.06961675458960644
+         Adding route a616 to cluster 9 with distance 0.4528053747783063
+         Adding route a617 to cluster 7 with distance 0.7072269944120972
+         Adding route a618 to cluster 4 with distance 0.025911466997287497
+         Adding route a619 to cluster 0 with distance 0.6376567732420069
+         Adding route a620 to cluster 2 with distance 0.44443607033932997
+         Adding route a621 to cluster 7 with distance 0.48713626810765487
+         Adding route a622 to cluster 0 with distance 0.7212380577814284
+         Adding route a623 to cluster 7 with distance 0.46393259195746395
+         Adding route a624 to cluster 6 with distance 0.7175513772337698
+         Adding route a625 to cluster 6 with distance 0.06767365682332961
+         Adding route a626 to retained set with minimal distance that was 0.7560413430812388
+         Adding route a627 to cluster 9 with distance 0.7320395362730957
+         Adding route a628 to cluster 2 with distance 0.7337533730212025
+         Adding route a629 to cluster 3 with distance 0.3041861065262417
+         Adding route a630 to cluster 3 with distance 0.7115525577961901
+         Adding route a631 to cluster 0 with distance 0.4329491086253213
+         Adding route a632 to cluster 9 with distance 0.6839827062954784
+         Adding route a633 to cluster 0 with distance 0.6523749025372104
+         Adding route a634 to cluster 8 with distance 0.14048146853530555
+         Adding route a635 to cluster 7 with distance 0.6246407612125193
+         Adding route a636 to cluster 2 with distance 0.6931252574828946
+         Adding route a637 to cluster 3 with distance 0.3091501023342063
+         Adding route a638 to cluster 1 with distance 0.39620679923118585
+         Adding route a639 to cluster 1 with distance 0.3746290090468481
+         Adding route a640 to cluster 0 with distance 0.6554234847557256
+         Adding route a641 to cluster 3 with distance 0.4268232186385985
+         Adding route a642 to cluster 8 with distance 0.6251285208778196
+         Adding route a643 to cluster 2 with distance 0.2936905992125264
+         Adding route a644 to cluster 2 with distance 0.4248706302866052
+         Adding route a645 to cluster 3 with distance 0.6874302690025504
+         Adding route a646 to cluster 7 with distance 0.1535946330929916
+         Adding route a647 to cluster 9 with distance 0.24295703764530782
+         Adding route a648 to cluster 3 with distance 0.296168007427134
+         Adding route a649 to cluster 0 with distance 0.11763330767155258
+885.02 :     Checking secondary compression criteria
+885.02 :         Clustering retained set with K-Means
+885.06 :             Calculating distance matrix with multithreading. RetainedSet size: 16
+900.43 :             Calling K-Means
+900.5 :         Updating centroids of compressed sets
+900.5 :         -----
+900.5 :     Updating primary clusters centroids
+900.5 :     Updating centroid for cluster 0 with size 62
+902.03 :     Centroid for cluster 0 did not change, is a61 with size 62
+902.03 :     Updating centroid for cluster 1 with size 58
+902.6 :     New centroid for cluster 1 is a600 with size 58 was s1
+902.6 :     Updating centroid for cluster 2 with size 67
+907.42 :     Centroid for cluster 2 did not change, is a414 with size 67
+907.43 :     Updating centroid for cluster 3 with size 66
+911.93 :     Centroid for cluster 3 did not change, is a226 with size 66
+911.93 :     Updating centroid for cluster 6 with size 47
+911.96 :     Centroid for cluster 6 did not change, is s6 with size 47
+911.96 :     Updating centroid for cluster 7 with size 68
+915.8 :     Centroid for cluster 7 did not change, is s7 with size 68
+915.8 :     Updating centroid for cluster 8 with size 65
+917.93 :     Centroid for cluster 8 did not change, is a370 with size 65
+917.93 :     Updating centroid for cluster 9 with size 72
+919.81 :     Centroid for cluster 9 did not change, is a112 with size 72
+919.9 :     Buffer is full
+919.9 :     Checking primary compression criteria
+         Adding route a650 to cluster 0 with distance 0.07846747840269658
+         Adding route a651 to cluster 3 with distance 0.49878708018177886
+         Adding route a652 to cluster 2 with distance 0.48682159296973565
+         Adding route a653 to cluster 7 with distance 0.6814981075027111
+         Adding route a654 to cluster 8 with distance 0.5081526298040401
+         Adding route a655 to cluster 9 with distance 0.30591513576350715
+         Adding route a656 to cluster 3 with distance 0.6985695827236171
+         Adding route a657 to cluster 7 with distance 0.043442138215112225
+         Adding route a658 to cluster 0 with distance 0.6613109607096079
+         Adding route a659 to cluster 8 with distance 0.30026236987915556
+         Adding route a660 to cluster 9 with distance 0.2944711951266419
+         Adding route a661 to cluster 8 with distance 0.1534512283646811
+         Adding route a662 to retained set with minimal distance that was 0.7606188372469087
+         Adding route a663 to cluster 7 with distance 0.17856198926063732
+         Adding route a664 to cluster 4 with distance 0.029069632904033842
+         Adding route a665 to cluster 4 with distance 0.10506329215076704
+         Adding route a666 to cluster 9 with distance 0.3408471184700099
+         Adding route a667 to cluster 2 with distance 0.23420554935691906
+         Adding route a668 to cluster 9 with distance 0.5757327913984391
+         Adding route a669 to cluster 2 with distance 0.22608959873265083
+         Adding route a670 to cluster 5 with distance 0.1812117775834713
+         Adding route a671 to cluster 0 with distance 0.09504564803827673
+         Adding route a672 to cluster 1 with distance 0.3699167618273647
+         Adding route a673 to cluster 7 with distance 0.0
+         Adding route a674 to cluster 5 with distance 0.4146228702500152
+         Adding route a675 to cluster 8 with distance 0.5327492356330281
+         Adding route a676 to cluster 6 with distance 0.5096366863720047
+         Adding route a677 to cluster 7 with distance 0.08922458839765449
+         Adding route a678 to cluster 0 with distance 0.6939248120774462
+         Adding route a679 to cluster 8 with distance 0.3495287692282677
+         Adding route a680 to cluster 8 with distance 0.2849378584557207
+         Adding route a681 to cluster 6 with distance 0.06339958713766351
+         Adding route a682 to cluster 4 with distance 0.09574403625880074
+         Adding route a683 to cluster 2 with distance 0.6868887517514408
+         Adding route a684 to cluster 6 with distance 0.05390545050398869
+         Adding route a685 to cluster 2 with distance 0.2564656234927659
+         Adding route a686 to cluster 9 with distance 0.40535405631044036
+         Adding route a687 to cluster 2 with distance 0.07705543573806097
+         Adding route a688 to cluster 9 with distance 0.6997395183913446
+         Adding route a689 to cluster 8 with distance 0.3726693389049488
+         Adding route a690 to cluster 4 with distance 0.40435925108861503
+         Adding route a691 to cluster 3 with distance 0.43936054791904083
+         Adding route a692 to cluster 9 with distance 0.16656728604245494
+         Adding route a693 to cluster 6 with distance 0.16630281212093212
+         Adding route a694 to cluster 7 with distance 0.19123678555982268
+         Adding route a695 to cluster 4 with distance 0.22379277909036388
+         Adding route a696 to cluster 9 with distance 0.6960545331522359
+         Adding route a697 to cluster 1 with distance 0.3578607041719494
+         Adding route a698 to cluster 9 with distance 0.6989701696413113
+         Adding route a699 to cluster 9 with distance 0.35333818034366193
+951.94 :     Checking secondary compression criteria
+951.94 :         Clustering retained set with K-Means
+951.99 :             Calculating distance matrix with multithreading. RetainedSet size: 15
+968.62 :             Calling K-Means
+968.72 :         Updating centroids of compressed sets
+968.72 :         -----
+968.72 :     Updating primary clusters centroids
+968.72 :     Updating centroid for cluster 0 with size 66
+969.14 :     Centroid for cluster 0 did not change, is a61 with size 66
+969.14 :     Updating centroid for cluster 2 with size 73
+971.59 :     Centroid for cluster 2 did not change, is a414 with size 73
+971.59 :     Updating centroid for cluster 3 with size 69
+972.09 :     Centroid for cluster 3 did not change, is a226 with size 69
+972.09 :     Updating centroid for cluster 4 with size 70
+972.14 :     Centroid for cluster 4 did not change, is s4 with size 70
+972.14 :     Updating centroid for cluster 6 with size 51
+972.18 :     Centroid for cluster 6 did not change, is s6 with size 51
+972.18 :     Updating centroid for cluster 7 with size 74
+973.87 :     New centroid for cluster 7 is a673 with size 74 was s7
+973.87 :     Updating centroid for cluster 8 with size 72
+978.78 :     Centroid for cluster 8 did not change, is a370 with size 72
+978.78 :     Updating centroid for cluster 9 with size 82
+988.05 :     Centroid for cluster 9 did not change, is a112 with size 82
+988.14 :     Buffer is full
+988.14 :     Checking primary compression criteria
+         Adding route a700 to cluster 6 with distance 0.36210110752977415
+         Adding route a701 to cluster 4 with distance 0.41622868232678384
+         Adding route a702 to cluster 8 with distance 0.6643329066647701
+         Adding route a703 to cluster 2 with distance 0.46618714510695913
+         Adding route a704 to cluster 7 with distance 0.1422244564567532
+         Adding route a705 to cluster 6 with distance 0.3193210369540653
+         Adding route a706 to cluster 8 with distance 0.6165704140605145
+         Adding route a707 to cluster 7 with distance 0.14507326311299082
+         Adding route a708 to cluster 8 with distance 0.5119067276008762
+         Adding route a709 to cluster 6 with distance 0.37837496589291997
+         Adding route a710 to cluster 8 with distance 0.7007282743827175
+         Adding route a711 to cluster 6 with distance 0.6169381154508096
+         Adding route a712 to cluster 3 with distance 0.09969388953306278
+         Adding route a713 to cluster 5 with distance 0.26933336198724145
+         Adding route a714 to cluster 4 with distance -1.385481469432734e-16
+         Adding route a715 to cluster 3 with distance 0.13277706128612132
+         Adding route a716 to cluster 4 with distance 0.6553708961760112
+         Adding route a717 to cluster 9 with distance 0.6599986160915199
+         Adding route a718 to cluster 8 with distance 0.23933475604401272
+         Adding route a719 to cluster 1 with distance 0.635389300935189
+         Adding route a720 to cluster 2 with distance 0.31136494683604915
+         Adding route a721 to cluster 7 with distance 0.05139222108647096
+         Adding route a722 to cluster 1 with distance 0.610304185005661
+         Adding route a723 to cluster 3 with distance 0.6376994276771516
+         Adding route a724 to cluster 0 with distance 0.7086797301619113
+         Adding route a725 to cluster 7 with distance 0.1592152137280865
+         Adding route a726 to cluster 5 with distance 0.5539952522509624
+         Adding route a727 to cluster 5 with distance 0.3063018611128239
+         Adding route a728 to cluster 3 with distance 0.5288400573034462
+         Adding route a729 to cluster 4 with distance 0.6590462498213561
+         Adding route a730 to cluster 8 with distance 0.19859647937931385
+         Adding route a731 to cluster 7 with distance 0.6654866790382029
+         Adding route a732 to cluster 5 with distance 0.2789498539879618
+         Adding route a733 to cluster 3 with distance 0.10649005880707324
+         Adding route a734 to cluster 2 with distance 0.3077562656195296
+         Adding route a735 to cluster 3 with distance 0.2725408557004714
+         Adding route a736 to cluster 7 with distance 0.02935989463527847
+         Adding route a737 to cluster 7 with distance 0.24589564090877625
+         Adding route a738 to cluster 5 with distance 0.0
+         Adding route a739 to cluster 2 with distance 0.6653832439803671
+         Adding route a740 to cluster 0 with distance 0.5755894744810071
+         Adding route a741 to cluster 9 with distance 0.18028444036794805
+         Adding route a742 to cluster 4 with distance 0.49367688247570146
+         Adding route a743 to cluster 3 with distance 0.22504877557852684
+         Adding route a744 to cluster 6 with distance 0.48522465785096625
+         Adding route a745 to cluster 7 with distance 0.5012621862241957
+         Adding route a746 to cluster 9 with distance 0.1010884896780703
+         Adding route a747 to cluster 8 with distance 0.7379273072036121
+         Adding route a748 to cluster 2 with distance 0.5363763306572482
+         Adding route a749 to cluster 4 with distance 0.047226466271035605
+1021.46 :     Checking secondary compression criteria
+1021.46 :         Clustering retained set with K-Means
+1021.52 :             Calculating distance matrix with multithreading. RetainedSet size: 15
+1038.12 :             Calling K-Means
+1038.18 :         Updating centroids of compressed sets
+1038.18 :         -----
+1038.18 :     Updating primary clusters centroids
+1038.18 :     Updating centroid for cluster 1 with size 62
+1039.09 :     New centroid for cluster 1 is a697 with size 62 was a600
+1039.09 :     Updating centroid for cluster 2 with size 78
+1040.32 :     Centroid for cluster 2 did not change, is a414 with size 78
+1040.32 :     Updating centroid for cluster 3 with size 76
+1041.91 :     Centroid for cluster 3 did not change, is a226 with size 76
+1041.91 :     Updating centroid for cluster 4 with size 76
+1041.97 :     Centroid for cluster 4 did not change, is s4 with size 76
+1041.97 :     Updating centroid for cluster 5 with size 67
+1046.58 :     Centroid for cluster 5 did not change, is s5 with size 67
+1046.58 :     Updating centroid for cluster 6 with size 56
+1046.66 :     Centroid for cluster 6 did not change, is s6 with size 56
+1046.66 :     Updating centroid for cluster 7 with size 82
+1050.17 :     Centroid for cluster 7 did not change, is a673 with size 82
+1050.17 :     Updating centroid for cluster 8 with size 79
+1058.82 :     Centroid for cluster 8 did not change, is a370 with size 79
+1058.82 :     Updating centroid for cluster 9 with size 85
+1059.23 :     New centroid for cluster 9 is a746 with size 85 was a112
+1059.32 :     Buffer is full
+1059.32 :     Checking primary compression criteria
+         Adding route a750 to cluster 1 with distance 0.29356430458759436
+         Adding route a751 to cluster 8 with distance 0.7131709400859745
+         Adding route a752 to cluster 5 with distance 0.05580970456621498
+         Adding route a753 to retained set with minimal distance that was 0.7874422346612681
+         Adding route a754 to cluster 4 with distance 0.4085401700694514
+         Adding route a755 to cluster 9 with distance 0.1279815164955738
+         Adding route a756 to cluster 7 with distance 0.5642837085215922
+         Adding route a757 to cluster 0 with distance 0.46075865168491803
+         Adding route a758 to cluster 1 with distance 0.7444036338360316
+         Adding route a759 to cluster 7 with distance 0.08135144388642963
+         Adding route a760 to cluster 6 with distance 0.07477960656487691
+         Adding route a761 to cluster 4 with distance 0.09263447659566074
+         Adding route a762 to cluster 8 with distance 0.5859257227113834
+         Adding route a763 to cluster 5 with distance 0.303710514256997
+         Adding route a764 to cluster 5 with distance 0.11230687309521063
+         Adding route a765 to cluster 7 with distance 0.5534509733550761
+         Adding route a766 to cluster 3 with distance 0.5855430665702357
+         Adding route a767 to cluster 3 with distance 0.04510525743588292
+         Adding route a768 to cluster 9 with distance 0.7258212976494548
+         Adding route a769 to cluster 9 with distance 0.717175715631466
+         Adding route a770 to cluster 6 with distance 0.5309899657763406
+         Adding route a771 to cluster 2 with distance 0.3162733017241104
+         Adding route a772 to cluster 8 with distance 0.726711351362846
+         Adding route a773 to cluster 8 with distance 0.6894385261769918
+         Adding route a774 to cluster 3 with distance 0.460378208871816
+         Adding route a775 to cluster 3 with distance 0.030287246276880106
+         Adding route a776 to cluster 6 with distance 0.34870192432375136
+         Adding route a777 to cluster 5 with distance 0.5043112207447419
+         Adding route a778 to cluster 9 with distance 0.30099593198221036
+         Adding route a779 to cluster 9 with distance 0.5398910635540758
+         Adding route a780 to cluster 1 with distance 0.11707589014901519
+         Adding route a781 to cluster 0 with distance 0.5446715070400207
+         Adding route a782 to cluster 8 with distance 0.6300980629993355
+         Adding route a783 to cluster 5 with distance 0.7151895423012535
+         Adding route a784 to retained set with minimal distance that was 0.834023044386965
+         Adding route a785 to cluster 9 with distance 0.3215266757944195
+         Adding route a786 to cluster 6 with distance 0.6245175055754237
+         Adding route a787 to cluster 4 with distance 0.5435809594839044
+         Adding route a788 to cluster 6 with distance 0.027010482060900353
+         Adding route a789 to cluster 5 with distance 0.42612948124123323
+         Adding route a790 to cluster 0 with distance 0.14369803678233573
+         Adding route a791 to cluster 7 with distance 0.030298910203360726
+         Adding route a792 to cluster 8 with distance 0.3243104704122354
+         Adding route a793 to cluster 0 with distance 0.5361114084046653
+         Adding route a794 to cluster 1 with distance 0.628370752448356
+         Adding route a795 to cluster 4 with distance 0.2913163931287488
+         Adding route a796 to cluster 7 with distance 0.21205548560831267
+         Adding route a797 to cluster 1 with distance 0.25807931904185777
+         Adding route a798 to cluster 7 with distance 0.04385597030729742
+         Adding route a799 to cluster 5 with distance 0.21104142746235477
+1093.54 :     Checking secondary compression criteria
+1093.54 :         Clustering retained set with K-Means
+1093.61 :             Calculating distance matrix with multithreading. RetainedSet size: 17
+1115.67 :             Calling K-Means
+1115.74 :         Updating centroids of compressed sets
+1115.74 :         -----
+1115.74 :     Updating primary clusters centroids
+1115.74 :     Updating centroid for cluster 0 with size 72
+1116.85 :     Centroid for cluster 0 did not change, is a61 with size 72
+1116.85 :     Updating centroid for cluster 1 with size 67
+1118.83 :     Centroid for cluster 1 did not change, is a697 with size 67
+1118.84 :     Updating centroid for cluster 3 with size 80
+1119.58 :     Centroid for cluster 3 did not change, is a226 with size 80
+1119.58 :     Updating centroid for cluster 4 with size 80
+1119.61 :     Centroid for cluster 4 did not change, is s4 with size 80
+1119.61 :     Updating centroid for cluster 5 with size 74
+1124.96 :     Centroid for cluster 5 did not change, is s5 with size 74
+1124.96 :     Updating centroid for cluster 6 with size 61
+1125.04 :     Centroid for cluster 6 did not change, is s6 with size 61
+1125.04 :     Updating centroid for cluster 7 with size 88
+1127.17 :     Centroid for cluster 7 did not change, is a673 with size 88
+1127.17 :     Updating centroid for cluster 8 with size 85
+1133.68 :     Centroid for cluster 8 did not change, is a370 with size 85
+1133.68 :     Updating centroid for cluster 9 with size 91
+1136.12 :     Centroid for cluster 9 did not change, is a746 with size 91
+1136.2 :     Buffer is full
+1136.2 :     Checking primary compression criteria
+         Adding route a800 to cluster 1 with distance 0.08418207453375048
+         Adding route a801 to cluster 5 with distance 0.15055461443917645
+         Adding route a802 to cluster 6 with distance 0.4508311368027885
+         Adding route a803 to cluster 0 with distance 0.2463728865078849
+         Adding route a804 to cluster 3 with distance 0.07159346557566998
+         Adding route a805 to cluster 7 with distance 0.2888737799742237
+         Adding route a806 to cluster 8 with distance 0.21877227306300656
+         Adding route a807 to cluster 7 with distance 0.11662382562579184
+         Adding route a808 to cluster 2 with distance 0.06558624638452283
+         Adding route a809 to cluster 3 with distance 0.7032698783601727
+         Adding route a810 to cluster 6 with distance 0.023346898936940873
+         Adding route a811 to cluster 7 with distance 0.7150064101017027
+         Adding route a812 to cluster 8 with distance 0.24230155971446854
+         Adding route a813 to cluster 0 with distance 0.5165093992432275
+         Adding route a814 to cluster 9 with distance 0.5634906693595567
+         Adding route a815 to cluster 6 with distance 0.7196067131539041
+         Adding route a816 to cluster 4 with distance 0.7429876095955531
+         Adding route a817 to cluster 3 with distance 0.05417268660038251
+         Adding route a818 to cluster 0 with distance 0.4848904766406402
+         Adding route a819 to cluster 4 with distance 0.61629586666111
+         Adding route a820 to cluster 6 with distance 0.04378275680405639
+         Adding route a821 to cluster 8 with distance 0.7121148391004191
+         Adding route a822 to cluster 6 with distance 0.1896878391572528
+         Adding route a823 to cluster 2 with distance 0.726541087500625
+         Adding route a824 to cluster 7 with distance 0.6874082230132319
+         Adding route a825 to cluster 7 with distance 0.04583577268098774
+         Adding route a826 to cluster 6 with distance 0.04628044556000916
+         Adding route a827 to cluster 9 with distance 0.10734832593602875
+         Adding route a828 to cluster 3 with distance 0.7395189007873566
+         Adding route a829 to cluster 4 with distance 0.22493540057913036
+         Adding route a830 to cluster 0 with distance 0.6536755631696731
+         Adding route a831 to cluster 0 with distance 0.6805155447949678
+         Adding route a832 to cluster 7 with distance 0.6309367860014659
+         Adding route a833 to cluster 2 with distance 0.4572422536569165
+         Adding route a834 to cluster 7 with distance 0.268906220210064
+         Adding route a835 to cluster 1 with distance 0.08882616056724424
+         Adding route a836 to cluster 0 with distance 0.06604615768654291
+         Adding route a837 to cluster 3 with distance 0.07587804073754838
+         Adding route a838 to cluster 6 with distance 0.14970230702462073
+         Adding route a839 to cluster 9 with distance 0.23166223912451842
+         Adding route a840 to cluster 7 with distance 0.2134645378165233
+         Adding route a841 to cluster 6 with distance 0.13763035161555065
+         Adding route a842 to cluster 4 with distance 0.06019714852495493
+         Adding route a843 to cluster 5 with distance 0.29635642160294506
+         Adding route a844 to cluster 5 with distance 0.04054618335210259
+         Adding route a845 to cluster 6 with distance 0.6610501377033896
+         Adding route a846 to retained set with minimal distance that was 0.7714531121649404
+         Adding route a847 to cluster 0 with distance 0.4688982364163799
+         Adding route a848 to cluster 5 with distance 0.35754324509462404
+         Adding route a849 to cluster 4 with distance 0.01892314470907324
+1166.0 :     Checking secondary compression criteria
+1166.0 :     Updating primary clusters centroids
+1166.0 :     Updating centroid for cluster 0 with size 79
+1167.22 :     Centroid for cluster 0 did not change, is a61 with size 79
+1167.22 :     Updating centroid for cluster 2 with size 82
+1167.97 :     Centroid for cluster 2 did not change, is a414 with size 82
+1167.97 :     Updating centroid for cluster 3 with size 85
+1168.98 :     Centroid for cluster 3 did not change, is a226 with size 85
+1168.98 :     Updating centroid for cluster 4 with size 85
+1169.03 :     Centroid for cluster 4 did not change, is s4 with size 85
+1169.03 :     Updating centroid for cluster 5 with size 78
+1170.49 :     Centroid for cluster 5 did not change, is s5 with size 78
+1170.49 :     Updating centroid for cluster 6 with size 70
+1170.69 :     Centroid for cluster 6 did not change, is s6 with size 70
+1170.69 :     Updating centroid for cluster 7 with size 96
+1176.56 :     Centroid for cluster 7 did not change, is a673 with size 96
+1176.56 :     Updating centroid for cluster 8 with size 88
+1177.46 :     Centroid for cluster 8 did not change, is a370 with size 88
+1177.46 :     Updating centroid for cluster 9 with size 94
+1177.85 :     New centroid for cluster 9 is a827 with size 94 was a746
+1177.94 :     Buffer is full
+1177.94 :     Checking primary compression criteria
+         Adding route a850 to cluster 2 with distance 0.1674028208579446
+         Adding route a851 to cluster 3 with distance 0.39010058864619107
+         Adding route a852 to cluster 5 with distance 0.7130757545484812
+         Adding route a853 to cluster 5 with distance 0.054375582588320856
+         Adding route a854 to cluster 4 with distance 0.4276245531926868
+         Adding route a855 to cluster 4 with distance 0.4207098613309906
+         Adding route a856 to cluster 8 with distance 0.14911942453416255
+         Adding route a857 to cluster 8 with distance 0.4120075140077894
+         Adding route a858 to cluster 2 with distance 0.4054533257976577
+         Adding route a859 to cluster 4 with distance 0.4306808486844622
+         Adding route a860 to cluster 6 with distance 0.14917993927479162
+         Adding route a861 to cluster 8 with distance 0.14800588626457445
+         Adding route a862 to cluster 1 with distance 0.2860156922326116
+         Adding route a863 to cluster 7 with distance 0.5298446146681606
+         Adding route a864 to cluster 9 with distance 0.5029366500895261
+         Adding route a865 to cluster 0 with distance 0.7102281894204969
+         Adding route a866 to cluster 7 with distance 0.5567024536955347
+         Adding route a867 to cluster 9 with distance 0.281249503053702
+         Adding route a868 to cluster 0 with distance 0.49942126649497137
+         Adding route a869 to cluster 3 with distance 0.7306748291567602
+         Adding route a870 to cluster 7 with distance 0.21657091202791195
+         Adding route a871 to cluster 1 with distance 0.7052642631617181
+         Adding route a872 to cluster 2 with distance 0.3811678455203618
+         Adding route a873 to cluster 2 with distance 0.27684690774606946
+         Adding route a874 to cluster 1 with distance 0.2546530809824428
+         Adding route a875 to cluster 8 with distance 0.28159336363509424
+         Adding route a876 to cluster 4 with distance 0.39280628235922777
+         Adding route a877 to cluster 6 with distance 0.6614932673747744
+         Adding route a878 to cluster 2 with distance 0.6466133405891118
+         Adding route a879 to cluster 1 with distance 0.572806074008964
+         Adding route a880 to cluster 7 with distance 0.6942170547941839
+         Adding route a881 to cluster 8 with distance 0.34189218066659105
+         Adding route a882 to cluster 9 with distance 0.43792475683734766
+         Adding route a883 to cluster 7 with distance 0.486073388141207
+         Adding route a884 to cluster 7 with distance 0.5065670455932512
+         Adding route a885 to cluster 5 with distance 0.7327816816556507
+         Adding route a886 to cluster 6 with distance 0.5539302770518634
+         Adding route a887 to retained set with minimal distance that was 0.7885208835142756
+         Adding route a888 to cluster 5 with distance 0.6786244703363874
+         Adding route a889 to cluster 6 with distance 0.5676291038092965
+         Adding route a890 to cluster 6 with distance 0.2790904351300002
+         Adding route a891 to cluster 5 with distance 0.23933762375552248
+         Adding route a892 to cluster 8 with distance 0.13022616554615793
+         Adding route a893 to cluster 1 with distance 0.035453465073426046
+         Adding route a894 to cluster 5 with distance 0.04553768094193855
+         Adding route a895 to cluster 6 with distance 0.02887956419348557
+         Adding route a896 to cluster 2 with distance 0.2658484380508193
+         Adding route a897 to cluster 6 with distance 0.31480619089481976
+         Adding route a898 to cluster 8 with distance 0.7108652940707584
+         Adding route a899 to cluster 8 with distance 0.20227700512420932
+1214.41 :     Checking secondary compression criteria
+1214.41 :         Clustering retained set with K-Means
+1214.45 :             Calculating distance matrix with multithreading. RetainedSet size: 15
+1224.68 :             Calling K-Means
+1224.74 :         Updating centroids of compressed sets
+1224.74 :         -----
+1224.74 :     Updating primary clusters centroids
+1224.74 :     Updating centroid for cluster 1 with size 74
+1227.6 :     Centroid for cluster 1 did not change, is a697 with size 74
+1227.6 :     Updating centroid for cluster 2 with size 88
+1229.14 :     Centroid for cluster 2 did not change, is a414 with size 88
+1229.14 :     Updating centroid for cluster 4 with size 89
+1229.18 :     Centroid for cluster 4 did not change, is s4 with size 89
+1229.18 :     Updating centroid for cluster 5 with size 84
+1235.43 :     Centroid for cluster 5 did not change, is s5 with size 84
+1235.43 :     Updating centroid for cluster 6 with size 77
+1235.58 :     Centroid for cluster 6 did not change, is s6 with size 77
+1235.58 :     Updating centroid for cluster 7 with size 102
+1239.45 :     Centroid for cluster 7 did not change, is a673 with size 102
+1239.45 :     Updating centroid for cluster 8 with size 96
+1244.82 :     Centroid for cluster 8 did not change, is a370 with size 96
+1244.82 :     Updating centroid for cluster 9 with size 97
+1245.31 :     Centroid for cluster 9 did not change, is a827 with size 97
+1245.39 :     Buffer is full
+1245.39 :     Checking primary compression criteria
+         Adding route a900 to cluster 7 with distance 0.13678732682317724
+         Adding route a901 to cluster 4 with distance 0.37692261064997934
+         Adding route a902 to cluster 3 with distance 0.013001996760170092
+         Adding route a903 to cluster 5 with distance 0.43412592130927224
+         Adding route a904 to cluster 4 with distance 0.03712530194182385
+         Adding route a905 to cluster 0 with distance 0.16833681789409294
+         Adding route a906 to cluster 9 with distance 0.46728713319532156
+         Adding route a907 to cluster 6 with distance 0.08878244760330299
+         Adding route a908 to cluster 1 with distance 0.57639245546272
+         Adding route a909 to cluster 5 with distance 0.06302452792304739
+         Adding route a910 to cluster 9 with distance 0.5143780110786241
+         Adding route a911 to cluster 0 with distance 0.5672319685383288
+         Adding route a912 to cluster 1 with distance 0.11480299009220654
+         Adding route a913 to cluster 2 with distance 0.4234608146310853
+         Adding route a914 to cluster 5 with distance 0.2047839014023307
+         Adding route a915 to cluster 6 with distance 0.014509847651644621
+         Adding route a916 to cluster 9 with distance 0.2686994671231044
+         Adding route a917 to cluster 9 with distance 0.5006635280789407
+         Adding route a918 to cluster 4 with distance 0.5666678714200337
+         Adding route a919 to cluster 8 with distance 0.5030342363693785
+         Adding route a920 to cluster 2 with distance 0.3682980622012604
+         Adding route a921 to cluster 6 with distance 0.3855433174691941
+         Adding route a922 to cluster 9 with distance 0.6504421695994518
+         Adding route a923 to cluster 0 with distance 0.2160474990058537
+         Adding route a924 to cluster 3 with distance 0.2944868598720166
+         Adding route a925 to cluster 0 with distance 0.7361662174566856
+         Adding route a926 to cluster 1 with distance 0.7373339753054428
+         Adding route a927 to cluster 0 with distance 0.06653480259522385
+         Adding route a928 to cluster 8 with distance 0.6310002498776942
+         Adding route a929 to cluster 3 with distance 0.5181649201761098
+         Adding route a930 to cluster 6 with distance 0.03266492292439533
+         Adding route a931 to cluster 2 with distance 0.10285799222930933
+         Adding route a932 to cluster 0 with distance 0.0811289589752372
+         Adding route a933 to cluster 9 with distance 0.07541253865755604
+         Adding route a934 to cluster 8 with distance 0.45445235434799636
+         Adding route a935 to cluster 5 with distance 0.7218890058629378
+         Adding route a936 to cluster 7 with distance 0.692446994412439
+         Adding route a937 to cluster 3 with distance 0.4309054057670812
+         Adding route a938 to cluster 1 with distance 0.7139966205096933
+         Adding route a939 to cluster 8 with distance 0.6571275400782015
+         Adding route a940 to cluster 4 with distance 0.30604946981769066
+         Adding route a941 to cluster 7 with distance 0.6122502777916277
+         Adding route a942 to cluster 6 with distance 0.3972668045779264
+         Adding route a943 to cluster 3 with distance 0.7177769152319855
+         Adding route a944 to cluster 2 with distance 0.6502224123570645
+         Adding route a945 to cluster 4 with distance 0.6630148865009332
+         Adding route a946 to cluster 0 with distance 0.3719552745805701
+         Adding route a947 to cluster 3 with distance 0.40987472604055264
+         Adding route a948 to cluster 4 with distance 0.15923761472045972
+         Adding route a949 to cluster 7 with distance 0.48998053044925804
+1276.71 :     Checking secondary compression criteria
+1276.71 :         Clustering retained set with K-Means
+1276.74 :             Calculating distance matrix with multithreading. RetainedSet size: 15
+1287.37 :             Calling K-Means
+1287.43 :         Updating centroids of compressed sets
+1287.43 :         -----
+1287.43 :     Updating primary clusters centroids
+1287.43 :     Updating centroid for cluster 0 with size 88
+1289.73 :     Centroid for cluster 0 did not change, is a61 with size 88
+1289.73 :     Updating centroid for cluster 1 with size 78
+1291.18 :     Centroid for cluster 1 did not change, is a697 with size 78
+1291.18 :     Updating centroid for cluster 2 with size 92
+1291.86 :     Centroid for cluster 2 did not change, is a414 with size 92
+1291.86 :     Updating centroid for cluster 3 with size 93
+1295.88 :     Centroid for cluster 3 did not change, is a226 with size 93
+1295.88 :     Updating centroid for cluster 4 with size 95
+1295.94 :     Centroid for cluster 4 did not change, is s4 with size 95
+1295.94 :     Updating centroid for cluster 5 with size 88
+1297.67 :     Centroid for cluster 5 did not change, is s5 with size 88
+1297.67 :     Updating centroid for cluster 6 with size 82
+1297.73 :     Centroid for cluster 6 did not change, is s6 with size 82
+1297.73 :     Updating centroid for cluster 7 with size 106
+1299.23 :     Centroid for cluster 7 did not change, is a673 with size 106
+1299.23 :     Updating centroid for cluster 8 with size 100
+1301.75 :     Centroid for cluster 8 did not change, is a370 with size 100
+1301.75 :     Updating centroid for cluster 9 with size 103
+1303.85 :     Centroid for cluster 9 did not change, is a827 with size 103
+1303.92 :     Last cycle, Buffer isn't empty, using it
+1303.93 :     Checking primary compression criteria
+         Adding route a950 to cluster 2 with distance 0.5198999888657221
+         Adding route a951 to cluster 9 with distance 0.7320168503603068
+         Adding route a952 to cluster 3 with distance 0.4339899202172308
+         Adding route a953 to cluster 5 with distance 0.024613112833983826
+         Adding route a954 to cluster 3 with distance 0.6447765584909745
+         Adding route a955 to cluster 5 with distance 0.04894003993493156
+         Adding route a956 to cluster 9 with distance 0.33888216636484514
+         Adding route a957 to cluster 8 with distance 0.4465918690915478
+         Adding route a958 to cluster 9 with distance 0.07504920369121663
+         Adding route a959 to cluster 9 with distance 0.46570334978968553
+         Adding route a960 to cluster 0 with distance 0.32764016661488793
+         Adding route a961 to cluster 1 with distance 0.14362761108233102
+         Adding route a962 to cluster 1 with distance 0.20043563327870073
+         Adding route a963 to cluster 7 with distance 0.22174575825865328
+         Adding route a964 to cluster 2 with distance 0.05072131419013428
+         Adding route a965 to cluster 9 with distance 0.05186718629791257
+         Adding route a966 to cluster 8 with distance 0.3656638667730194
+         Adding route a967 to cluster 6 with distance 0.22827780525766128
+         Adding route a968 to cluster 0 with distance 0.06346770214669956
+         Adding route a969 to cluster 3 with distance 0.3959148874798026
+         Adding route a970 to cluster 2 with distance 0.12789890831960837
+         Adding route a971 to cluster 0 with distance 0.39793199632152154
+         Adding route a972 to cluster 1 with distance 0.07550117567706281
+         Adding route a973 to cluster 7 with distance 0.08620897904690146
+         Adding route a974 to cluster 6 with distance 0.05172024080297435
+         Adding route a975 to cluster 8 with distance 0.14098337038468772
+         Adding route a976 to cluster 7 with distance 0.4401585985317074
+         Adding route a977 to cluster 3 with distance 0.18320706200071013
+         Adding route a978 to cluster 3 with distance 0.060820131985658304
+         Adding route a979 to cluster 5 with distance 0.3194716355632746
+         Adding route a980 to cluster 7 with distance 0.2018399896705711
+         Adding route a981 to cluster 3 with distance 0.16368470345167038
+         Adding route a982 to cluster 6 with distance 0.1337802731407431
+         Adding route a983 to cluster 5 with distance 0.04851113571840594
+         Adding route a984 to cluster 7 with distance 0.18588835340533144
+         Adding route a985 to cluster 1 with distance 0.24684708363184532
+         Adding route a986 to cluster 4 with distance 0.13446758743756007
+         Adding route a987 to cluster 2 with distance 0.39528718898067206
+         Adding route a988 to cluster 2 with distance 0.11183242655905105
+         Adding route a989 to cluster 8 with distance 0.13980148888107236
+1330.93 :     Checking secondary compression criteria
+1330.93 :         Clustering retained set with K-Means
+1330.96 :             Calculating distance matrix with multithreading. RetainedSet size: 15
+1341.02 :             Calling K-Means
+1341.08 :         Updating centroids of compressed sets
+1341.08 :         -----
+1341.08 :     Updating primary clusters centroids
+1341.08 :     Updating centroid for cluster 0 with size 91
+1341.23 :     New centroid for cluster 0 is a968 with size 91 was a61
+1341.23 :     Updating centroid for cluster 1 with size 82
+1341.8 :     New centroid for cluster 1 is a972 with size 82 was a697
+1341.8 :     Updating centroid for cluster 2 with size 97
+1342.52 :     Centroid for cluster 2 did not change, is a414 with size 97
+1342.52 :     Updating centroid for cluster 3 with size 99
+1343.87 :     Centroid for cluster 3 did not change, is a226 with size 99
+1343.87 :     Updating centroid for cluster 5 with size 92
+1344.84 :     New centroid for cluster 5 is a953 with size 92 was s5
+1344.84 :     Updating centroid for cluster 6 with size 85
+1344.86 :     New centroid for cluster 6 is a974 with size 85 was s6
+1344.86 :     Updating centroid for cluster 7 with size 111
+1346.0 :     Centroid for cluster 7 did not change, is a673 with size 111
+1346.0 :     Updating centroid for cluster 8 with size 104
+1347.14 :     Centroid for cluster 8 did not change, is a370 with size 104
+1347.14 :     Updating centroid for cluster 9 with size 108
+1348.63 :     Centroid for cluster 9 did not change, is a827 with size 108
+1348.63 : Merging compressed sets with primary clusters
+
+
+ 1355.57 :     Clustering compressed sets with primary clusters with threshold 0.7701577426764824
+1355.57 :     Adding compressed set a25 to cluster 9 with distance 0.7662794859965945
+1355.57 :     Adding compressed set a204 to cluster 1 with distance 0.7521776890688112
+1355.57 :     Adding compressed set a15 to cluster 1 with distance 0.7551374766935768
+1355.57 :     Adding compressed set a44 to cluster 6 with distance 0.7696540343593201
+1355.57 :     Adding compressed set a397 to cluster 7 with distance 0.7554526662167604
+1355.57 :     Adding compressed set a191 to cluster 2 with distance 0.7677683517295448
+1355.57 :     Cluster 0 has size 91
+1355.57 :     Cluster 1 has size 84
+1355.57 :     Cluster 2 has size 98
+1355.57 :     Cluster 3 has size 99
+1355.57 :     Cluster 4 has size 96
+1355.57 :     Cluster 5 has size 92
+1355.57 :     Cluster 6 has size 86
+1355.57 :     Cluster 7 has size 112
+1355.57 :     Cluster 8 has size 104
+1355.57 :     Cluster 9 has size 109
+1355.57 :     Average cluster size is 97.1
+1355.57 :     Compressed set 0 has size 2
+1355.57 :     Compressed set 1 has size 2
+1355.57 :     Compressed set 2 has size 2
+1355.57 :     Compressed set 3 has size 2
+1355.57 :     Compressed set 4 has size 2
+1355.57 :     Compressed set 5 has size 2
+1355.57 :     Compressed set 6 has size 2
+1355.57 :     Compressed set 7 has size 2
+1355.57 :     Compressed set 8 has size 2
+1355.57 :     Compressed set 9 has size 2
+1355.57 :     Average compressed set size is 2.0
+
+
+
+1355.57 : Writing results to file
+Writing cluster 2 with size 98 with id ns0
+Writing cluster 3 with size 99 with id ns1
+Writing cluster 7 with size 112 with id ns2
+Writing cluster 8 with size 104 with id ns3
+Writing cluster 9 with size 109 with id ns4
+Writing compressed set 0 with size 2 with id ns5
+Writing compressed set 1 with size 2 with id ns6
+Writing compressed set 2 with size 2 with id ns7
+Writing compressed set 3 with size 2 with id ns8
+Writing compressed set 4 with size 2 with id ns9
+Writing compressed set 5 with size 2 with id ns10
+Writing compressed set 6 with size 2 with id ns11
+Writing compressed set 7 with size 2 with id ns12
+Writing compressed set 8 with size 2 with id ns13
+Writing compressed set 9 with size 2 with id ns14
+1355.64 : BFR has ended!
+Average mahalanobis distance time: 0.008145400096322888
+Average custom distance time: 0.16348776647828708
+Average centroid update time: 2.2427103257592704
+Average primary compression criteria time: 33.909805703163144
+Average secondary compression criteria time: 11.00269877910614
+Average stream buffer time: 64.31371297836304
+Average cluster retained set time: 16.927025428185097
+Average add miniclusters to compressed sets time: 7.2020750779372e-05
+
+
+=====DRIVER=====
+list of cosine similarity related to the standard:
+ {'s4': 0.182395691421485, 's2': 0.14277397085401364, 's1': 0.14082428239805864, 'ns0': 0.13834653205923056, 's7': 0.12943479967353747, 'ns2': 0.12943479967353747, 's8': 0.1098508066952597, 'ns3': 0.09241477094757718, 's0': 0.06203810374363246, 's6': 0.041451788943596676, 'ns12': 0.035459550682469906, 'ns7': 0.03066921845827344, 'ns6': 0.029743451776405763, 'ns10': 0.028648418448080398, 'ns11': 0.02827540676287982, 'ns14': 0.027908282943867345, 'ns9': 0.024924947773762078, 'ns8': 0.012183767491685869, 's5': 0.010636605575287377, 'ns13': 0.009438377661405456, 's9': 0.0066960247549271296, 'ns4': 0.006642165827998209, 's3': 0.006493069837836104, 'ns1': 0.0064566643305646095, 'ns5': 0.004700459118289791}
+list of cosine similarity related to the standard:
+ {'s7': 0.09622073353453575, 'ns2': 0.09622073353453575, 's5': 0.09547827091018622, 's6': 0.0922069256025169, 's4': 0.09207379929886564, 's8': 0.09117954493763078, 's2': 0.0849006430933626, 'ns0': 0.08266791122176635, 's0': 0.0813173922062531, 's1': 0.07928353838016028, 'ns3': 0.07563802145996074, 's9': 0.07430834219277276, 'ns4': 0.07179600099286229, 's3': 0.06442644475054372, 'ns1': 0.06336014848795585, 'ns10': 0.023937355069816535, 'ns13': 0.023493326645066356, 'ns9': 0.022468011569582953, 'ns14': 0.020377463691350014, 'ns6': 0.020275953149449803, 'ns11': 0.020136042902948004, 'ns5': 0.019898429269376783, 'ns7': 0.019623386451986954, 'ns8': 0.01878061938725528, 'ns12': 0.018525642238736904}
+list of cosine similarity related to the standard:
+ {'s8': 0.074723467603175, 's9': 0.0741742697682574, 'ns4': 0.07180438021219146, 'ns3': 0.06496549825255774, 's2': 0.06132848944245115, 's7': 0.060208900783410964, 'ns2': 0.060208900783410964, 's5': 0.0601895741115943, 'ns0': 0.059888690605046306, 's1': 0.05813169158107332, 's6': 0.05435798751571965, 's0': 0.049493874361206745, 's3': 0.047950673184062674, 'ns1': 0.047319194337281274, 's4': 0.0358682478876978, 'ns9': 0.02357293288419949, 'ns5': 0.022585755652952885, 'ns13': 0.020445754774772205, 'ns10': 0.01941922783770343, 'ns11': 0.01932263785897871, 'ns6': 0.019073520775773588, 'ns14': 0.018513165699468037, 'ns7': 0.017917985679288113, 'ns8': 0.013720885159493823, 'ns12': 0.010537323132411989}
+list of cosine similarity related to the standard:
+ {'s8': 0.07123136221267443, 's9': 0.06884196813895371, 'ns4': 0.06658196976468041, 's1': 0.0636025602468489, 'ns3': 0.06216571032706856, 's5': 0.05989382850807355, 's4': 0.053211263263408894, 's0': 0.05111935978109423, 's7': 0.050833686520693866, 'ns2': 0.050833686520693866, 's3': 0.04233114666595727, 'ns1': 0.04189997813620264, 's2': 0.03764938938751797, 'ns0': 0.0368807403282456, 's6': 0.03661092485309263, 'ns9': 0.02259127405615451, 'ns13': 0.021793988436005923, 'ns5': 0.020578904769467585, 'ns6': 0.01928071751853343, 'ns14': 0.01914671355904797, 'ns7': 0.018663459193026238, 'ns10': 0.0183669343250675, 'ns11': 0.014732830027137267, 'ns12': 0.013870265796970297, 'ns8': 0.009616485606396169}
+list of cosine similarity related to the standard:
+ {'s2': 0.04285860606692224, 'ns0': 0.04204564474840862, 's0': 0.041424386913620145, 's8': 0.03346487191346247, 's7': 0.032337274959985056, 'ns2': 0.032337274959985056, 's6': 0.03215312690547711, 's1': 0.03146206461350111, 'ns3': 0.031091359788302214, 's4': 0.030461720844087756, 's3': 0.029553601930096575, 'ns1': 0.02938713363725454, 's9': 0.02331552776980244, 'ns10': 0.02300712762094085, 'ns4': 0.022957320163625318, 'ns7': 0.02214489460665245, 's5': 0.02020729395679777, 'ns8': 0.01872722270784031, 'ns11': 0.01694356572625021, 'ns9': 0.01617499402197146, 'ns12': 0.01591028808497762, 'ns6': 0.014956729786349227, 'ns14': 0.014658879540526666, 'ns13': 0.012218398033312093, 'ns5': 0.011103628754284018}
+list of cosine similarity related to the standard:
+ {'ns5': 1.0, 's9': 0.16461892872995082, 'ns4': 0.1625999203273502, 'ns13': 0.016354298180814346, 's6': 0.015801225429965905, 's3': 0.014559031775362169, 'ns1': 0.014559030875992708, 'ns9': 0.014168107699670402, 's5': 0.011812996297978407, 'ns10': 0.011214951394136745, 'ns6': 0.009693252799490697, 'ns11': 0.007886905087759678, 's7': 0.006747069082698738, 'ns2': 0.006747069082698738, 's8': 0.005969542130148098, 'ns3': 0.005138562267744126, 's0': 0.004619266484637437, 'ns14': 0.003664104711054419, 'ns0': 0.0034601982629122274, 's2': 0.0034555257020585533, 's1': 0.0032792601849828927, 'ns8': 3.2793933217533584e-07, 'ns12': 3.2756845682199e-07, 'ns7': 3.269192257054897e-07, 's4': 3.2540942276444424e-07}
+list of cosine similarity related to the standard:
+ {'s7': 0.05893082388283719, 'ns2': 0.05893082388283719, 's5': 0.047643796758980825, 's4': 0.04592906856381369, 's6': 0.04365890398685268, 's3': 0.042274330845375914, 'ns1': 0.041847410816633956, 's9': 0.039198767835804726, 's1': 0.039189322644375454, 'ns4': 0.03814769592970754, 's8': 0.03401298036371662, 's2': 0.03202751610421458, 'ns0': 0.0314319940635958, 'ns3': 0.0310215067719496, 's0': 0.025091897386146488, 'ns6': 0.02277425874045989, 'ns10': 0.020299266445059038, 'ns13': 0.017952073972485827, 'ns9': 0.015906435683333477, 'ns14': 0.015566900287814238, 'ns7': 0.015423375111072762, 'ns5': 0.015193388471356206, 'ns11': 0.01309196119429836, 'ns8': 0.01234434815517291, 'ns12': 0.010188947239497016}
+list of cosine similarity related to the standard:
+ {'s7': 0.10790596457308142, 'ns2': 0.10790596457308142, 's5': 0.07313702453732163, 's3': 0.07066139656320998, 'ns1': 0.06962899614019208, 's4': 0.06921927362840193, 's1': 0.06110651822524399, 's2': 0.05665176672312123, 's8': 0.05535119001164237, 'ns0': 0.05500589160353203, 's9': 0.051320265070254514, 'ns3': 0.050814239898588395, 'ns4': 0.0493374056076386, 's6': 0.045212267579352615, 's0': 0.04059152245581424, 'ns14': 0.029324931990737876, 'ns10': 0.027420650860037928, 'ns13': 0.019963622699473927, 'ns6': 0.019671271637193913, 'ns7': 0.01962880768287894, 'ns9': 0.01849843920945969, 'ns11': 0.01606448706631652, 'ns12': 0.015840909352500602, 'ns5': 0.015389087636013904, 'ns8': 0.01178657387019786}
+list of cosine similarity related to the standard:
+ {'s9': 0.1315169406425003, 'ns4': 0.12599549463309442, 's4': 0.1179454312579168, 's5': 0.1148995563354865, 's3': 0.08912959662928212, 'ns1': 0.08852517072895669, 's8': 0.07445023639998817, 'ns3': 0.06367823921873657, 'ns13': 0.05253508303286582, 's2': 0.046365733299798935, 'ns9': 0.045968257744053664, 'ns0': 0.04525138895400878, 's6': 0.040569735750370706, 's7': 0.040179515983828816, 'ns2': 0.040179515983828816, 'ns11': 0.039245244596609295, 'ns5': 0.030143943356864523, 's0': 0.028810142661363596, 'ns12': 0.027083936376266084, 'ns10': 0.014303071331903906, 'ns14': 0.009674707383859338, 'ns8': 0.008961455183790096, 's1': 0.007912594003180971, 'ns6': 0.007655312124648206, 'ns7': 0.006260710191274494}
+list of cosine similarity related to the standard:
+ {'s3': 0.10815590682858003, 'ns1': 0.10643830616728918, 's9': 0.08951296139502853, 'ns4': 0.08626769835368746, 's0': 0.0696687074963465, 's7': 0.06959361537829999, 'ns2': 0.06959361537829999, 's2': 0.06476030122533544, 'ns0': 0.06308906515048512, 's1': 0.06289585487886522, 's4': 0.06089458387817777, 's5': 0.06081679538592122, 's8': 0.058395417366423126, 's6': 0.052174247223933795, 'ns3': 0.05087226234194014, 'ns5': 0.024030487604019327, 'ns10': 0.020683736280280574, 'ns9': 0.01924181182974014, 'ns6': 0.018982285179169167, 'ns13': 0.01867658695006852, 'ns11': 0.01839709639592918, 'ns14': 0.01825059608864776, 'ns7': 0.017845005260804063, 'ns12': 0.012030437522126356, 'ns8': 0.011899225727679739}
+
+
+=====PERFECT ROUTE=====
+total time taken: 3138.1267364025116
