@@ -55,7 +55,7 @@ def get_actual_to_driver(driver_id: int, actual_routes: dict):
     return actuals
 
 
-def compare_routes(standards : list, actuals : list):
+def compare_routes(standards : list, actuals : list, city_weight: int, merch_weight: int):
     '''
     input:
         - standards: pool of standard those that originally the company has and also that are recommend in the recStandard.json
@@ -68,14 +68,13 @@ def compare_routes(standards : list, actuals : list):
     similarity_dict = dict()
     
     for standard in standards:
-        cities = list()
-        merchandise = list()
+        cosines = list()
         for actual in actuals:
             city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch = get_features(standard, actual)
-            city_similarity, merch_similarity = similarity(city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch)
-            cities.append(city_similarity)
-            merchandise.append(merch_similarity)
-        cosine = (sum(cities) / len(cities)) + (sum(merchandise) / len(merchandise))
+            merch_similarity, city_similarity = similarity(city_indexes, standard_cities, actual_cities, merch_indexes, standard_merch, actual_merch)
+            total_cosine = (city_similarity * (1 - city_weight)) + (merch_similarity * (1 - merch_weight))
+            cosines.append(total_cosine)
+        cosine = sum(cosines) / len(cosines)
         similarity_dict[standard['id']] = cosine
 
     sorted_dict = dict(sorted(similarity_dict.items(), key=lambda item: item[1], reverse=True))
@@ -87,7 +86,7 @@ def compare_routes(standards : list, actuals : list):
         best_five.append(route)
     return best_five
 
-def find_best_five_per_driver(standard_routes, actual_routes, rec_standard, result_file: str):
+def find_best_five_per_driver(standard_routes, actual_routes, rec_standard, result_file: str, city_weight: int, merch_weight: int):
     output = open(result_file, 'w')
     output.write('[\n')
     
@@ -97,7 +96,7 @@ def find_best_five_per_driver(standard_routes, actual_routes, rec_standard, resu
     standards = standard_routes + rec_standard
     for driver in drivers:
         actuals = get_actual_to_driver(driver, actual_routes)
-        best_five = compare_routes(standards, actuals)
+        best_five = compare_routes(standards, actuals, city_weight, merch_weight)
         
         json_output = json.dumps({"driver": driver, "routes": best_five})
         
@@ -111,11 +110,11 @@ def find_best_five_per_driver(standard_routes, actual_routes, rec_standard, resu
     output.write(']')
 
 if __name__ == "__main__":
-    standard_file = 'data/small2/standard_small.json'
+    """ standard_file = 'data/small2/standard_small.json'
     actual_file = 'data/small2/actual_normal_small.json'
     result_file = 'results/driver_normal_small.json'
     recStandard_file = 'results/recStandard_normal_small.json'
     standards = get_routes(standard_file)
     actuals = get_routes(actual_file)
     recStandard = get_routes(recStandard_file)
-    find_best_five_per_driver(standards, actuals, recStandard, result_file)
+    find_best_five_per_driver(standards, actuals, recStandard, result_file) """
