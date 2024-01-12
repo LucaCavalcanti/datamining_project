@@ -159,7 +159,7 @@ def print_average_times():
         print("Average update compressed sets time:", np.average(update_CompressedSets_times))
 
 def BFR(standard_routes, actual_routes, results_file):
-    global time_start
+    global time_start, CITY_WEIGHTS, MERCH_WEIGHTS
     # INITIALIZATION STEP
     # Set the number of clusters to the number of standard routes, set the cluster centroids to the standard routes
     time_start = time()
@@ -217,6 +217,8 @@ def BFR(standard_routes, actual_routes, results_file):
     #     print()
     # do something with the final results
     print_average_times()
+
+    return CITY_WEIGHTS, MERCH_WEIGHTS
 
 # Set initial cluster centroids to the standard routes
 def init_clusters(standard_routes):
