@@ -75,13 +75,13 @@ def data_mining():
         
     start_time = time()
     # recStandard
-    BFR(standard, actual, rec_standard_file)
+    city_weight, merch_weight = BFR(standard, actual, rec_standard_file)
     
     # get the list of rec standards
     rec_standard = get_route(rec_standard_file)
     
     # driver
-    find_best_five_per_driver(standard, actual, rec_standard, driver)
+    find_best_five_per_driver(standard, actual, rec_standard, driver, city_weight, merch_weight)
     
     # perfectRoute
     find_perfect_route_per_driver(standard, actual, perfect_route)
