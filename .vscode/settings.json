@@ -2,6 +2,7 @@
     "python.analysis.extraPaths": [
         "./src/clustering/feature_extraction",
         "./src/clustering",
-        "./src/clustering/similarities"
+        "./src/clustering/similarities",
+        "./src/comparing"
     ]
 }
