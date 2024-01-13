@@ -352,26 +352,36 @@ def find_perfect_route_per_driver(actuals: dict, result_file: str, city_weight =
         index += 1
     output.write(']')
     
-def compare_perfect_actuals(actuals, perfect, city_weight: int, merch_weight: int):
+def compare_perfect_actuals(actuals, perfect, city_weight: int, merch_weight: int, is_perfect: bool = True):
     '''
     to test
     calculate the similarity of the perfect route with the actuals
     '''
+    sum = 0
     for actual in actuals:
         city_indexes, cities_A, cities_B, merch_indexes, merch_A, merch_B = get_features(actual, perfect)
         merch, city = similarity(city_indexes, cities_A, cities_B, merch_indexes, merch_A, merch_B)
         cosine = (city * (1 - city_weight)) + (merch * (1 - merch_weight))
-        print('driver:', perfect['driver'], 'actual id:', actual['id'], 'similarity:', cosine)
-        print('city similarity:', city, 'merch similarity:', merch)
-        print('len actual:', len(actual['route']))
-        print('len perfect', len(perfect['route']))
-        print()
         
-""" def test_perfects(perfects, actuals, city_weight = 0.7196538657216474, merch_weight = 0.28034613427835264):
-    for perfect in perfects:
-        driver = perfect['driver']
-        actual_driver = get_actual_to_driver(driver, actuals)
-        compare_perfect_actuals(actual_driver, perfect, city_weight, merch_weight) """
+        sum += cosine
+        
+        # print for the output.txt
+        if is_perfect:
+            print('driver:', perfect['driver'], 'actual id:', actual['id'], 'similarity:', cosine)
+            print('city similarity:', city, 'merch similarity:', merch)
+            print('len actual:', len(actual['route']))
+            print('len perfect', len(perfect['route']))
+            print()
+    
+    print('sum of similarities for', perfect['driver'], ':', sum)
+        
+def test_perfects(actuals, city_weight = 0.7196538657216474, merch_weight = 0.28034613427835264):
+    index = random.randint(0, len(actuals))
+    perfect = actuals[index]
+    driver = perfect['driver']
+    actual_drivers = get_actual_to_driver(driver, actuals)
+    print('actual as perfect')
+    compare_perfect_actuals(actual_drivers, perfect, city_weight, merch_weight, False)
 
 
 if __name__ == "__main__":
@@ -380,3 +390,5 @@ if __name__ == "__main__":
     result_file = 'results/perfectRoute.json'
     
     find_perfect_route_per_driver(actuals, result_file)
+    print('\n\n\n')
+    test_perfects(actuals)
