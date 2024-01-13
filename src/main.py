@@ -35,9 +35,9 @@ def data_mining():
     if you want to test the code you can insert the word 'test' as the first argument and the type of the files you want to test as the second argument.
     the type of the files can be:
         - small
-        - normal_small
+        - small_normal
         - big
-        - normal_big
+        - big_normal
 
     then the function calls:
         - the function BFR from bfr.py and create the file recStandard.json for the required dataset
@@ -62,31 +62,35 @@ def data_mining():
     if standard_file == 'test':
         type_file = actual_file
         if type_file == 'small':
-            standard_file = os.path.join('data', 'standard_small.json')
-            actual_file = os.path.join('data', 'actual_small.json')
+            standard_file = os.path.join('data', 'small', 'standard_small.json')
+            actual_file = os.path.join('data', 'small', 'actual_small.json')
+            
             rec_standard_file = os.path.join('results', 'recStandard_small.json')
             driver = os.path.join('results', 'driver_small.json')
             perfect_route = os.path.join('results', 'perfectRoute_small.json')
-        elif type_file == 'normal_small':
-            standard_file = os.path.join('data', 'standard_normal_small.json')
-            actual_file = os.path.join('data', 'actual_normal_small.json')
-            rec_standard_file = os.path.join('results', 'recStandard_normal_small.json')
-            driver = os.path.join('results', 'driver_normal_small.json')
-            perfect_route = os.path.join('results', 'perfectRoute_normal_small.json')
+        elif type_file == 'small_normal':
+            standard_file = os.path.join('data', 'small', 'standard_small.json')
+            actual_file = os.path.join('data', 'small', 'actual_small_normal.json')
+            
+            rec_standard_file = os.path.join('results', 'recStandard_small_normal.json')
+            driver = os.path.join('results', 'driver_small_normal.json')
+            perfect_route = os.path.join('results', 'perfectRoute_small_normal.json')
         elif type_file == 'big':
-            standard_file = os.path.join('data', 'standard_big.json')
-            actual_file = os.path.join('data', 'actual_big.json')
+            standard_file = os.path.join('data', 'big', 'standard_big.json')
+            actual_file = os.path.join('data', 'big', 'actual_big.json')
+            
             rec_standard_file = os.path.join('results', 'recStandard_big.json')
             driver = os.path.join('results', 'driver_big.json')
             perfect_route = os.path.join('results', 'perfectRoute_big.json')
-        elif type_file == 'normal_big':
-            standard_file = os.path.join('data', 'standard_normal_big.json')
-            actual_file = os.path.join('data', 'actual_normal_big.json')
-            rec_standard_file = os.path.join('results', 'recStandard_normal_big.json')
-            driver = os.path.join('results', 'driver_normal_big.json')
-            perfect_route = os.path.join('results', 'perfectRoute_normal_big.json')
+        elif type_file == 'big_normal':
+            standard_file = os.path.join('data', 'big', 'standard_big.json')
+            actual_file = os.path.join('data', 'big', 'actual_big_normal.json')
+            
+            rec_standard_file = os.path.join('results', 'recStandard_big_normal.json')
+            driver = os.path.join('results', 'driver_big_normal.json')
+            perfect_route = os.path.join('results', 'perfectRoute_big_normal.json')
         else:
-            print('Wrong type of file, usage for testing purposes: main.py [test] [small, normal_small, big, normal_big]')
+            print('Wrong type of file, usage for testing purposes: main.py [test] [small, small_normal, big, big_normal]')
             exit()
     else:
         # take the actual route name as a string taken from the last /
