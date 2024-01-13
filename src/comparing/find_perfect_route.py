@@ -338,7 +338,10 @@ def find_perfect_route_per_driver(actuals: dict, result_file: str):
     index = 0
     drivers = get_drivers(actuals)
     for driver in drivers:
+        print(driver)
         route = find_perfect_route(driver, actuals)
+        driver_actuals = get_actual_to_driver(driver, actuals)
+        compare_perfect_actuals(driver_actuals, route)
         json_output = json.dumps(route)
         output.write(json_output)
         if index == len(drivers) - 1:
@@ -346,9 +349,10 @@ def find_perfect_route_per_driver(actuals: dict, result_file: str):
         else:
             output.write(',\n')
         index += 1
+    print('end')
     output.write(']')
     
-def compare_perfect_actuals(actuals, perfect, city_weight, merch_weight):
+def compare_perfect_actuals(actuals, perfect, city_weight = 0.7196538657216474, merch_weight = 0.28034613427835264):
     '''
     to test
     calculate the similarity of the perfect route with the actuals
@@ -359,18 +363,17 @@ def compare_perfect_actuals(actuals, perfect, city_weight, merch_weight):
         cosine = (city * (1 - city_weight)) + (merch * (1 - merch_weight))
         print(perfect['driver'], actual['id'], cosine)
         
-def test_perfects(perfects, actuals, city_weight = 0.38, merch_weight = 0.62):
+""" def test_perfects(perfects, actuals, city_weight = 0.7196538657216474, merch_weight = 0.28034613427835264):
     for perfect in perfects:
-        compare_perfect_actuals(actuals, perfect, city_weight, merch_weight)
+        driver = perfect['driver']
+        actual_driver = get_actual_to_driver(driver, actuals)
+        compare_perfect_actuals(actual_driver, perfect, city_weight, merch_weight) """
 
 
 if __name__ == "__main__":
-    actual_file = 'data/big/actual_big.json'
+    actual_file = 'data/big/actual_normal_big.json'
     actuals = get_route(actual_file)
+    print('ok')
     result_file = 'results/perfectRoute.json'
     
     find_perfect_route_per_driver(actuals, result_file)
-    
-    perfects = get_route(result_file)
-    
-    #test_perfects(perfects, actuals)
