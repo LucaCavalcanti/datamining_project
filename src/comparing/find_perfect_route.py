@@ -115,12 +115,7 @@ def find_perfect_route(driver_id: int, actual_routes: dict):
     
     new_route_length = int(total_length / len(actuals))
     
-    print('dict:\n', total_cities)
-    
     sorted_cities = dict(sorted(total_cities.items(), key=lambda item: item[1], reverse=True))
-    
-    #print('data:\n', data_merchandise)
-    #print('sorted cities:\n', sorted_cities)
     
     # take the n cities in order to create the new route where n is the length calculate in new_route_length
     cities_to_insert = list()
@@ -132,30 +127,19 @@ def find_perfect_route(driver_id: int, actual_routes: dict):
             for _ in range(times):
                 cities_to_insert.append(city)
                 
-    print('cities to insert:\n', cities_to_insert)
-    
-    check_list(cities_to_insert, new_route_length / 2, sorted_cities, new_route_length)
-    
-    print('cities to insert after the adjustments:\n', cities_to_insert)
-    print()
-    
+    cities_to_insert = scramble_list(cities_to_insert)
     new_route = {'driver': driver_id}
     trips = list()
-    # city from
-    city = random.choice(cities_to_insert)
-    next_city = ''
-    cities_to_insert.remove(city)
-    for index in range(new_route_length - 1):
+    
+    city = cities_to_insert[0]
+    next_city = cities_to_insert[1]
+
+    
+    for index in range(new_route_length):
         
-        # city from
         if index != 0:
             city = next_city
-        
-        # city to
-        next_city = random.choice(cities_to_insert)
-        while next_city == city:
-            next_city = random.choice(cities_to_insert)
-        cities_to_insert.remove(next_city)
+            next_city = cities_to_insert[index]
         
         mean_merch = dict()
         add_merch(data_merchandise, mean_merch, next_city)
@@ -163,6 +147,16 @@ def find_perfect_route(driver_id: int, actual_routes: dict):
     new_route['route'] = trips
     return new_route
 
+def scramble_list(input_list):
+    shuffled_list = input_list.copy()
+
+    while any(shuffled_list[i] == shuffled_list[i + 1] for i in range(len(shuffled_list) - 1)):
+        random.shuffle(shuffled_list)
+
+    return shuffled_list
+
+
+""" 
 def check_list(cities: list, length: int, sorted_cities: dict, sorted_index: int):
     print('check list')
     for city in cities:
@@ -201,7 +195,8 @@ def find_next_city(sorted_cities: dict, sorted_index: int):
     for element in sorted_cities:
         if index == sorted_index + 1:
             return element, sorted_cities[element]
-        index += 1
+        index += 1 """
+
 '''
 milano milano milano milano milano genova genova genova genova genova firenze
 
@@ -343,7 +338,6 @@ def find_perfect_route_per_driver(actuals: dict, result_file: str):
     index = 0
     drivers = get_drivers(actuals)
     for driver in drivers:
-        print(driver)
         route = find_perfect_route(driver, actuals)
         json_output = json.dumps(route)
         output.write(json_output)
