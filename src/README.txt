@@ -7,10 +7,10 @@ To install python 3.6, please refer to https://www.python.org/downloads/
 
 Step 2: Run the code
 To run the algorithm on custom datasets, please run the following command:
-python3 main.py [path to the standard route file] [path to the actual route file]
+python3 src/main.py [path to the standard route file] [path to the actual route file]
 
 To instead run the algorithm on the provided synthetic datasets, please run the following command:
-python3 main.py test [dataset type]
+python3 src/main.py test [dataset type]
 
 with dataset type being one of the following:
     - small
