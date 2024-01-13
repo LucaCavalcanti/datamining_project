@@ -120,7 +120,7 @@ def data_mining():
     
     # perfectRoute
     print('\n\n=====PERFECT ROUTE=====')
-    find_perfect_route_per_driver(actual, perfect_route)
+    find_perfect_route_per_driver(actual, perfect_route, city_weight, merch_weight)
     
     end_time = time()
     print('total time taken:', end_time - start_time)
