@@ -10,6 +10,7 @@ from find_perfect_route import find_perfect_route_per_driver
 
 from time import time
 from pathlib import Path
+import os
 
 # GLOBAL VARIABLES
 # type_file = int(sys.argv[1])
@@ -61,39 +62,39 @@ def data_mining():
     if standard_file == 'test':
         type_file = actual_file
         if type_file == 'small':
-            standard_file = 'data/standard_small.json'
-            actual_file = 'data/actual_small.json'
-            rec_standard_file = 'results/recStandard_small.json'
-            driver = 'results/driver_small.json'
-            perfect_route = 'results/perfectRoute_small.json'
+            standard_file = os.path.join('data', 'standard_small.json')
+            actual_file = os.path.join('data', 'actual_small.json')
+            rec_standard_file = os.path.join('results', 'recStandard_small.json')
+            driver = os.path.join('results', 'driver_small.json')
+            perfect_route = os.path.join('results', 'perfectRoute_small.json')
         elif type_file == 'normal_small':
-            standard_file = 'data/standard_normal_small.json'
-            actual_file = 'data/actual_normal_small.json'
-            rec_standard_file = 'results/recStandard_normal_small.json'
-            driver = 'results/driver_normal_small.json'
-            perfect_route = 'results/perfectRoute_normal_small.json'
+            standard_file = os.path.join('data', 'standard_normal_small.json')
+            actual_file = os.path.join('data', 'actual_normal_small.json')
+            rec_standard_file = os.path.join('results', 'recStandard_normal_small.json')
+            driver = os.path.join('results', 'driver_normal_small.json')
+            perfect_route = os.path.join('results', 'perfectRoute_normal_small.json')
         elif type_file == 'big':
-            standard_file = 'data/standard_big.json'
-            actual_file = 'data/actual_big.json'
-            rec_standard_file = 'results/recStandard_big.json'
-            driver = 'results/driver_big.json'
-            perfect_route = 'results/perfectRoute_big.json'
+            standard_file = os.path.join('data', 'standard_big.json')
+            actual_file = os.path.join('data', 'actual_big.json')
+            rec_standard_file = os.path.join('results', 'recStandard_big.json')
+            driver = os.path.join('results', 'driver_big.json')
+            perfect_route = os.path.join('results', 'perfectRoute_big.json')
         elif type_file == 'normal_big':
-            standard_file = 'data/standard_normal_big.json'
-            actual_file = 'data/actual_normal_big.json'
-            rec_standard_file = 'results/recStandard_normal_big.json'
-            driver = 'results/driver_normal_big.json'
-            perfect_route = 'results/perfectRoute_normal_big.json'
+            standard_file = os.path.join('data', 'standard_normal_big.json')
+            actual_file = os.path.join('data', 'actual_normal_big.json')
+            rec_standard_file = os.path.join('results', 'recStandard_normal_big.json')
+            driver = os.path.join('results', 'driver_normal_big.json')
+            perfect_route = os.path.join('results', 'perfectRoute_normal_big.json')
         else:
             print('Wrong type of file, usage for testing purposes: main.py [test] [small, normal_small, big, normal_big]')
             exit()
     else:
         # take the actual route name as a string taken from the last /
-        actual_route_name = actual_file.split('/')[-1].split('.')[0]
+        actual_route_name = actual_file.split(os.sep)[-1].split('.')[0]
         actual_route_name = actual_route_name.replace('actual', '')
-        rec_standard_file = 'results/recStandard' + actual_route_name + '.json'
-        driver = 'results/driver' + actual_route_name + '.json'
-        perfect_route = 'results/perfectRoute' + actual_route_name + '.json'
+        rec_standard_file = os.path.join('results', 'recStandard') + actual_route_name + '.json'
+        driver = os.path.join('results', 'driver') + actual_route_name + '.json'
+        perfect_route = os.path.join('results', 'perfectRoute') + actual_route_name + '.json'
         
     # get the list of standards
     standard = get_route(standard_file)

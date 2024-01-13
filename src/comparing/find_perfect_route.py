@@ -371,7 +371,7 @@ def compare_perfect_actuals(actuals, perfect, city_weight = 0.7196538657216474, 
 
 
 if __name__ == "__main__":
-    actual_file = 'data/big/actual_normal_big.json'
+    actual_file = 'data/small/actual_small.json'
     actuals = get_route(actual_file)
     print('ok')
     result_file = 'results/perfectRoute.json'
