@@ -150,11 +150,14 @@ def find_perfect_route(driver_id: int, actual_routes: dict):
 def scramble_list(input_list):
     shuffled_list = input_list.copy()
 
+    mcc = 0
     while any(shuffled_list[i] == shuffled_list[i + 1] for i in range(len(shuffled_list) - 1)):
         random.shuffle(shuffled_list)
+        if mcc == 100:
+            break
+        mcc += 1
 
     return shuffled_list
-
 
 """ 
 def check_list(cities: list, length: int, sorted_cities: dict, sorted_index: int):
@@ -187,16 +190,15 @@ def check_list(cities: list, length: int, sorted_cities: dict, sorted_index: int
                     times -= times_new_city
 
                 sorted_index += 1
-            
-            
-            
+
+
 def find_next_city(sorted_cities: dict, sorted_index: int):
     index = 0
     for element in sorted_cities:
         if index == sorted_index + 1:
             return element, sorted_cities[element]
-        index += 1 """
-
+        index += 1
+ """
 '''
 milano milano milano milano milano genova genova genova genova genova firenze
 
@@ -332,16 +334,15 @@ def add_merch(data_merchandise: dict, merchandise: dict, city: str):
             merchandise[merch] = int((data_merchandise[city][merch] * total_merch)/ total)
 
 
-def find_perfect_route_per_driver(actuals: dict, result_file: str):
+def find_perfect_route_per_driver(actuals: dict, result_file: str, city_weight = 0.6876561616433419, merch_weight = 0.31234383835665813):
     output = open(result_file, 'w')
     output.write('[\n')
     index = 0
     drivers = get_drivers(actuals)
     for driver in drivers:
-        print(driver)
         route = find_perfect_route(driver, actuals)
         driver_actuals = get_actual_to_driver(driver, actuals)
-        compare_perfect_actuals(driver_actuals, route)
+        compare_perfect_actuals(driver_actuals, route, city_weight, merch_weight)
         json_output = json.dumps(route)
         output.write(json_output)
         if index == len(drivers) - 1:
@@ -349,10 +350,9 @@ def find_perfect_route_per_driver(actuals: dict, result_file: str):
         else:
             output.write(',\n')
         index += 1
-    print('end')
     output.write(']')
     
-def compare_perfect_actuals(actuals, perfect, city_weight = 0.7196538657216474, merch_weight = 0.28034613427835264):
+def compare_perfect_actuals(actuals, perfect, city_weight: int, merch_weight: int):
     '''
     to test
     calculate the similarity of the perfect route with the actuals
@@ -361,7 +361,11 @@ def compare_perfect_actuals(actuals, perfect, city_weight = 0.7196538657216474, 
         city_indexes, cities_A, cities_B, merch_indexes, merch_A, merch_B = get_features(actual, perfect)
         merch, city = similarity(city_indexes, cities_A, cities_B, merch_indexes, merch_A, merch_B)
         cosine = (city * (1 - city_weight)) + (merch * (1 - merch_weight))
-        print(perfect['driver'], actual['id'], cosine)
+        print('driver:', perfect['driver'], 'actual id:', actual['id'], 'similarity:', cosine)
+        print('city similarity:', city, 'merch similarity:', merch)
+        print('len actual:', len(actual['route']))
+        print('len perfect', len(perfect['route']))
+        print()
         
 """ def test_perfects(perfects, actuals, city_weight = 0.7196538657216474, merch_weight = 0.28034613427835264):
     for perfect in perfects:
@@ -371,9 +375,8 @@ def compare_perfect_actuals(actuals, perfect, city_weight = 0.7196538657216474, 
 
 
 if __name__ == "__main__":
-    actual_file = 'data/small/actual_small.json'
+    actual_file = 'data/small/actual_small_normal.json'
     actuals = get_route(actual_file)
-    print('ok')
     result_file = 'results/perfectRoute.json'
     
     find_perfect_route_per_driver(actuals, result_file)
