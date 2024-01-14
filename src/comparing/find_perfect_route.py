@@ -148,7 +148,7 @@ def find_perfect_route(driver_id: int, actual_routes: dict):
     next_city = cities_to_insert[1]
 
     
-    for index in range(new_route_length):
+    for index in range(len(cities_to_insert)):
         
         if index != 0:
             city = next_city
@@ -405,7 +405,7 @@ def test_perfects(actuals, city_weight = 0.7196538657216474, merch_weight = 0.28
 
 
 if __name__ == "__main__":
-    actual_file = 'data/small/actual_small_normal.json'
+    actual_file = 'data/big/actual_big_normal.json'
     actuals = get_route(actual_file)
     result_file = 'results/perfectRoute.json'
     
