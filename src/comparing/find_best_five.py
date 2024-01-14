@@ -17,10 +17,21 @@ I need to compare every actual made by the driver with the standards and store e
 '''
 
 import json
+from time import time
 import sys
 sys.path.append('src/clustering/similarities')
 from similarity import similarity
 from feature_extractions import get_features
+
+time_start = None
+compare_routes_times = []
+sort_routes_times = []
+drivers_times = []
+
+def get_elapsed_time():
+    time_now = time()
+    # return with two decimals precision
+    return round(time_now - time_start, 2)
 
 def get_routes(standard_file: str):
     '''to test
@@ -67,6 +78,7 @@ def compare_routes(standards : list, actuals : list, city_weight: int, merch_wei
     
     similarity_dict = dict()
     
+    time_temp = time()
     for standard in standards:
         cosines = list()
         for actual in actuals:
@@ -76,8 +88,14 @@ def compare_routes(standards : list, actuals : list, city_weight: int, merch_wei
             cosines.append(total_cosine)
         cosine = sum(cosines) / len(cosines)
         similarity_dict[standard['id']] = cosine
+    time_temp2 = time()
+    compare_routes_times.append(time_temp2 - time_temp)
 
+    time_temp = time()
     sorted_dict = dict(sorted(similarity_dict.items(), key=lambda item: item[1], reverse=True))
+    time_temp2 = time()
+    sort_routes_times.append(time_temp2 - time_temp)
+
     print('list of cosine similarity related to the standard:\n', sorted_dict)
     
     best_five = list()
@@ -88,11 +106,15 @@ def compare_routes(standards : list, actuals : list, city_weight: int, merch_wei
     return best_five
 
 def find_best_five_per_driver(standard_routes, actual_routes, rec_standard, result_file: str, city_weight: int, merch_weight: int):
+    global time_start
+    time_start = time()
+
     output = open(result_file, 'w')
     output.write('[\n')
     
     drivers = get_drivers(actual_routes)
     
+    time_temp = time()
     counter = 0
     standards = standard_routes + rec_standard
     for driver in drivers:
@@ -109,6 +131,14 @@ def find_best_five_per_driver(standard_routes, actual_routes, rec_standard, resu
         counter += 1
         
     output.write(']')
+    output.close()
+    time_temp2 = time()
+    drivers_times.append(time_temp2 - time_temp)
+
+    print('Average time taken to compare routes:', sum(compare_routes_times) / len(compare_routes_times))
+    print('Average time taken to sort routes:', sum(sort_routes_times) / len(sort_routes_times))
+    print('Average time taken to find drivers:', sum(drivers_times) / len(drivers_times))
+    print('Total time taken:', get_elapsed_time())
 
 if __name__ == "__main__":
     """ standard_file = 'data/small2/standard_small.json'

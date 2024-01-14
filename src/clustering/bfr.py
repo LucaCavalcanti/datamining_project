@@ -370,13 +370,13 @@ def stream_buffer():
 
     time_temp = time()
     print(get_elapsed_time(), ":     Checking primary compression criteria")
-    primary_compression_criteria()
+    primary_compression_criterion()
     time_temp2 = time()
     primary_compression_criteria_times.append(time_temp2 - time_temp)
 
     time_temp3 = time()
     print(get_elapsed_time(), ":     Checking secondary compression criteria")
-    secondary_compression_criteria()
+    secondary_compression_criterion()
     time_temp4 = time()
     secondary_compression_criteria_times.append(time_temp4 - time_temp3)
 
@@ -387,7 +387,7 @@ def stream_buffer():
     time_temp5 = time()
     stream_buffer_times.append(time_temp5 - time_temp)
 
-def primary_compression_criteria():
+def primary_compression_criterion():
     global Buffer, Clusters, RetainedSet
     for route in Buffer:
         # Find closest cluster to route by passing all of them 
@@ -422,7 +422,7 @@ def find_closest_cluster(route):
 # the RetainedSet will be clustered into k clusters, where k is a percentage of the number of clusters
 # the CompressedSets will be clustered into h clusters, where h is a percentage of the number of CompressedSets
 # we want h to be smaller than k but larger than the number of primary clusters.
-def secondary_compression_criteria():
+def secondary_compression_criterion():
     global RetainedSet, CompressedSets
     k = int(number_of_clusters * 0.5 + number_of_clusters)
 

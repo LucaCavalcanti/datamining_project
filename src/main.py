@@ -117,10 +117,13 @@ def data_mining():
     # driver
     print('\n\n=====DRIVER=====')
     find_best_five_per_driver(standard, actual, rec_standard, driver, city_weight, merch_weight)
-    
+
     # perfectRoute
+    temp_time = time()
     print('\n\n=====PERFECT ROUTE=====')
     find_perfect_route_per_driver(actual, perfect_route, city_weight, merch_weight)
+    temp_time2 = time()
+    print('time taken, top 5:', temp_time2 - temp_time)
     
     end_time = time()
     print('total time taken:', end_time - start_time)
