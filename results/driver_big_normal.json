@@ -1,12 +1,12 @@
 [
-{"driver": "D4", "routes": ["s4", "s2", "s1", "ns0", "s7"]},
-{"driver": "D8", "routes": ["s7", "ns2", "s5", "s6", "s4"]},
-{"driver": "D5", "routes": ["s8", "s9", "ns4", "ns3", "s2"]},
-{"driver": "D1", "routes": ["s8", "s9", "ns4", "s1", "ns3"]},
-{"driver": "D6", "routes": ["s2", "ns0", "s0", "s8", "s7"]},
-{"driver": "D2", "routes": ["ns5", "s9", "ns4", "ns13", "s6"]},
 {"driver": "D3", "routes": ["s7", "ns2", "s5", "s4", "s6"]},
-{"driver": "D0", "routes": ["s7", "ns2", "s5", "s3", "ns1"]},
+{"driver": "D2", "routes": ["ns5", "s9", "ns4", "s6", "s3"]},
+{"driver": "D4", "routes": ["s4", "s2", "s1", "ns0", "s7"]},
+{"driver": "D5", "routes": ["s8", "s9", "ns4", "ns3", "s2"]},
 {"driver": "D9", "routes": ["s9", "ns4", "s4", "s5", "s3"]},
-{"driver": "D7", "routes": ["s3", "ns1", "s9", "ns4", "s0"]}
+{"driver": "D1", "routes": ["s8", "s9", "ns4", "s1", "ns3"]},
+{"driver": "D0", "routes": ["s7", "ns2", "s5", "s3", "ns1"]},
+{"driver": "D7", "routes": ["s3", "ns1", "s9", "ns4", "s0"]},
+{"driver": "D8", "routes": ["s7", "ns2", "s5", "s6", "s4"]},
+{"driver": "D6", "routes": ["s2", "ns0", "s0", "s8", "s7"]}
 ]
