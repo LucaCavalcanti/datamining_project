@@ -24,6 +24,7 @@ dict<string, dict>
 '''
 
 import json
+import ijson
 import random
 import sys
 from time import time
@@ -51,23 +52,25 @@ def get_actual_to_driver(driver_id: int, actual_routes: dict):
     get the actual routes associated to the given driver
     '''
     actuals = list()
-    for route in actual_routes:
-        if route['driver'] == driver_id:
-            actuals.append(route)
+    with open(actual_routes, "rb") as f:
+        for route in ijson.items(f, "item"):
+            if route['driver'] == driver_id:
+                actuals.append(route)
     return actuals
 
-def get_drivers(actual_routes: dict):
+def get_drivers(actual_routes: str):
     '''
     get the list of drivers
     '''
     drivers = set()
-    for route in actual_routes:
-        drivers.add(route['driver'])
+    with open(actual_routes, "rb") as f:
+        for route in ijson.items(f, "item"):
+            drivers.add(route['driver'])
     return drivers
 
 #drivers = get_drivers()
 
-def find_perfect_route(driver_id: int, actual_routes: dict):
+def find_perfect_route(driver_id: int, actual_routes: str):
     '''
     function to find the perfect route for a specific driver
     
@@ -347,21 +350,21 @@ def add_merch(data_merchandise: dict, merchandise: dict, city: str):
             merchandise[merch] = int((data_merchandise[city][merch] * total_merch)/ total)
 
 
-def find_perfect_route_per_driver(actuals: dict, result_file: str, city_weight = 0.6876561616433419, merch_weight = 0.31234383835665813):
+def find_perfect_route_per_driver(actuals_file: str, result_file: str, city_weight = 0.6876561616433419, merch_weight = 0.31234383835665813):
     output = open(result_file, 'w')
     output.write('[\n')
     index = 0
     mean_time = list()
-    drivers = get_drivers(actuals)
+    drivers = get_drivers(actuals_file)
     for driver in drivers:
         start_time = time()
-        route = find_perfect_route(driver, actuals)
+        route = find_perfect_route(driver, actuals_file)
         end_time = time()
         mean_time.append(get_elapsed_time(start_time, end_time))
         print('time to find the perfect route for', driver, ':', end_time - start_time)
-        driver_actuals = get_actual_to_driver(driver, actuals)
-        compare_perfect_actuals(driver_actuals, route, city_weight, merch_weight)
-        json_output = json.dumps(route)
+        # driver_actuals = get_actual_to_driver(driver, actuals_file)
+        # compare_perfect_actuals(driver_actuals, route, city_weight, merch_weight)
+        json_output = json.dumps(route, indent=4)
         output.write(json_output)
         if index == len(drivers) - 1:
             output.write('\n')
@@ -405,10 +408,12 @@ def test_perfects(actuals, city_weight = 0.7196538657216474, merch_weight = 0.28
 
 
 if __name__ == "__main__":
-    actual_file = 'data/big/actual_big_normal.json'
+    actual_file = 'data/small/actual_small.json'
     actuals = get_route(actual_file)
-    result_file = 'results/perfectRoute.json'
-    
+    result_file = 'results/perfectRouteTEST.json'
+    time_temp = time()
     find_perfect_route_per_driver(actuals, result_file)
+    time_temp2 = time()
+    print('time to find the perfect route for each driver:', time_temp2 - time_temp)
     print('\n\n\n')
-    test_perfects(actuals)
+    # test_perfects(actuals)

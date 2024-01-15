@@ -104,7 +104,7 @@ def data_mining():
     standard = get_route(standard_file)
     
     # get the list of actuals
-    actual = get_route(actual_file)
+    # actual = get_route(actual_file)
         
     start_time = time()
     # recStandard
@@ -116,14 +116,11 @@ def data_mining():
     
     # driver
     print('\n\n=====DRIVER=====')
-    find_best_five_per_driver(standard, actual, rec_standard, driver, city_weight, merch_weight)
+    find_best_five_per_driver(standard, actual_file, rec_standard, driver, city_weight, merch_weight)
 
     # perfectRoute
-    temp_time = time()
     print('\n\n=====PERFECT ROUTE=====')
-    find_perfect_route_per_driver(actual, perfect_route, city_weight, merch_weight)
-    temp_time2 = time()
-    print('time taken, top 5:', temp_time2 - temp_time)
+    find_perfect_route_per_driver(actual_file, perfect_route, city_weight, merch_weight)
     
     end_time = time()
     print('total time taken:', end_time - start_time)
